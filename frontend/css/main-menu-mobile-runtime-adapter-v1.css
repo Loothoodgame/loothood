@@ -1,0 +1,122 @@
+/* The approved reference runs as a standalone page. Loothood mounts that
+   exact shell beside the legacy village surface, so this file supplies only
+   the equivalent mobile activation boundary. */
+@media (max-width: 980px), (pointer: coarse) {
+  body.desktop-menu-active:not(.is-running) {
+    overflow: hidden;
+  }
+
+  body.desktop-menu-active:not(.is-running) .desktop-main-menu:not([hidden]) {
+    position: fixed;
+    z-index: 80;
+    inset: 0;
+    display: block;
+    width: 100dvw;
+    height: 100svh;
+    min-height: 100svh;
+    overflow: hidden;
+  }
+
+  body.desktop-menu-active:not(.is-running) .desktop-main-menu:not([hidden]) + .play-surface {
+    height: 0;
+    max-width: none;
+    margin: 0;
+  }
+
+  body.desktop-menu-active:not(.is-running) .desktop-main-menu:not([hidden]) + .play-surface > .topbar,
+  body.desktop-menu-active:not(.is-running) .desktop-main-menu:not([hidden]) + .play-surface > .mobile-village-home,
+  body.desktop-menu-active:not(.is-running) .desktop-main-menu:not([hidden]) + .play-surface > .village-layout,
+  body.desktop-menu-active:not(.is-running) .desktop-main-menu:not([hidden]) + .play-surface > .combat-layout,
+  body.desktop-menu-active:not(.is-running) .desktop-main-menu:not([hidden]) + .play-surface > .mobile-bottom-nav {
+    display: none;
+    pointer-events: none;
+  }
+
+  .desktop-main-menu .hb-nav-item {
+    font-size: 10px;
+  }
+
+  .desktop-main-menu .hb-ticket-review-summary h2,
+  .desktop-main-menu .hb-ticket-secured-summary h2 {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 980px), (pointer: coarse) {
+  .desktop-main-menu .hb-resources {
+    position: relative;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+    padding-right: 96px;
+  }
+
+  .desktop-main-menu .hb-audio-toggle,
+  .desktop-main-menu .hb-add {
+    position: absolute;
+    top: 50%;
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    min-height: 44px;
+    transform: translateY(calc(-50% + 4px));
+  }
+
+  .desktop-main-menu .hb-audio-toggle {
+    right: 0;
+  }
+
+  .desktop-main-menu .hb-add {
+    right: 48px;
+  }
+
+  .desktop-main-menu .hb-audio-toggle::after {
+    inset: 5px;
+  }
+}
+
+@media (max-width: 359px) {
+  .desktop-main-menu .hb-season-tabs {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr) minmax(0, 1.3fr);
+    gap: 2px;
+  }
+
+  .desktop-main-menu .hb-season-tabs button {
+    padding-inline: 2px;
+    font-size: 8px;
+    letter-spacing: 0;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .desktop-main-menu .hb-prepare-rules dt,
+  .desktop-main-menu .hb-prepare-loadout dt {
+    font-size: 11px;
+    letter-spacing: 0;
+  }
+}
+
+/* Seven 44px navigation rows and the 44px resource action must coexist in the
+   shortest supported landscape viewport without creating a second scroller. */
+@media (max-width: 980px) and (max-height: 430px) and (orientation: landscape) {
+  .desktop-main-menu .hb-topbar {
+    min-height: 46px;
+    padding: 0 5px;
+  }
+
+  .desktop-main-menu .hb-sidebar {
+    gap: 1px;
+  }
+
+  .desktop-main-menu .hb-nav-item {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    padding: 2px 3px;
+    font-size: 8px;
+    line-height: 1;
+  }
+
+  .desktop-main-menu .hb-nav-item svg {
+    width: 18px;
+    height: 18px;
+  }
+}

@@ -1,0 +1,174 @@
+/* LOOTHOOD — Plots v1 · "Plots"
+   ------------------------------------------------------------------
+   The screen looked depressing, and deservedly so: a carved gold frame from
+   the old IP around the perimeter of the grid, two dark gradients and an
+   inner shadow over the grass texture so that the ground was not visible at
+   all, and the plots themselves were six identical dashed rectangles
+   labelled "Empty Plot".
+
+   What we do:
+     1. remove the carved frame; the grid gets our border with a radius
+     2. uncover the grass texture — it is already sitting in images/
+     3. an empty plot gets a wooden stake: this is not "empty" but
+        "the spot is claimed, you can build here"
+     4. the counters at the top become chips
+
+   Scoped to .hb-app. */
+
+/* ============ HEADING ============ */
+
+.hb-app .hb-plots-heading h1 {
+  font-family: var(--disp);
+  color: var(--ivory);
+}
+.hb-app .hb-plots-heading .hb-diamond-rule { display: none !important; }
+
+/* The Unlocked / Occupied / Empty counters — chips instead of three boxes. */
+.hb-app .hb-plots-heading dl {
+  display: flex !important;
+  gap: 8px;
+  margin: 0;
+}
+.hb-app .hb-plots-heading dl > div {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface2);
+}
+.hb-app .hb-plots-heading dt {
+  font-family: var(--body);
+  font-size: 10.5px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.hb-app .hb-plots-heading dd {
+  margin: 0;
+  font-family: var(--body);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--lime);
+}
+.hb-app .hb-plots-heading__note {
+  color: var(--dim) !important;
+  font-size: 12.5px;
+}
+
+/* ============ FIELD ============ */
+
+.hb-app .hb-plot-board {
+  padding: 0 !important;
+  background: none !important;
+}
+
+.hb-app .hb-plot-grid {
+  gap: 12px;
+  padding: 18px !important;
+  border: 1px solid color-mix(in srgb, var(--lime) 16%, var(--line));
+  border-radius: 16px;
+  /* There used to be two dark gradients over the grass plus a 28px inner
+     shadow — the texture drowned completely. We keep a light vignette. */
+  background:
+    radial-gradient(120% 100% at 50% 0%, rgba(8,11,10,.18), rgba(8,11,10,.62) 78%),
+    url("../images/empty_plot_ground_tile_v3.png") center / min(34cqw, 520px) auto repeat !important;
+  box-shadow: inset 0 0 90px -30px #000 !important;
+}
+
+/* The carved forest frame around the grid — the loudest remnant of the old IP. */
+.hb-app .hb-plot-grid::after {
+  border-image-source: none !important;
+  border-width: 0 !important;
+  content: none !important;
+}
+
+/* ============ PLOT ============ */
+
+.hb-app .hb-plot {
+  min-height: 148px;
+  display: grid !important;
+  place-items: center;
+  padding: 14px !important;
+  border-radius: 13px !important;
+  cursor: pointer;
+  transition: transform 140ms var(--lh-ease-out),
+              border-color 140ms var(--lh-ease-out),
+              background 140ms var(--lh-ease-out);
+}
+
+/* Empty plot: semi-transparent ground under a dashed border and a wooden stake.
+   It reads as a claimed spot rather than as a hole in the interface. */
+.hb-app .hb-plot--empty {
+  border: 1px dashed color-mix(in srgb, var(--lime) 26%, var(--line)) !important;
+  background: rgba(8,11,10,.42) !important;
+}
+.hb-app .hb-plot--empty .hb-plot__empty {
+  display: grid !important;
+  justify-items: center;
+  gap: 2px;
+  text-align: center;
+}
+.hb-app .hb-plot--empty .hb-plot__empty::before {
+  content: "";
+  display: block;
+  width: 62px;
+  height: 62px;
+  margin-bottom: 6px;
+  background: url("../images/plot-stake-v1.png") center / contain no-repeat;
+  opacity: .62;
+  transition: opacity 140ms var(--lh-ease-out),
+              transform 140ms var(--lh-ease-out);
+}
+.hb-app .hb-plot--empty .hb-plot__empty strong {
+  font-family: var(--disp);
+  font-size: 16px;
+  letter-spacing: .3px;
+  color: var(--ivory) !important;
+}
+.hb-app .hb-plot--empty .hb-plot__empty small {
+  font-family: var(--body);
+  font-size: 11.5px;
+  color: var(--dim) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hb-app .hb-plot--empty:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--lime) 60%, var(--line)) !important;
+    background: color-mix(in srgb, var(--lime) 8%, rgba(8,11,10,.42)) !important;
+  }
+  .hb-app .hb-plot--empty:hover .hb-plot__empty::before {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+/* An occupied plot gets a solid border and a lime undertone: it is visible at a
+   glance where a building already stands. */
+.hb-app .hb-plot:not(.hb-plot--empty):not(.hb-plot--locked) {
+  border: 1px solid color-mix(in srgb, var(--lime) 34%, var(--line)) !important;
+  background: linear-gradient(180deg, rgba(20,29,25,.72), rgba(12,18,15,.72)) !important;
+}
+
+/* A locked plot is the quietest of all, with no invitation to act. */
+.hb-app .hb-plot--locked {
+  border: 1px solid var(--line2) !important;
+  background: rgba(8,11,10,.66) !important;
+  cursor: default;
+}
+.hb-app .hb-plot--locked * { color: var(--dim) !important; }
+
+/* The inner box under the label is left over from legacy and read as a second,
+   nested plot inside the plot. We remove it — the button itself has a border,
+   and there is no need to duplicate it. */
+.hb-app .hb-plot__empty {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+}

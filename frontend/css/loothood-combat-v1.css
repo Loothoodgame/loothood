@@ -1,0 +1,616 @@
+/* LOOTHOOD — Combat HUD reskin v1 (approach B: clean flat panels like the menu)
+   The in-run combat surfaces shipped as an ornate gold/green legacy layout with
+   baked PNG frames. This overrides them into the LOOTHOOD "Emerald Lime" world:
+   flat dark panels, one lime accent, our button + typography language — matching
+   the redesigned menu. Scoped to body[data-view="run"] so it only touches combat.
+   Layout stays the legacy fixed-canvas; only appearance changes. */
+
+body[data-view="run"]{
+  --lh-ink:#080b0a; --lh-surf:#0f1613; --lh-surf2:#141d19; --lh-surf3:#1b2620;
+  --lh-line:#28352f; --lh-line2:#1b2621; --lh-ivory:#eaf5ee; --lh-muted:#93ab9e; --lh-dim:#63776b;
+  --lh-lime:#b7f24a; --lh-emerald:#2be28a; --lh-leg:#ffd24a; --lh-rare:#46d8e0; --lh-danger:#ff6b6b;
+}
+
+/* 1. drop the ornate baked PNG frames + seam */
+body[data-view="run"] .hb-top-hud::after,
+body[data-view="run"] .hb-side-panel::after,
+body[data-view="run"] .hb-arena::after{ background-image:none !important; }
+body[data-view="run"] .hb-top-hud::before{ background:none !important; }
+
+/* 2. clean flat panels in our surfaces */
+body[data-view="run"] .hb-top-hud{
+  background:linear-gradient(180deg,#0c130f,#080b0a) !important;
+  border:1px solid var(--lh-line) !important; border-radius:12px !important;
+}
+body[data-view="run"] .hb-side-panel{
+  background:#0a100d !important; border:1px solid var(--lh-line) !important; border-radius:14px !important;
+}
+body[data-view="run"] .hb-arena{
+  border:1px solid color-mix(in srgb,var(--lh-lime) 20%,var(--lh-line)) !important;
+  border-radius:14px !important;
+}
+
+/* 3. run heading */
+body[data-view="run"] .hb-run-heading__title{
+  color:var(--lh-ivory) !important;
+  text-shadow:0 0 24px color-mix(in srgb,var(--lh-lime) 30%,transparent) !important;
+}
+body[data-view="run"] .hb-run-heading__stage strong{ color:var(--lh-lime) !important; }
+
+/* stage track — dots by data-state, subtle connecting line */
+body[data-view="run"] .hb-stage-progress__nodes,
+body[data-view="run"] .stage-track__line{ border-color:var(--lh-line) !important; background-image:none !important; }
+body[data-view="run"] .hb-stage-progress__nodes::before,
+body[data-view="run"] .stage-track__line::before{
+  background:color-mix(in srgb,var(--lh-lime) 20%,var(--lh-line)) !important;
+}
+body[data-view="run"] .hb-stage-node{
+  width:11px !important; height:11px !important; border-radius:3px !important;
+  background:var(--lh-surf3) !important; border:1px solid var(--lh-line2) !important; box-shadow:none !important;
+}
+body[data-view="run"] .hb-stage-node[data-complete="true"]{ background:var(--lh-emerald) !important; border-color:transparent !important; }
+body[data-view="run"] .hb-stage-node[data-current="true"],
+body[data-view="run"] .hb-stage-node[data-active="true"]{
+  background:var(--lh-lime) !important; border-color:transparent !important;
+  box-shadow:0 0 8px color-mix(in srgb,var(--lh-lime) 75%,transparent) !important;
+}
+body[data-view="run"] .hb-stage-node[data-boss="true"]{ background:var(--lh-leg) !important; border-color:transparent !important; }
+
+/* 4. readouts (score / streak / gold / time / legendary) */
+body[data-view="run"] .combat-readout,
+body[data-view="run"] .hb-run-stat,
+body[data-view="run"] .hb-legendary,
+body[data-view="run"] .hb-run-heading{ border-color:var(--lh-line2) !important; }
+body[data-view="run"] .combat-readout__label,
+body[data-view="run"] .hb-score__label{ color:var(--lh-dim) !important; letter-spacing:.4px; }
+body[data-view="run"] .hb-score__value{ color:var(--lh-lime) !important; }
+body[data-view="run"] .hb-run-stat b,
+body[data-view="run"] .combat-readout b{ color:var(--lh-ivory) !important; }
+body[data-view="run"] .hb-legendary__value{ color:var(--lh-leg) !important; }
+body[data-view="run"] .hb-player-hud__value{ color:var(--lh-ivory) !important; }
+
+/* 5. action buttons -> our button language */
+body[data-view="run"] .hb-action{
+  background:var(--lh-surf2) !important; border:1px solid var(--lh-line) !important;
+  color:var(--lh-ivory) !important; border-radius:10px !important; box-shadow:none !important;
+}
+body[data-view="run"] .hb-action::after,
+body[data-view="run"] .hb-action::before{ display:none !important; }
+body[data-view="run"] .hb-action:hover{ border-color:color-mix(in srgb,var(--lh-lime) 45%,var(--lh-line)) !important; background:var(--lh-surf3) !important; }
+body[data-view="run"] .hb-action--leave{
+  border-color:color-mix(in srgb,var(--lh-danger) 45%,var(--lh-line)) !important;
+  color:var(--lh-danger) !important;
+  background:color-mix(in srgb,var(--lh-danger) 10%,var(--lh-surf2)) !important;
+}
+
+/* ============================================================
+   Mobile-game pass — juicier HUD in the modern gacha/mobile idiom
+   (stat cards, glowing combo multiplier, avatar HP, chunky lime
+   action buttons). Still body[data-view="run"], layout untouched.
+   ============================================================ */
+
+/* FOREST RUN header as a lime-accent card */
+body[data-view="run"] .stage-card.hb-run-heading{
+  background:linear-gradient(180deg,color-mix(in srgb,var(--lh-lime) 9%,var(--lh-surf2)),#0b120e) !important;
+  border:1px solid color-mix(in srgb,var(--lh-lime) 30%,var(--lh-line)) !important; border-radius:14px !important;
+}
+body[data-view="run"] .hb-run-heading__title{
+  font-size:30px !important; color:var(--lh-lime) !important;
+  text-shadow:0 0 24px color-mix(in srgb,var(--lh-lime) 45%,transparent) !important;
+}
+
+/* SCORE — big lime hero number */
+body[data-view="run"] .hb-score{ background:var(--lh-surf2) !important; border:1px solid var(--lh-line) !important; border-radius:12px !important; }
+body[data-view="run"] .hb-score__value{ font-size:30px !important; color:var(--lh-lime) !important; text-shadow:0 0 16px color-mix(in srgb,var(--lh-lime) 40%,transparent) !important; }
+body[data-view="run"] .hb-score__label{ color:var(--lh-muted) !important; letter-spacing:1px !important; }
+
+/* STREAK — the combo multiplier, the juice hook */
+body[data-view="run"] .combat-readout--streak{
+  background:color-mix(in srgb,var(--lh-lime) 12%,var(--lh-surf2)) !important;
+  border:1px solid color-mix(in srgb,var(--lh-lime) 45%,var(--lh-line)) !important; border-radius:10px !important; padding:0 10px !important;
+}
+body[data-view="run"] .combat-readout--streak b{ color:var(--lh-lime) !important; font-size:19px !important; text-shadow:0 0 12px color-mix(in srgb,var(--lh-lime) 65%,transparent) !important; }
+
+/* secondary stat rows */
+body[data-view="run"] .combat-readout--gold{ background:var(--lh-surf2) !important; border:1px solid var(--lh-line) !important; border-radius:10px !important; padding:0 10px !important; }
+body[data-view="run"] .combat-readout--gold b{ color:var(--lh-leg) !important; }
+body[data-view="run"] .combat-readout--time{ background:var(--lh-surf2) !important; border:1px solid var(--lh-line) !important; border-radius:10px !important; padding:2px 10px !important; }
+
+/* LEGENDARY — gacha progress card */
+body[data-view="run"] .hb-legendary{
+  background:linear-gradient(180deg,color-mix(in srgb,var(--lh-leg) 8%,var(--lh-surf2)),#0b120e) !important;
+  border:1px solid color-mix(in srgb,var(--lh-leg) 28%,var(--lh-line)) !important; border-radius:12px !important;
+}
+body[data-view="run"] .hb-legendary__value{ color:var(--lh-leg) !important; font-size:18px !important; }
+
+/* HP tab — avatar badge + chunky glowing emerald bar */
+body[data-view="run"] .hb-player-hud__logo-wrap{
+  width:40px !important; height:40px !important; border-radius:10px !important; background:var(--lh-surf2) !important;
+  border:1px solid color-mix(in srgb,var(--lh-lime) 40%,var(--lh-line)) !important;
+  box-shadow:0 0 14px -4px color-mix(in srgb,var(--lh-lime) 55%,transparent) !important;
+}
+body[data-view="run"] .hb-player-hud__label{ color:var(--lh-lime) !important; font-weight:700 !important; letter-spacing:1.5px !important; }
+body[data-view="run"] .hb-player-hud__value{ color:var(--lh-ivory) !important; font-weight:700 !important; font-size:17px !important; }
+body[data-view="run"] .hb-meter{ height:14px !important; border-radius:7px !important; background:var(--lh-surf3) !important; border:1px solid var(--lh-line2) !important; overflow:hidden !important; }
+body[data-view="run"] .hb-meter::-webkit-meter-bar{ background:var(--lh-surf3) !important; border-radius:7px !important; border:0 !important; }
+body[data-view="run"] .hb-player-health::-webkit-meter-optimum-value{
+  background:linear-gradient(90deg,var(--lh-emerald),var(--lh-lime)) !important; border-radius:7px !important;
+  box-shadow:0 0 10px color-mix(in srgb,var(--lh-lime) 60%,transparent) !important;
+}
+
+/* chunky COLORED action buttons */
+body[data-view="run"] .hb-action{
+  min-height:46px !important; border-radius:12px !important; font-size:15px !important; font-weight:700 !important; letter-spacing:.4px !important;
+  background:color-mix(in srgb,var(--lh-lime) 12%,var(--lh-surf2)) !important;
+  border:1px solid color-mix(in srgb,var(--lh-lime) 42%,var(--lh-line)) !important; color:var(--lh-lime) !important;
+  box-shadow:none !important; transition:.14s !important;
+}
+body[data-view="run"] .hb-action:hover{ background:var(--lh-lime) !important; color:#08120a !important; }
+body[data-view="run"] .hb-action--leave{
+  background:color-mix(in srgb,var(--lh-danger) 14%,var(--lh-surf2)) !important;
+  border-color:color-mix(in srgb,var(--lh-danger) 52%,var(--lh-line)) !important; color:var(--lh-danger) !important;
+}
+body[data-view="run"] .hb-action--leave:hover{ background:var(--lh-danger) !important; color:#120a0a !important; }
+
+/* ============================================================
+   Layout rebuild — the fixed-canvas side panel was baked with
+   awkward absolute positions (score in a corner, big gaps, cramped
+   rows). Reflow it into a clean even flex column with readable
+   rows, a clear Legendary-pity bar, and function-colored buttons.
+   ============================================================ */
+
+/* reflow the side panel into an even flex column */
+body[data-view="run"] .hb-side-panel{display:flex !important;flex-direction:column !important;align-items:stretch !important;padding:14px !important;gap:10px !important;overflow:hidden !important;}
+body[data-view="run"] .hb-side-panel > *{position:relative !important;inset:auto !important;top:auto !important;left:auto !important;right:auto !important;bottom:auto !important;width:100% !important;height:auto !important;margin:0 !important;flex:0 0 auto !important;}
+body[data-view="run"] .stage-card{height:auto !important;min-height:0 !important;padding:12px 14px !important;}
+body[data-view="run"] .hb-stage-progress{position:relative !important;inset:auto !important;top:auto !important;height:auto !important;margin-top:10px !important;}
+body[data-view="run"] .hb-stage-progress__nodes{position:relative !important;inset:auto !important;top:auto !important;height:auto !important;}
+body[data-view="run"] .combat-readouts{display:flex !important;flex-direction:column !important;gap:8px !important;height:auto !important;}
+body[data-view="run"] .combat-readouts > *{position:relative !important;inset:auto !important;top:auto !important;height:auto !important;margin:0 !important;}
+
+/* even readable readout rows */
+body[data-view="run"] .hb-score,
+body[data-view="run"] .combat-readout{display:flex !important;align-items:center !important;justify-content:space-between !important;padding:9px 12px !important;border-radius:10px !important;background:var(--lh-surf2) !important;border:1px solid var(--lh-line) !important;gap:12px !important;height:auto !important;}
+body[data-view="run"] .hb-score__label,
+body[data-view="run"] .combat-readout__label{font-size:11px !important;letter-spacing:.8px !important;text-transform:uppercase !important;color:var(--lh-muted) !important;line-height:1.1 !important;flex:0 0 auto !important;}
+body[data-view="run"] .combat-readout b,
+body[data-view="run"] .hb-run-stat b{font-size:15px !important;color:var(--lh-ivory) !important;line-height:1 !important;}
+body[data-view="run"] .combat-readout__row{display:flex !important;align-items:center !important;justify-content:space-between !important;gap:10px !important;width:100% !important;grid-template-columns:none !important;}
+body[data-view="run"] .combat-readout__row > *:last-child{margin-left:auto !important;}
+
+/* SCORE hero */
+body[data-view="run"] .hb-score{background:linear-gradient(180deg,color-mix(in srgb,var(--lh-lime) 9%,var(--lh-surf2)),var(--lh-surf)) !important;border-color:color-mix(in srgb,var(--lh-lime) 26%,var(--lh-line)) !important;padding:11px 14px !important;}
+body[data-view="run"] .hb-score__value{font-size:24px !important;color:var(--lh-lime) !important;line-height:1 !important;text-shadow:0 0 14px color-mix(in srgb,var(--lh-lime) 40%,transparent) !important;}
+
+/* STREAK combo highlight */
+body[data-view="run"] .combat-readout--streak{background:color-mix(in srgb,var(--lh-lime) 12%,var(--lh-surf2)) !important;border-color:color-mix(in srgb,var(--lh-lime) 42%,var(--lh-line)) !important;}
+body[data-view="run"] .combat-readout--streak meter{display:none !important;}
+body[data-view="run"] .combat-readout--streak b,
+body[data-view="run"] .combat-readout--streak strong{color:var(--lh-lime) !important;font-size:16px !important;text-shadow:0 0 10px color-mix(in srgb,var(--lh-lime) 55%,transparent) !important;}
+body[data-view="run"] .combat-readout--gold meter{display:none !important;}
+body[data-view="run"] .combat-readout--gold b{color:var(--lh-leg) !important;}
+
+/* STAGE TIME / TIME MULTIPLIER stack cleanly */
+body[data-view="run"] .combat-readout--time{flex-direction:column !important;gap:6px !important;align-items:stretch !important;}
+
+/* LEGENDARY — clear pity progress card */
+body[data-view="run"] .hb-legendary{display:block !important;background:linear-gradient(180deg,color-mix(in srgb,var(--lh-leg) 9%,var(--lh-surf2)),var(--lh-surf)) !important;border:1px solid color-mix(in srgb,var(--lh-leg) 30%,var(--lh-line)) !important;border-radius:10px !important;padding:9px 12px !important;}
+body[data-view="run"] .hb-legendary__heading{display:flex !important;align-items:center !important;justify-content:space-between !important;margin-bottom:7px !important;}
+body[data-view="run"] .hb-legendary__label{color:var(--lh-leg) !important;font-size:11px !important;letter-spacing:.8px !important;text-transform:uppercase !important;}
+body[data-view="run"] .hb-legendary__label::after{content:" pity" !important;color:var(--lh-dim) !important;}
+body[data-view="run"] .hb-legendary__value{color:var(--lh-leg) !important;font-size:14px !important;}
+body[data-view="run"] .hb-legendary__track{display:block !important;width:100% !important;height:9px !important;border-radius:5px !important;background:var(--lh-surf3) !important;border:1px solid var(--lh-line2) !important;overflow:hidden !important;}
+body[data-view="run"] .hb-legendary__track::-webkit-meter-bar{background:var(--lh-surf3) !important;border-radius:5px !important;border:0 !important;}
+body[data-view="run"] .hb-legendary__track::-webkit-meter-optimum-value{background:linear-gradient(90deg,color-mix(in srgb,var(--lh-leg) 55%,#000),var(--lh-leg)) !important;box-shadow:0 0 8px color-mix(in srgb,var(--lh-leg) 50%,transparent) !important;}
+
+/* function-colored action buttons, full width, no wrapping */
+body[data-view="run"] .combat-actions{display:flex !important;flex-direction:column !important;gap:8px !important;grid-template-columns:none !important;}
+body[data-view="run"] .combat-sheet-actions{display:grid !important;grid-template-columns:1fr 1fr 1fr !important;gap:8px !important;width:100% !important;}
+body[data-view="run"] .combat-run-actions{display:grid !important;grid-template-columns:1fr 1fr !important;gap:8px !important;width:100% !important;}
+body[data-view="run"] .hb-action{width:100% !important;min-width:0 !important;white-space:nowrap !important;min-height:44px !important;border-radius:10px !important;padding:0 8px !important;font-size:13px !important;font-weight:700 !important;letter-spacing:0 !important;box-shadow:none !important;transition:.14s !important;background:color-mix(in srgb,var(--bc,var(--lh-lime)) 13%,var(--lh-surf2)) !important;border:1px solid color-mix(in srgb,var(--bc,var(--lh-lime)) 44%,var(--lh-line)) !important;color:var(--bc,var(--lh-lime)) !important;}
+body[data-view="run"] .hb-action:hover{background:var(--bc,var(--lh-lime)) !important;color:#08120a !important;border-color:var(--bc,var(--lh-lime)) !important;}
+/* Buttons used to be coloured "by function": teal for Stats, purple for Run
+   Build, amber for Pause. None of these colours exist in the game palette —
+   only lime and red — and five differently coloured buttons in the corner read
+   as five controls from five different interfaces. Stats, Gear, Run Build and
+   Pause open panels and break nothing, so they look alike; red is reserved for
+   Leave Run, the only irreversible action. */
+body[data-view="run"] .combat-sheet-actions .hb-action,
+body[data-view="run"] .combat-run-actions .hb-action:not(.hb-action--leave){--bc:#b7f24a;}
+body[data-view="run"] .hb-action.hb-action--leave{--bc:#ff6b6b !important;background:color-mix(in srgb,#ff6b6b 14%,var(--lh-surf2)) !important;border-color:color-mix(in srgb,#ff6b6b 50%,var(--lh-line)) !important;color:#ff6b6b !important;} /* Leave */
+body[data-view="run"] .hb-action.hb-action--leave:hover{background:#ff6b6b !important;color:#160a0a !important;}
+
+/* ============================================================
+   Full-surface pass — the top and the right column must not sit empty.
+   ============================================================ */
+
+/* Top bar: the HP block used to be baked to 550px on the left, and the rest was
+   black emptiness (the space is reserved for the boss HUD, which is only
+   visible on stages 5/10/15). We move the bar to flex: in ordinary combat HP
+   stretches full width, on a boss stage it shares the bar with the boss panel. */
+body[data-view="run"] .hb-top-hud{display:flex !important;align-items:center !important;gap:16px !important;padding:8px 16px !important;}
+body[data-view="run"] .hb-top-hud > *{position:static !important;inset:auto !important;}
+body[data-view="run"] .hb-player-hud{
+  position:static !important;width:auto !important;height:auto !important;flex:1 1 auto !important;
+  display:grid !important;grid-template-columns:auto auto 1fr auto !important;
+  align-items:center !important;gap:10px !important;
+}
+body[data-view="run"] .hb-meter.hb-player-health{width:100% !important;justify-self:stretch !important;}
+body[data-view="run"] .combat-boss-hud[hidden]{display:none !important;}
+body[data-view="run"] .combat-boss-hud{position:static !important;width:auto !important;flex:1.4 1 auto !important;visibility:visible;}
+
+/* Right column: the content ran out halfway down. The free space is taken by
+   the card of the assembled build (as in early Archero: the player always sees
+   what they have picked up), and the buttons are pinned to the bottom. */
+body[data-view="run"] .hb-side-panel{gap:12px !important;}
+body[data-view="run"] .hb-side-panel > .combat-actions{margin-top:auto !important;}
+body[data-view="run"] .hb-side-panel > .hb-side-rule{display:none !important;}
+
+/* #combat-build-source — the hidden data source for the build; we lift it into
+   the UI. aria-hidden stays: for screen readers the full build is opened by
+   RUN BUILD. */
+body[data-view="run"] .hb-side-panel > .combat-build-source{
+  display:flex !important;flex-direction:column !important;flex:1 1 auto !important;
+  min-height:0 !important;overflow:auto !important;gap:10px !important;
+  padding:12px 14px !important;
+  background:var(--lh-surf) !important;border:1px solid var(--lh-line2) !important;border-radius:12px !important;
+}
+body[data-view="run"] .combat-build-source::before{
+  content:"Run build";font-size:11px;letter-spacing:.8px;text-transform:uppercase;
+  color:var(--lh-muted);padding-bottom:7px;border-bottom:1px solid var(--lh-line2);
+}
+body[data-view="run"] .combat-build-source b{
+  display:block;font-size:14px;font-weight:600;color:var(--lh-ivory);line-height:1.35;
+}
+body[data-view="run"] .combat-build-source b::before{
+  display:block;font-size:10px;letter-spacing:.7px;text-transform:uppercase;
+  color:var(--lh-dim);margin-bottom:2px;font-weight:400;
+}
+/* ============================================================
+   Pause — a flat LOOTHOOD panel instead of the gold bracket frame.
+   Resume is the only lime path; Leave means danger.
+   ============================================================ */
+body[data-view="run"] .pause-overlay{background:rgba(4,7,6,.66) !important;backdrop-filter:blur(3px);}
+body[data-view="run"] .hb-pause{
+  background:#0d1411 !important;background-image:none !important;
+  border:1px solid var(--lh-line) !important;border-radius:16px !important;
+  box-shadow:0 34px 90px -34px #000 !important;padding:24px !important;
+  min-width:420px;
+}
+body[data-view="run"] .hb-pause::before,
+body[data-view="run"] .hb-pause::after{display:none !important;content:none !important;}
+body[data-view="run"] .hb-pause__header{border:0 !important;background:none !important;text-align:left !important;margin-bottom:16px !important;}
+body[data-view="run"] .hb-pause__title{
+  font-family:var(--disp,"Alagard",serif) !important;font-size:26px !important;
+  color:var(--lh-ivory) !important;letter-spacing:.5px !important;text-shadow:none !important;
+}
+body[data-view="run"] .hb-pause__description{color:var(--lh-muted) !important;font-size:13px !important;display:block !important;text-align:left !important;margin-top:4px !important;}
+body[data-view="run"] .hb-pause__title{display:block !important;text-align:left !important;}
+body[data-view="run"] .hb-pause .hb-diamond-rule{display:none !important;}
+body[data-view="run"] .hb-pause__header::before,
+body[data-view="run"] .hb-pause__header::after,
+body[data-view="run"] .hb-pause__description::before,
+body[data-view="run"] .hb-pause__description::after{display:none !important;content:none !important;}
+body[data-view="run"] .hb-pause__actions{gap:9px !important;}
+body[data-view="run"] .hb-pause__button{
+  min-height:46px !important;border-radius:11px !important;
+  background:var(--lh-surf2) !important;background-image:none !important;
+  border:1px solid var(--lh-line) !important;color:var(--lh-ivory) !important;
+  font-size:14px !important;font-weight:600 !important;letter-spacing:.3px !important;
+  box-shadow:none !important;text-shadow:none !important;transition:.14s !important;
+}
+body[data-view="run"] .hb-pause__button::before,
+body[data-view="run"] .hb-pause__button::after{display:none !important;content:none !important;}
+body[data-view="run"] .hb-pause__button:hover{
+  background:var(--lh-surf3) !important;
+  border-color:color-mix(in srgb,var(--lh-lime) 45%,var(--lh-line)) !important;
+}
+/* (the Resume style is set below, in the pixel buttons block) */
+body[data-view="run"] .hb-pause__button--leave{
+  background:color-mix(in srgb,var(--lh-danger) 12%,var(--lh-surf2)) !important;
+  border-color:color-mix(in srgb,var(--lh-danger) 48%,var(--lh-line)) !important;
+  color:var(--lh-danger) !important;
+}
+body[data-view="run"] .hb-pause__button--leave:hover{background:var(--lh-danger) !important;color:#160a0a !important;}
+
+/* ============================================================
+   Pause submenus (Stats / Gear / Run Build / Settings) share the
+   .hb-sheet family. Same flat language as the pause panel itself.
+   ============================================================ */
+body[data-view="run"] .stats-modal{background:rgba(4,7,6,.66) !important;backdrop-filter:blur(3px);}
+body[data-view="run"] .hb-sheet{
+  background:#0d1411 !important;background-image:none !important;
+  border:1px solid var(--lh-line) !important;border-radius:16px !important;
+  box-shadow:0 34px 90px -34px #000 !important;
+}
+body[data-view="run"] .hb-sheet::before,
+body[data-view="run"] .hb-sheet::after{display:none !important;content:none !important;}
+body[data-view="run"] .stats-modal__head{border:0 !important;background:none !important;}
+body[data-view="run"] .stats-modal__head p{
+  color:var(--lh-dim) !important;font-size:11px !important;letter-spacing:.9px !important;
+  text-transform:uppercase !important;margin:0 0 3px !important;
+}
+body[data-view="run"] .stats-modal__head h2{
+  font-family:var(--disp,"Alagard",serif) !important;font-size:24px !important;
+  color:var(--lh-ivory) !important;text-shadow:none !important;margin:0 !important;
+}
+body[data-view="run"] .hb-sheet .hb-diamond-rule{display:none !important;}
+body[data-view="run"] .stats-modal__head::before,
+body[data-view="run"] .stats-modal__head::after{display:none !important;content:none !important;}
+body[data-view="run"] .stats-modal__head,
+body[data-view="run"] .stats-modal__head > div,
+body[data-view="run"] .stats-modal__head h2{text-align:left !important;margin-inline:0 !important;}
+body[data-view="run"] .hb-reference-list{
+  background:none !important;border:1px solid var(--lh-line2) !important;border-radius:12px !important;
+}
+body[data-view="run"] .stats-modal__head span:not(.hb-diamond-rule){color:var(--lh-muted) !important;font-size:12.5px !important;}
+body[data-view="run"] .stats-modal__close{
+  width:34px !important;height:34px !important;border-radius:9px !important;
+  background:var(--lh-surf2) !important;border:1px solid var(--lh-line) !important;
+  color:var(--lh-muted) !important;box-shadow:none !important;
+}
+body[data-view="run"] .stats-modal__close:hover{color:var(--lh-ivory) !important;border-color:color-mix(in srgb,var(--lh-lime) 45%,var(--lh-line)) !important;}
+/* row lists */
+body[data-view="run"] .hb-list-heading{
+  color:var(--lh-dim) !important;font-size:10.5px !important;letter-spacing:.8px !important;
+  border-bottom:1px solid var(--lh-line2) !important;background:none !important;
+}
+body[data-view="run"] .hb-reference-row{
+  background:var(--lh-surf2) !important;border:1px solid var(--lh-line2) !important;
+  border-radius:9px !important;color:var(--lh-ivory) !important;box-shadow:none !important;
+}
+body[data-view="run"] .hb-reference-row:hover{border-color:color-mix(in srgb,var(--lh-lime) 40%,var(--lh-line)) !important;background:var(--lh-surf3) !important;}
+body[data-view="run"] .hb-reference-row[aria-pressed="true"]{
+  border-color:color-mix(in srgb,var(--lh-lime) 55%,var(--lh-line)) !important;
+  background:color-mix(in srgb,var(--lh-lime) 10%,var(--lh-surf2)) !important;
+  box-shadow:inset 3px 0 0 var(--lh-lime) !important;
+}
+/* right-hand detail card */
+body[data-view="run"] #statsRunDetail,
+body[data-view="run"] #inventoryRunDetail,
+body[data-view="run"] #runBuildDetail{
+  background:var(--lh-surf) !important;border:1px solid var(--lh-line2) !important;border-radius:12px !important;
+}
+body[data-view="run"] #statsRunDetail::before,body[data-view="run"] #statsRunDetail::after,
+body[data-view="run"] #inventoryRunDetail::before,body[data-view="run"] #inventoryRunDetail::after,
+body[data-view="run"] #runBuildDetail::before,body[data-view="run"] #runBuildDetail::after{display:none !important;content:none !important;}
+/* sheet footer */
+body[data-view="run"] .stats-modal__footer{border:0 !important;background:none !important;gap:9px !important;}
+body[data-view="run"] .stats-modal__footer button{
+  min-height:44px !important;border-radius:11px !important;
+  background:var(--lh-surf2) !important;border:1px solid var(--lh-line) !important;
+  color:var(--lh-ivory) !important;font-size:14px !important;font-weight:600 !important;
+  box-shadow:none !important;text-shadow:none !important;
+}
+body[data-view="run"] .stats-modal__footer button::before,
+body[data-view="run"] .stats-modal__footer button::after{display:none !important;content:none !important;}
+body[data-view="run"] .stats-modal__footer button:hover{
+  background:var(--lh-surf3) !important;
+  border-color:color-mix(in srgb,var(--lh-lime) 45%,var(--lh-line)) !important;
+}
+/* legacy utility-modal__back draws a double green border — suppressed separately */
+body[data-view="run"] .hb-sheet__back,
+body[data-view="run"] .utility-modal__back{
+  background:var(--lh-surf2) !important;background-image:none !important;
+  border:1px solid var(--lh-line) !important;border-radius:11px !important;
+  color:var(--lh-ivory) !important;box-shadow:none !important;text-shadow:none !important;
+  outline:none !important;
+}
+body[data-view="run"] .hb-sheet__back::before,
+body[data-view="run"] .hb-sheet__back::after,
+body[data-view="run"] .utility-modal__back::before,
+body[data-view="run"] .utility-modal__back::after{display:none !important;content:none !important;}
+body[data-view="run"] .hb-sheet__back:hover,
+body[data-view="run"] .utility-modal__back:hover{
+  background:var(--lh-surf3) !important;
+  border-color:color-mix(in srgb,var(--lh-lime) 45%,var(--lh-line)) !important;
+}
+
+/* ============================================================
+   STAGE CLEARED — the reward choice screen. Flat panel, large
+   heading, cards in rarity colours, one-click selection.
+   ============================================================ */
+body[data-view="run"] .hb-reward-modal{background:rgba(4,7,6,.72) !important;backdrop-filter:blur(4px);}
+body[data-view="run"] .hb-reward{
+  background:#0d1411 !important;background-image:none !important;
+  border:1px solid var(--lh-line) !important;border-radius:18px !important;
+  box-shadow:0 40px 110px -40px #000 !important;padding:26px 28px !important;
+}
+body[data-view="run"] .hb-reward::before,
+body[data-view="run"] .hb-reward::after{display:none !important;content:none !important;}
+body[data-view="run"] .upgrade-modal__crest{display:none !important;}
+body[data-view="run"] .hb-reward__header{border:0 !important;background:none !important;margin-bottom:18px !important;}
+body[data-view="run"] .upgrade-modal__eyebrow{
+  color:var(--lh-dim) !important;font-size:11px !important;letter-spacing:1px !important;
+  text-transform:uppercase !important;margin:0 0 4px !important;
+}
+body[data-view="run"] .hb-reward__title{
+  font-family:var(--disp,"Alagard",serif) !important;font-size:30px !important;line-height:1.15 !important;
+  color:var(--lh-ivory) !important;text-shadow:0 0 26px color-mix(in srgb,var(--lh-lime) 30%,transparent) !important;
+  margin:0 !important;
+}
+body[data-view="run"] .upgrade-modal__summary{color:var(--lh-muted) !important;font-size:13px !important;margin:5px 0 0 !important;}
+body[data-view="run"] .hb-reward__meta{display:flex !important;gap:8px !important;margin-top:12px !important;}
+body[data-view="run"] .hb-reward__meta span{
+  display:inline-flex !important;align-items:center !important;gap:6px !important;
+  background:var(--lh-surf2) !important;border:1px solid var(--lh-line) !important;
+  border-radius:9px !important;padding:5px 11px !important;
+  color:var(--lh-muted) !important;font-size:12px !important;text-transform:uppercase !important;letter-spacing:.5px !important;
+}
+body[data-view="run"] .hb-reward__meta span b{color:var(--lh-lime) !important;font-size:14px !important;}
+body[data-view="run"] .hb-reward__meta span:last-child b{color:var(--lh-leg) !important;}
+/* cards — the rarity colour carries the entire accent of the card */
+body[data-view="run"] .hb-reward__cards{gap:14px !important;}
+body[data-view="run"] .upgrade-card{
+  --rc:var(--lh-muted);
+  background:linear-gradient(180deg,color-mix(in srgb,var(--rc) 7%,var(--lh-surf)),var(--lh-surf)) !important;
+  background-image:none !important;border:1px solid color-mix(in srgb,var(--rc) 38%,var(--lh-line)) !important;
+  border-radius:14px !important;box-shadow:0 18px 44px -26px #000 !important;
+}
+body[data-view="run"] .upgrade-card::before,
+body[data-view="run"] .upgrade-card::after{display:none !important;content:none !important;}
+body[data-view="run"] .hb-card--common{--rc:#9ab5a6;}
+body[data-view="run"] .hb-card--uncommon{--rc:#4be08a;}
+body[data-view="run"] .hb-card--rare{--rc:#46d8e0;}
+body[data-view="run"] .hb-card--epic{--rc:#b48cff;}
+body[data-view="run"] .hb-card--legendary,
+body[data-view="run"] .hb-card--evolution,
+body[data-view="run"] .hb-card--relic{--rc:#ffd24a;}
+body[data-view="run"] .hb-card__rarity{
+  color:var(--rc) !important;font-size:11px !important;letter-spacing:1px !important;
+  text-transform:uppercase !important;background:none !important;border:0 !important;
+}
+body[data-view="run"] .hb-card__name{
+  font-family:var(--disp,"Alagard",serif) !important;font-size:19px !important;
+  color:var(--lh-ivory) !important;text-shadow:none !important;
+}
+body[data-view="run"] .hb-card__effect,
+body[data-view="run"] .hb-card__ingredients{color:var(--lh-muted) !important;font-size:13px !important;}
+body[data-view="run"] .hb-card__value{color:var(--rc) !important;font-size:13px !important;}
+/* selection button — one click, the function colour equals the rarity colour */
+body[data-view="run"] .hb-card__button{
+  min-height:44px !important;border-radius:11px !important;width:100% !important;
+  background:color-mix(in srgb,var(--rc) 14%,var(--lh-surf2)) !important;
+  border:1px solid color-mix(in srgb,var(--rc) 48%,var(--lh-line)) !important;
+  color:var(--rc) !important;font-size:14px !important;font-weight:700 !important;letter-spacing:.4px !important;
+  box-shadow:none !important;text-shadow:none !important;transition:.14s !important;
+}
+body[data-view="run"] .hb-card__button::before,
+body[data-view="run"] .hb-card__button::after{display:none !important;content:none !important;}
+body[data-view="run"] .hb-card__button:hover{background:var(--rc) !important;color:#0a120c !important;border-color:var(--rc) !important;}
+
+/* ============================================================
+   PIXEL BUTTONS — 9-slice sprites (as in Vampire Survivors).
+   The border is drawn pixel by pixel in images/btn9-<colour>-v1.png
+   (16×16, slice 6, bevel lit from above / shadowed below, chamfered
+   corners). border-image stretches the middle while the corners stay
+   pixel-perfect. Two sprites per colour: normal and pressed (:active).
+   ============================================================ */
+body[data-view="run"] .hb-action,
+body[data-view="run"] .hb-pause__button,
+body[data-view="run"] .hb-card__button,
+body[data-view="run"] .stats-modal__footer button,
+body[data-view="run"] .hb-sheet__back,
+body[data-view="run"] .utility-modal__back,
+body[data-view="run"] .destructive-confirm-modal__actions button{
+  --btn9:url("../images/btn9-neutral-v1.png?r11");
+  --btn9p:url("../images/btn9-neutral-pressed-v1.png?r11");
+  --btn9h:url("../images/btn9-neutral-hover-v1.png?r11");
+  border:12px solid transparent !important;
+  border-image:var(--btn9) 12 fill stretch !important;
+  border-radius:0 !important;background:none !important;
+  image-rendering:pixelated;box-shadow:none !important;
+  text-shadow:0 2px 0 rgba(5,8,6,.6) !important;
+  font-family:var(--disp,"Alagard",serif) !important;
+  text-transform:uppercase !important;letter-spacing:.6px !important;
+  min-height:46px !important;padding:2px 8px !important;
+  transition:color .12s,filter .12s !important;
+}
+
+/* Back to Village (run summary) — the same filled lime as Start Hunt */
+.run-summary-modal .hb-outcome__back,
+.run-summary-modal .run-summary-modal__footer button{
+  --btn9:url("../images/btn9-limesolid-v1.png?r11");
+  --btn9p:url("../images/btn9-limesolid-pressed-v1.png?r11");
+  --btn9h:url("../images/btn9-limesolid-hover-v1.png?r11");
+  border:12px solid transparent !important;
+  border-image:var(--btn9) 12 fill stretch !important;
+  border-radius:0 !important;background:none !important;
+  image-rendering:pixelated;box-shadow:none !important;
+  color:#0a120c !important;font-weight:700 !important;
+  font-family:var(--disp,"Alagard",serif) !important;
+  text-transform:uppercase !important;letter-spacing:.6px !important;
+  text-shadow:0 1px 0 rgba(255,255,255,.30) !important;
+  min-height:48px !important;padding:2px 14px !important;
+}
+.run-summary-modal .hb-outcome__back::before,
+.run-summary-modal .hb-outcome__back::after{display:none !important;content:none !important;}
+.run-summary-modal .hb-outcome__back:hover{background:none !important;border-image-source:var(--btn9h) !important;filter:none !important;}
+.run-summary-modal .hb-outcome__back:active{border-image-source:var(--btn9p) !important;transform:translateY(2px) !important;}
+.run-summary-modal .hb-outcome__back:focus,
+.run-summary-modal .hb-outcome__back:focus-visible{outline:none !important;box-shadow:none !important;border-image-source:var(--btn9h) !important;filter:none !important;}
+body[data-view="run"] .hb-action:hover,
+body[data-view="run"] .hb-pause__button:hover,
+body[data-view="run"] .hb-card__button:hover,
+body[data-view="run"] .stats-modal__footer button:hover,
+body[data-view="run"] .hb-sheet__back:hover,
+body[data-view="run"] .utility-modal__back:hover,
+body[data-view="run"] .destructive-confirm-modal__actions button:hover{
+  background:none !important;border-color:transparent !important;
+  border-image-source:var(--btn9h) !important;filter:none !important;
+}
+body[data-view="run"] .hb-action:active,
+body[data-view="run"] .hb-pause__button:active,
+body[data-view="run"] .hb-card__button:active,
+body[data-view="run"] .stats-modal__footer button:active,
+body[data-view="run"] .hb-sheet__back:active,
+body[data-view="run"] .utility-modal__back:active,
+body[data-view="run"] .destructive-confirm-modal__actions button:active{
+  border-image-source:var(--btn9p) !important;
+  transform:translateY(2px) !important;filter:none;
+}
+/* focus: legacy draws a green ring with dots in the corners — instead of that
+   we simply light up the sprite, and the border stays pixel-perfect */
+body[data-view="run"] .hb-action:focus,
+body[data-view="run"] .hb-action:focus-visible,
+body[data-view="run"] .hb-pause__button:focus,
+body[data-view="run"] .hb-pause__button:focus-visible,
+body[data-view="run"] .hb-card__button:focus,
+body[data-view="run"] .hb-card__button:focus-visible,
+body[data-view="run"] .stats-modal__footer button:focus,
+body[data-view="run"] .stats-modal__footer button:focus-visible,
+body[data-view="run"] .destructive-confirm-modal__actions button:focus,
+body[data-view="run"] .destructive-confirm-modal__actions button:focus-visible{
+  outline:none !important;box-shadow:none !important;border-image-source:var(--btn9h) !important;filter:none !important;
+}
+body[data-view="run"] .hb-pause__button::before,
+body[data-view="run"] .hb-pause__button::after{display:none !important;content:none !important;}
+/* Panel button borders — all in one lime.
+   The border colour used to mean function: teal for Stats, purple for Run
+   Build, amber for Pause. Neither teal nor purple nor amber exists in the game
+   palette, and the corner of the screen ended up with five differently coloured
+   buttons that looked like they came from different programs. All four open
+   panels and break nothing — so they look alike. The red border stays on Leave
+   Run: it is the only irreversible action, and there the colour carries a
+   warning rather than decoration. */
+body[data-view="run"] .combat-sheet-actions .hb-action,
+body[data-view="run"] .combat-run-actions .hb-action:not(.hb-action--leave){--btn9:url("../images/btn9-lime-v1.png?r11");--btn9p:url("../images/btn9-lime-pressed-v1.png?r11");--btn9h:url("../images/btn9-lime-hover-v1.png?r11");}
+body[data-view="run"] .hb-action--leave,
+body[data-view="run"] .hb-pause__button--leave,
+body[data-view="run"] .destructive-confirm-modal__actions .button--danger{--btn9:url("../images/btn9-red-v1.png?r11");--btn9p:url("../images/btn9-red-pressed-v1.png?r11");--btn9h:url("../images/btn9-red-hover-v1.png?r11");}
+body[data-view="run"] #resumeRun{
+  --btn9:url("../images/btn9-lime-v1.png?r11");--btn9p:url("../images/btn9-lime-pressed-v1.png?r11");--btn9h:url("../images/btn9-lime-hover-v1.png?r11");
+  color:var(--lh-lime) !important;font-weight:700 !important;
+}
+body[data-view="run"] #resumeRun:hover{color:var(--lh-lime) !important;background:none !important;}
+/* reward cards — border in the rarity colour */
+body[data-view="run"] .hb-card--common .hb-card__button{--btn9:url("../images/btn9-sage-v1.png?r11");--btn9p:url("../images/btn9-sage-pressed-v1.png?r11");--btn9h:url("../images/btn9-sage-hover-v1.png?r11");}
+body[data-view="run"] .hb-card--uncommon .hb-card__button{--btn9:url("../images/btn9-emerald-v1.png?r11");--btn9p:url("../images/btn9-emerald-pressed-v1.png?r11");--btn9h:url("../images/btn9-emerald-hover-v1.png?r11");}
+body[data-view="run"] .hb-card--rare .hb-card__button{--btn9:url("../images/btn9-cyan-v1.png?r11");--btn9p:url("../images/btn9-cyan-pressed-v1.png?r11");--btn9h:url("../images/btn9-cyan-hover-v1.png?r11");}
+body[data-view="run"] .hb-card--epic .hb-card__button{--btn9:url("../images/btn9-violet-v1.png?r11");--btn9p:url("../images/btn9-violet-pressed-v1.png?r11");--btn9h:url("../images/btn9-violet-hover-v1.png?r11");}
+body[data-view="run"] .hb-card--legendary .hb-card__button,
+body[data-view="run"] .hb-card--evolution .hb-card__button,
+body[data-view="run"] .hb-card--relic .hb-card__button{--btn9:url("../images/btn9-gold-v1.png?r11");--btn9p:url("../images/btn9-gold-pressed-v1.png?r11");--btn9h:url("../images/btn9-gold-hover-v1.png?r11");}
+
+body[data-view="run"] #bowText::before{content:"Bow";}
+body[data-view="run"] #upgradeText::before{content:"Last upgrade";}
+body[data-view="run"] #upgradeText{color:var(--lh-lime) !important;}
+body[data-view="run"] #foundationText::before{content:"Foundation";}
+body[data-view="run"] #statusText::before{content:"Status";}
+
+/* ------------------------------------------------------------
+   LEAVE RUN: red squares in the corners
+   The rule `.hb-action.hb-action--leave` (further up this file) sets
+   its own background and border-color with !important and is more
+   specific than the pixel buttons block — so a live red background
+   and a 12px red border survived underneath the sprite. The sprite
+   has chamfered, transparent corners, and the red showed through
+   those cut-outs: four squares in the corners plus a spurious
+   outline along the edge. The button colour lives in --bc and in
+   color and we leave those alone — we only suppress what shows
+   through.
+   ------------------------------------------------------------ */
+body[data-view="run"] .hb-action.hb-action--leave{
+  background:none !important;
+  border-color:transparent !important;
+}

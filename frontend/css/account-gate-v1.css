@@ -1,0 +1,558 @@
+.account-pending {
+  overflow: hidden;
+}
+
+.account-pending #appBackground {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.hb-account-gate,
+.hb-account-gate *,
+.hb-account-gate *::before,
+.hb-account-gate *::after {
+  box-sizing: border-box;
+  border-radius: 0;
+}
+
+.hb-account-gate[hidden] {
+  display: none !important;
+}
+
+.hb-account-gate {
+  --account-surface: color-mix(in srgb, var(--hb-ui-ink) 88%, var(--hb-ui-forest));
+  --account-surface-elevated: color-mix(in srgb, var(--hb-ui-panel) 82%, var(--hb-ui-forest-active));
+  --account-surface-field: color-mix(in srgb, var(--hb-ui-ink) 92%, var(--hb-ui-panel-green));
+  --account-text-muted: color-mix(in srgb, var(--hb-ui-ivory) 76%, var(--account-surface));
+  --account-bevel-light: color-mix(in srgb, var(--account-surface-elevated) 76%, var(--border-frame));
+  --account-bevel-dark: color-mix(in srgb, var(--account-surface-elevated) 70%, var(--hb-ui-ink));
+  position: fixed;
+  z-index: 10000;
+  inset: 0;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  isolation: isolate;
+  border: 12px solid transparent;
+  border-image: url("../images/hb-ingame-ornament-frame-v1.png") 22 stretch;
+  background: var(--hb-ui-ink);
+  color: var(--hb-ui-ivory);
+  font-family: var(--hb-ui-font-body-bitmap);
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.hb-account-gate button,
+.hb-account-gate input {
+  color: inherit;
+  font: inherit;
+  letter-spacing: 0;
+}
+
+.hb-account-gate button {
+  cursor: pointer;
+}
+
+.hb-account-gate button:disabled,
+.hb-account-gate input:disabled {
+  cursor: not-allowed;
+  opacity: .55;
+}
+
+.hb-account-gate button:focus-visible,
+.hb-account-gate input:focus-visible {
+  outline: 2px solid var(--border-interactive);
+  outline-offset: 2px;
+}
+
+.hb-account-screen:focus,
+.hb-account-screen:focus-visible {
+  outline: none;
+}
+
+.hb-account-gate__art,
+.hb-account-gate__scrim,
+.hb-account-gate__frame {
+  position: absolute;
+  inset: 0;
+}
+
+.hb-account-gate__art {
+  z-index: var(--hb-ui-layer-base);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  image-rendering: pixelated;
+}
+
+.hb-account-gate__scrim {
+  z-index: var(--hb-ui-layer-local-content);
+  background:
+    linear-gradient(90deg,
+      color-mix(in srgb, var(--hb-ui-ink) 96%, transparent) 0%,
+      color-mix(in srgb, var(--hb-ui-ink) 96%, transparent) 38%,
+      color-mix(in srgb, var(--hb-ui-ink) 58%, transparent) 62%,
+      transparent 88%),
+    linear-gradient(180deg, transparent 54%, color-mix(in srgb, var(--hb-ui-ink) 58%, transparent) 100%);
+}
+
+.hb-account-gate__frame {
+  z-index: var(--hb-ui-layer-local-chrome);
+  pointer-events: none;
+  border: 1px solid var(--border-frame);
+}
+
+.hb-account-panel {
+  position: absolute;
+  z-index: var(--hb-ui-layer-primary);
+  top: 50%;
+  left: 4%;
+  width: min(44%, 560px);
+  max-height: calc(100% - 64px);
+  transform: translateY(-50%);
+  overflow: hidden;
+  border: 1px solid var(--border-frame);
+  background: var(--account-surface);
+  box-shadow:
+    inset 1px 1px 0 var(--account-bevel-light),
+    inset -1px -1px 0 var(--account-bevel-dark);
+}
+
+.hb-account-corner {
+  position: absolute;
+  z-index: var(--hb-ui-layer-local-chrome);
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+  border-color: var(--border-frame);
+}
+
+.hb-account-corner--tl { top: 8px; left: 8px; border-top: 2px solid; border-left: 2px solid; }
+.hb-account-corner--tr { top: 8px; right: 8px; border-top: 2px solid; border-right: 2px solid; }
+.hb-account-corner--bl { bottom: 8px; left: 8px; border-bottom: 2px solid; border-left: 2px solid; }
+.hb-account-corner--br { right: 8px; bottom: 8px; border-right: 2px solid; border-bottom: 2px solid; }
+
+.hb-account-screen {
+  width: 100%;
+  max-height: calc(100dvh - 64px);
+  overflow-y: auto;
+  padding: 24px 32px;
+  scrollbar-color: var(--border-interactive) var(--account-surface-field);
+  scrollbar-width: auto;
+}
+
+.hb-account-screen[hidden] {
+  display: none !important;
+}
+
+.hb-account-screen::-webkit-scrollbar {
+  width: 12px;
+  background: var(--account-surface-field);
+}
+
+.hb-account-screen::-webkit-scrollbar-thumb {
+  border: 2px solid var(--account-surface-field);
+  background: var(--border-interactive);
+}
+
+.hb-account-wordmark {
+  display: block;
+  width: min(100%, 360px);
+  height: auto;
+  margin: 0 0 var(--hb-ui-space-4);
+  image-rendering: pixelated;
+}
+
+.hb-account-gate h1,
+.hb-account-gate h2 {
+  margin: 0;
+  color: var(--hb-ui-gold-bright);
+  font-family: var(--hb-ui-font-display-bitmap);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.hb-account-gate h1 {
+  font-size: 48px;
+  line-height: 52px;
+}
+
+.hb-account-gate h2 {
+  font-size: 32px;
+  line-height: 36px;
+}
+
+.hb-account-rule {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 12px;
+  margin: var(--hb-ui-space-2) 0 var(--hb-ui-space-4);
+  border-top: 1px solid var(--border-separator);
+}
+
+.hb-account-rule::before,
+.hb-account-rule::after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  width: 8px;
+  height: 8px;
+  transform: rotate(45deg);
+  border: 1px solid var(--border-frame);
+  background: var(--account-surface);
+}
+
+.hb-account-rule::before { left: 0; }
+.hb-account-rule::after { right: 0; }
+
+.hb-account-actions,
+.hb-account-form {
+  display: grid;
+  gap: var(--hb-ui-space-2);
+}
+
+.hb-account-button,
+.hb-account-back,
+.hb-account-text-button,
+.hb-account-password button,
+.hb-account-music {
+  min-height: var(--hb-ui-touch-target);
+  border-radius: 0;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.hb-account-button {
+  position: relative;
+  width: 100%;
+  padding: var(--hb-ui-space-2) var(--hb-ui-space-3);
+  border: 1px solid var(--border-frame);
+  background: var(--account-surface-elevated);
+  box-shadow:
+    inset 1px 1px 0 var(--account-bevel-light),
+    inset -1px -1px 0 var(--account-bevel-dark);
+  color: var(--hb-ui-ivory);
+  font-family: var(--hb-ui-font-display-bitmap);
+  text-align: left;
+}
+
+.hb-account-button::after {
+  content: "»";
+  position: absolute;
+  right: var(--hb-ui-space-3);
+  color: var(--hb-ui-gold-bright);
+}
+
+.hb-account-button.is-primary {
+  border: 2px solid var(--border-interactive);
+  color: var(--hb-ui-gold-bright);
+}
+
+.hb-account-button.is-quiet {
+  color: var(--account-text-muted);
+}
+
+.hb-account-back,
+.hb-account-text-button {
+  padding: var(--hb-ui-space-1) 0;
+  border: 0;
+  background: transparent;
+  color: var(--hb-ui-green);
+  text-align: left;
+}
+
+.hb-account-back {
+  margin: 0 0 var(--hb-ui-space-2);
+  color: var(--hb-ui-gold-bright);
+}
+
+.hb-account-screen > .hb-account-text-button {
+  margin-top: var(--hb-ui-space-2);
+}
+
+.hb-account-step,
+.hb-account-copy,
+.hb-account-warning,
+.hb-account-note,
+.hb-account-status,
+.hb-account-field-error {
+  margin: 0 0 var(--hb-ui-space-3);
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.hb-account-step {
+  color: var(--hb-ui-green);
+}
+
+.hb-account-copy,
+.hb-account-note {
+  color: var(--account-text-muted);
+}
+
+.hb-account-note {
+  margin-top: var(--hb-ui-space-3);
+  padding: var(--hb-ui-space-2);
+  border-left: 2px solid var(--hb-ui-green);
+  background: var(--account-surface-field);
+}
+
+.hb-account-warning {
+  padding: var(--hb-ui-space-2) var(--hb-ui-space-3);
+  border-left: 3px solid var(--hb-ui-danger);
+  background: var(--account-surface-field);
+}
+
+.hb-account-warning strong {
+  display: block;
+  margin-bottom: var(--hb-ui-space-1);
+  color: var(--hb-ui-gold-bright);
+}
+
+.hb-account-warning p {
+  margin: 0;
+}
+
+.hb-account-status,
+.hb-account-field-error {
+  padding: var(--hb-ui-space-2);
+  border-left: 3px solid var(--hb-ui-danger);
+  background: var(--account-surface-field);
+  color: var(--hb-ui-failure);
+}
+
+.hb-account-form label {
+  display: grid;
+  gap: var(--hb-ui-space-1);
+  color: var(--hb-ui-green);
+}
+
+.hb-account-gate input:not([type="checkbox"]) {
+  width: 100%;
+  min-width: 0;
+  height: 44px;
+  padding: var(--hb-ui-space-2) var(--hb-ui-space-3);
+  border: 1px solid var(--border-frame);
+  background: var(--account-surface-field);
+  color: var(--hb-ui-ivory);
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.hb-account-password {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.hb-account-password input {
+  border-right: 0 !important;
+}
+
+.hb-account-password button {
+  min-width: 64px;
+  padding: 0 var(--hb-ui-space-2);
+  border: 1px solid var(--border-frame);
+  background: var(--account-surface-elevated);
+  color: var(--hb-ui-green);
+}
+
+.hb-account-progress {
+  --account-progress: 30%;
+  height: 12px;
+  border: 1px solid var(--border-frame);
+  background: var(--account-surface-field);
+}
+
+.hb-account-progress span {
+  display: block;
+  width: var(--account-progress);
+  height: 100%;
+  background: var(--hb-ui-gold-bright);
+  transition: width 160ms linear;
+}
+
+.hb-account-progress-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--hb-ui-space-3);
+  margin-top: var(--hb-ui-space-2);
+  color: var(--account-text-muted);
+}
+
+.hb-account-progress-meta strong {
+  color: var(--hb-ui-gold-bright);
+}
+
+.hb-account-scroll-cue {
+  position: absolute;
+  z-index: var(--hb-ui-layer-local-chrome);
+  right: 1px;
+  bottom: 1px;
+  left: 1px;
+  height: 36px;
+  display: none;
+  align-items: end;
+  justify-content: flex-end;
+  padding: 0 16px 4px;
+  pointer-events: none;
+  background: linear-gradient(transparent, var(--account-surface));
+  color: var(--hb-ui-gold-bright);
+}
+
+.hb-account-panel.has-scroll-cue .hb-account-scroll-cue {
+  display: flex;
+}
+
+.hb-account-music {
+  position: absolute;
+  z-index: var(--hb-ui-layer-sticky);
+  right: 4%;
+  bottom: 5%;
+  min-width: 300px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--hb-ui-space-2);
+  padding: var(--hb-ui-space-2) var(--hb-ui-space-3);
+  border: 1px solid var(--border-frame);
+  background: color-mix(in srgb, var(--account-surface) 94%, transparent);
+  box-shadow:
+    inset 1px 1px 0 var(--account-bevel-light),
+    inset -1px -1px 0 var(--account-bevel-dark);
+  color: var(--hb-ui-ivory);
+  text-align: left;
+}
+
+.hb-account-music > span:first-child {
+  color: var(--hb-ui-gold-bright);
+  font-size: 24px;
+  line-height: 28px;
+}
+
+.hb-account-music > span:nth-child(2) {
+  display: grid;
+}
+
+.hb-account-music small {
+  color: var(--account-text-muted);
+}
+
+.hb-account-music b {
+  color: var(--hb-ui-green);
+}
+
+@media (max-width: 1000px) {
+  .hb-account-panel {
+    left: 3%;
+    width: min(58%, 520px);
+    max-height: calc(100% - 32px);
+  }
+
+  .hb-account-screen {
+    max-height: calc(100dvh - 32px);
+    padding: 16px 24px;
+  }
+
+  .hb-account-wordmark {
+    width: min(78%, 300px);
+    margin-bottom: var(--hb-ui-space-2);
+  }
+
+  .hb-account-gate h1 {
+    font-size: 32px;
+    line-height: 36px;
+  }
+
+  .hb-account-gate h2 {
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+  .hb-account-music {
+    right: 3%;
+    bottom: 3%;
+    min-width: 260px;
+  }
+}
+
+@media (max-width: 700px) {
+  .hb-account-gate {
+    border-width: 8px;
+  }
+
+  .hb-account-gate__scrim {
+    background: linear-gradient(180deg,
+      color-mix(in srgb, var(--hb-ui-ink) 60%, transparent) 0%,
+      color-mix(in srgb, var(--hb-ui-ink) 94%, transparent) 44%,
+      color-mix(in srgb, var(--hb-ui-ink) 98%, transparent) 100%);
+  }
+
+  .hb-account-panel {
+    top: auto;
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+    width: auto;
+    max-height: min(76dvh, calc(100% - 24px));
+    transform: none;
+  }
+
+  .hb-account-screen {
+    max-height: min(76dvh, calc(100dvh - 40px));
+    padding: 18px 20px;
+  }
+
+  .hb-account-wordmark {
+    width: min(76%, 280px);
+  }
+
+  .hb-account-music {
+    display: none;
+  }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .hb-account-panel {
+    top: 12px;
+    bottom: 12px;
+    left: 16px;
+    width: min(62%, 620px);
+    max-height: none;
+    transform: none;
+  }
+
+  .hb-account-screen {
+    max-height: calc(100dvh - 40px);
+    padding: 12px 20px;
+  }
+
+  .hb-account-wordmark {
+    width: min(54%, 240px);
+    margin-bottom: 8px;
+  }
+
+  .hb-account-gate h1,
+  .hb-account-gate h2 {
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+  .hb-account-rule {
+    margin-bottom: 8px;
+  }
+
+  .hb-account-music {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hb-account-progress span {
+    transition: none;
+  }
+}

@@ -1,0 +1,1 @@
+window.LOOTHOOD_VERSION = "0.0.202";

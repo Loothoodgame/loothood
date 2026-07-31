@@ -1,0 +1,208 @@
+/* LOOTHOOD — Village v1 · "Camp"
+   ------------------------------------------------------------------
+   The base screen. What was wrong:
+     — the "Accumulated Bonuses" panel was the only thing in the whole
+       game made of light paper, while the values on it were painted in
+       brand lime: a contrast of 1.6:1, impossible to read. That is
+       already fixed in loothood-patch-v1.css; here we finish the rest;
+     — three different button styles on one screen with no hierarchy: a
+       dark outline, a lime outline and filled lime — all three meant
+       different levels of importance but looked equally arbitrary;
+     — the headings of three panels were gold, even though on Hunt every
+       heading is ivory;
+     — panels without radii or shared surfaces.
+
+   Scoped to .hb-app. */
+
+/* ============ HEADINGS ============ */
+
+.hb-app .hb-settlement-overview h1,
+.hb-app .hb-settlement-bonuses h2,
+.hb-app .hb-settlement-passive h2,
+.hb-app .hb-settlement-operations h2,
+.hb-app .hb-settlement-dashboard h2,
+.hb-app .hb-settlement-dashboard h3 {
+  color: var(--ivory) !important;
+  font-family: var(--disp);
+  letter-spacing: .3px;
+}
+.hb-app .hb-settlement-overview .hb-diamond-rule,
+.hb-app .hb-settlement-dashboard .hb-diamond-rule { display: none !important; }
+
+/* ============ PANELS ============ */
+
+.hb-app .hb-settlement-bonuses,
+.hb-app .hb-settlement-passive,
+.hb-app .hb-settlement-operations {
+  border: 1px solid var(--line) !important;
+  border-radius: var(--r) !important;
+  background: var(--surface) !important;
+  padding: 18px 20px !important;
+}
+.hb-app .hb-settlement-dashboard { gap: 14px !important; }
+
+/* The summary at the top — rows like the bounties on Hunt: a hairline and the
+   value on the right, no boxes. */
+.hb-app .hb-settlement-status > * {
+  border-top: 1px solid var(--line2) !important;
+  border-bottom: none !important;
+  background: none !important;
+  padding: 11px 0 !important;
+}
+
+/* ============ BUTTON HIERARCHY ============
+   One rule per screen: only the path the screen is inviting you to take right
+   now is filled lime — collecting what has accumulated. Everything else is dark
+   with an outline. Upgrades get a gold outline because they cost resources and
+   are a spend rather than a gain. */
+
+.hb-app .hb-settlement-operations button,
+.hb-app .hb-ledger-button {
+  min-height: 44px;
+  border-radius: 11px !important;
+  border: 1px solid var(--line) !important;
+  background: var(--surface2) !important;
+  color: var(--ivory) !important;
+  font-family: var(--disp);
+  font-size: 16px;
+  letter-spacing: .3px;
+  cursor: pointer;
+  transition: border-color 140ms var(--lh-ease-out),
+              background 140ms var(--lh-ease-out),
+              transform 120ms var(--lh-ease-out);
+}
+
+/* The screen's only lime CTA. */
+.hb-app .hb-ledger-button.is-primary {
+  border: none !important;
+  color: #08120a !important;
+  background: linear-gradient(180deg, #c8f85e, var(--lime) 42%, var(--lime-deep)) !important;
+  box-shadow: 0 12px 26px -14px color-mix(in srgb, var(--lime) 70%, transparent),
+              inset 0 1px 0 rgba(255,255,255,.4) !important;
+}
+
+/* Spends get a gold outline: the colour of expenditure, not of income. */
+.hb-app .hb-settlement-operations .hb-operation-row button {
+  border-color: color-mix(in srgb, var(--leg) 34%, var(--line)) !important;
+  color: var(--leg) !important;
+  font-size: 14.5px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hb-app .hb-ledger-button:hover,
+  .hb-app .hb-settlement-operations button:hover {
+    border-color: color-mix(in srgb, var(--lime) 45%, var(--line)) !important;
+    background: var(--surface3) !important;
+  }
+  .hb-app .hb-ledger-button.is-primary:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.05);
+    background: linear-gradient(180deg, #c8f85e, var(--lime) 42%, var(--lime-deep)) !important;
+  }
+  .hb-app .hb-settlement-operations .hb-operation-row button:hover {
+    border-color: color-mix(in srgb, var(--leg) 60%, var(--line)) !important;
+    background: color-mix(in srgb, var(--leg) 10%, var(--surface2)) !important;
+  }
+}
+
+/* ============ PASSIVE RESOURCES ============ */
+
+.hb-app .hb-passive-resource {
+  border-top: 1px solid var(--line2) !important;
+  border-bottom: none !important;
+  padding: 12px 0 !important;
+}
+.hb-app .hb-passive-resource img {
+  image-rendering: pixelated;
+}
+.hb-app .hb-passive-resource span { color: var(--ivory) !important; }
+.hb-app .hb-passive-resource strong { color: var(--lime) !important; }
+.hb-app .hb-passive-resource small { color: var(--dim) !important; }
+.hb-app .hb-passive-note {
+  color: var(--dim) !important;
+  text-transform: none !important;
+  letter-spacing: .2px !important;
+  font-size: 12.5px;
+}
+
+/* ============ OPERATIONS AND LAND ============ */
+
+.hb-app .hb-operation-advancement {
+  border: 1px solid var(--line2) !important;
+  border-radius: 11px !important;
+  background: var(--surface2) !important;
+  padding: 12px 14px !important;
+}
+.hb-app .hb-operation-row {
+  border-top: 1px solid var(--line2) !important;
+  padding: 12px 0 !important;
+}
+.hb-app .hb-operation-row strong { color: var(--ivory) !important; }
+
+/* The unlocked land bar — the same gradient track as everywhere else: the Hunt
+   weekly bar, pity, bounties. */
+.hb-app .hb-land-progress__track {
+  height: 9px !important;
+  border: 1px solid var(--line2) !important;
+  border-radius: 5px !important;
+  background: var(--surface3) !important;
+  overflow: hidden;
+}
+.hb-app .hb-land-progress__track > * {
+  border-radius: 5px !important;
+  background: linear-gradient(90deg, var(--emerald), var(--lime)) !important;
+  box-shadow: 0 0 10px -2px color-mix(in srgb, var(--lime) 70%, transparent) !important;
+}
+
+/* The right panel ran off the edge: the increased padding was added on top of a
+   width that legacy specifies in container units. We put the bounds back where
+   they belong. */
+.hb-app .hb-settlement-dashboard > * {
+  min-width: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.hb-app .hb-settlement-operations {
+  padding: 16px 16px 18px !important;
+}
+.hb-app .hb-operation-row {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+}
+.hb-app .hb-operation-row button {
+  white-space: nowrap;
+  padding: 9px 13px !important;
+}
+.hb-app .hb-operation-advancement {
+  display: grid;
+  gap: 4px;
+}
+.hb-app .hb-operation-advancement > * { min-width: 0; }
+
+/* The panel grid itself is specified by legacy in container units and is wider
+   than the available width — the third column ran off screen together with
+   "0 OWNED" and its button. Three equal columns based on the actual width. */
+.hb-app .hb-settlement-dashboard {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
+.hb-app .hb-settlement-overview,
+.hb-app .hb-settlement-hero { max-width: 100%; box-sizing: border-box; }
+
+/* ============ SHORT WINDOW ============
+   Here I first went squeezing the village padding so that the Claim Resources
+   button would stop being clipped by the bottom edge. The padding had nothing to
+   do with it: the shell body computed the header height as a fraction of the
+   window instead of its real 72 pixels and on a short window overflowed the edge
+   entirely, on every screen at once. Fixed in loothood-hunt-v1.css; there is
+   nothing to fix here.
+
+   I do keep a little of the extra density: at 768 the village fits only just. */
+@media (max-height: 820px) {
+  .hb-app .hb-settlement-dashboard { gap: 10px !important; }
+  .hb-app .hb-settlement-operations { padding: 11px 14px 12px !important; }
+}

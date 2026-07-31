@@ -1,0 +1,366 @@
+/* LOOTHOOD — Bounty Board v1 · "Bounty board"
+   ------------------------------------------------------------------
+   A retention surface: players open it every week. It looked like the oldest
+   screen in the game — brown-and-amber progress bars from the palette we have
+   moved away from, square corners, and six text elements in every card all at
+   the same volume: the WEEKLY tag, the task, the word REWARD, the reward,
+   "REPEATABLE UNTIL WEEKLY CAP" and "Rewarded 0× this week".
+   It is impossible to read — the eye has nothing to catch on.
+
+   What we do:
+     1. move the progress bars to lime with a gradient and a glow
+     2. leave a single main line in the card — the task itself
+     3. turn the reward into a compact chip rather than a boxed block
+     4. push the housekeeping notes down into the quiet bottom of the card
+     5. give the panel and the cards Hunt radii and surfaces
+
+   The bars are <meter>, so we colour both the track and the fill. */
+
+/* ============ PANEL ============ */
+
+.hb-app .utility-modal__panel,
+.utility-modal__panel {
+  border: 1px solid var(--line, #28352f) !important;
+  border-radius: 18px !important;
+  background: linear-gradient(180deg, rgba(17,25,21,.98), rgba(11,16,14,.98)) !important;
+  box-shadow: 0 40px 90px -40px #000 !important;
+  padding: 26px 28px !important;
+}
+
+.utility-modal__panel .stats-modal__head {
+  margin-bottom: 18px;
+}
+.utility-modal__panel .stats-modal__head > div > p {
+  margin: 0 0 3px;
+  font-family: var(--body, monospace);
+  font-size: 10.5px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--dim, #63776b);
+}
+.utility-modal__panel .stats-modal__head h2 {
+  margin: 0;
+  font-family: var(--disp, serif);
+  font-size: 30px;
+  letter-spacing: .4px;
+  color: var(--ivory, #eaf5ee) !important;
+}
+/* Rule with a diamond — the language of the old menu. */
+.utility-modal__panel .hb-diamond-rule { display: none !important; }
+
+/* The close button used to be an "X" in a lime border — far too loud for a
+   housekeeping action, so it became quiet. It was round as well: back then
+   bounties were the only window, and the circle clashed with nothing.
+
+   Now it clashes. Everywhere else in the interface every control is rounded by
+   10-12 pixels, and a cross that stayed a circle in six windows out of ten
+   reads like a detail from a different program. The shape is brought into
+   line with the rest. */
+.utility-modal__panel .stats-modal__close {
+  border-radius: 10px !important;
+  width: 38px !important;
+  height: 38px !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line, #28352f) !important;
+  background: var(--surface2, #141d19) !important;
+  color: var(--muted, #93ab9e) !important;
+  font-size: 15px;
+  line-height: 1;
+  text-transform: none;
+  box-shadow: none !important;
+}
+@media (hover: hover) and (pointer: fine) {
+  .utility-modal__panel .stats-modal__close:hover {
+    color: var(--ivory, #eaf5ee) !important;
+    border-color: color-mix(in srgb, var(--lime, #b7f24a) 45%, var(--line, #28352f)) !important;
+    background: var(--surface3, #1b2620) !important;
+  }
+}
+
+/* ============ PROGRESS BARS ============
+   They used to be brown. Same look as the weekly bar on Hunt and as the pity
+   bars: a bordered track, an emerald-to-lime gradient fill, a glow. */
+
+.utility-modal__panel meter {
+  width: 100%;
+  height: 9px;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid var(--line2, #1b2621);
+  border-radius: 5px;
+  background: var(--surface3, #1b2620);
+  overflow: hidden;
+}
+.utility-modal__panel meter::-webkit-meter-bar {
+  background: var(--surface3, #1b2620);
+  border: none;
+  border-radius: 5px;
+}
+.utility-modal__panel meter::-webkit-meter-optimum-value,
+.utility-modal__panel meter::-webkit-meter-suboptimum-value,
+.utility-modal__panel meter::-webkit-meter-even-less-good-value {
+  border-radius: 5px;
+  background: linear-gradient(90deg, var(--emerald, #2be28a), var(--lime, #b7f24a));
+  box-shadow: 0 0 10px -2px color-mix(in srgb, var(--lime, #b7f24a) 70%, transparent);
+}
+.utility-modal__panel meter::-moz-meter-bar {
+  border-radius: 5px;
+  background: linear-gradient(90deg, var(--emerald, #2be28a), var(--lime, #b7f24a));
+}
+
+/* ============ WEEKLY TICKET BAR ============ */
+
+.utility-modal__panel .weekly-ticket-progress {
+  border: 1px solid color-mix(in srgb, var(--lime, #b7f24a) 20%, var(--line, #28352f)) !important;
+  border-radius: 13px !important;
+  background: linear-gradient(180deg, rgba(24,34,26,.7), rgba(14,20,16,.7)) !important;
+  padding: 15px 17px !important;
+  margin-bottom: 14px;
+}
+.utility-modal__panel .weekly-ticket-progress__head strong {
+  font-family: var(--body, monospace);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--lime, #b7f24a);
+}
+.utility-modal__panel .weekly-ticket-progress__head span {
+  color: var(--dim, #63776b);
+  font-size: 12px;
+}
+.utility-modal__panel .weekly-ticket-progress > b {
+  display: block;
+  margin: 6px 0 8px;
+  font-family: var(--disp, serif);
+  font-size: 22px;
+  color: var(--ivory, #eaf5ee);
+}
+.utility-modal__panel .weekly-ticket-progress p {
+  margin: 9px 0 0;
+  color: var(--dim, #63776b);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+/* Balances at the top are chips, like the resources in the header. */
+.utility-modal__panel .bounty-balances > * {
+  border: 1px solid var(--line, #28352f) !important;
+  border-radius: 999px !important;
+  background: var(--surface2, #141d19) !important;
+  padding: 7px 14px !important;
+  color: var(--muted, #93ab9e) !important;
+  font-size: 12.5px;
+}
+
+.utility-modal__panel .bounty-section__head strong,
+.utility-modal__panel .bounty-section__head h3 {
+  font-family: var(--disp, serif);
+  font-size: 19px;
+  color: var(--ivory, #eaf5ee) !important;
+}
+
+/* ============ BOUNTY CARD ============ */
+
+.utility-modal__panel .bounty-list {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 11px;
+}
+
+.utility-modal__panel .bounty {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  border: 1px solid var(--line, #28352f) !important;
+  border-radius: 13px !important;
+  background: linear-gradient(180deg, rgba(20,29,25,.85), rgba(12,18,15,.85)) !important;
+  padding: 14px 16px 13px !important;
+  transition: border-color 140ms var(--lh-ease-out, ease-out),
+              transform 140ms var(--lh-ease-out, ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .utility-modal__panel .bounty:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--lime, #b7f24a) 38%, var(--line, #28352f)) !important;
+  }
+}
+
+/* Header: tag on the left, counter on the right. The tag no longer shouts in lime. */
+.utility-modal__panel .bounty__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-family: var(--body, monospace);
+  font-size: 10.5px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--dim, #63776b) !important;
+}
+.utility-modal__panel .bounty__head > :last-child {
+  color: var(--ivory, #eaf5ee);
+  letter-spacing: .5px;
+  font-size: 12.5px;
+}
+
+/* The task is the only loud line in the card. */
+.utility-modal__panel .bounty__title {
+  margin: 0;
+  font-family: var(--disp, serif);
+  font-size: 17px;
+  line-height: 1.22;
+  letter-spacing: .2px;
+  color: var(--ivory, #eaf5ee) !important;
+}
+
+/* Reward: it used to be a boxed block with the word REWARD above the value.
+   Collapsed into a single chip — the player does not need the word "reward",
+   they need the ticket itself. */
+.utility-modal__panel .bounty__rewards {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 6px;
+  border: none !important;
+  padding: 0 !important;
+  background: none !important;
+}
+.utility-modal__panel .bounty__rewards > * {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid color-mix(in srgb, var(--leg, #ffd24a) 26%, var(--line, #28352f)) !important;
+  border-radius: 999px !important;
+  background: color-mix(in srgb, var(--leg, #ffd24a) 9%, transparent) !important;
+  padding: 5px 11px !important;
+  color: var(--leg, #ffd24a) !important;
+  font-family: var(--body, monospace);
+  font-size: 12.5px;
+  letter-spacing: .2px;
+}
+/* The "REWARD" label inside the chip is redundant. */
+.utility-modal__panel .bounty__rewards dt,
+.utility-modal__panel .bounty__rewards > * > :first-child:not(:only-child) {
+  display: none !important;
+}
+
+/* Housekeeping notes — the quiet bottom of the card. */
+.utility-modal__panel .bounty__repeatable,
+.utility-modal__panel .bounty__weekly-limit {
+  margin: 0 !important;
+  color: var(--dim, #63776b) !important;
+  font-family: var(--body, monospace);
+  font-size: 11.5px;
+  letter-spacing: .3px;
+  text-transform: none !important;
+}
+
+.utility-modal__panel .bounty-empty {
+  color: var(--dim, #63776b) !important;
+  font-size: 13px;
+}
+
+/* ============================================================
+   BOUNTY SCREEN  (used to be a modal dialog from a friend's client)
+   One rule: one task, one line. Nobody is going to read paragraphs,
+   and this screen is visited every day. The line runs left to right
+   in the order the player asks the questions: is it done · what to
+   do · how much is left · what it pays.
+   ============================================================ */
+.hb-app .hb-bounties-screen{
+  display:flex; flex-direction:column; gap:18px;
+  padding:26px 30px 34px; min-height:0; overflow:auto;
+}
+.hb-app .hb-bounties-heading{display:flex; align-items:flex-end; justify-content:space-between; gap:24px;}
+.hb-app .hb-bounties-heading h1{margin:0; font-family:var(--disp); font-size:44px; letter-spacing:.5px; color:var(--ivory);}
+.hb-app .hb-bounties-heading dl{display:flex; gap:26px; margin:0;}
+.hb-app .hb-bounties-heading dt{font-size:11px; letter-spacing:.6px; text-transform:uppercase; color:var(--muted);}
+.hb-app .hb-bounties-heading dd{margin:2px 0 0; font-family:var(--body); font-size:19px; font-weight:700; color:var(--ivory);}
+
+/* the weekly chain gets its own bar at the top: it is the only reward with a
+   cap, and the player needs to see how much more will still fit */
+.hb-app .hb-bounty-strip{
+  display:grid; grid-template-columns:1fr auto; gap:6px 16px; align-items:center;
+  padding:16px 18px; border:1px solid var(--line); border-radius:12px;
+  background:linear-gradient(180deg,var(--surface2),var(--surface));
+}
+.hb-app .hb-bounty-strip__head{display:flex; align-items:baseline; gap:12px;}
+.hb-app .hb-bounty-strip__head h2{margin:0; font-family:var(--disp); font-size:20px; color:var(--ivory);}
+.hb-app .hb-bounty-strip__head span{font-size:12.5px; color:var(--muted);}
+.hb-app .hb-bounty-strip>strong{font-family:var(--body); font-size:22px; color:var(--lime); justify-self:end;}
+.hb-app .hb-bounty-strip__bar{
+  grid-column:1/-1; height:8px; border-radius:99px; background:var(--surface3);
+  border:1px solid var(--line2); overflow:hidden; display:block;
+}
+.hb-app .hb-bounty-strip__bar>i{display:block; height:100%; background:linear-gradient(90deg,var(--em),var(--lime));}
+.hb-app .hb-bounty-strip>p{grid-column:1/-1; margin:0; font-size:12.5px; color:var(--muted);}
+.hb-app .hb-bounty-strip[data-cap="reached"] .hb-bounty-strip__bar>i{background:var(--leg);}
+
+.hb-app .hb-bounty-group>header{
+  display:flex; align-items:baseline; justify-content:space-between;
+  padding:0 2px 8px; border-bottom:1px solid var(--line2); margin-bottom:2px;
+}
+.hb-app .hb-bounty-group h2{margin:0; font-family:var(--disp); font-size:21px; color:var(--ivory);}
+.hb-app .hb-bounty-group header span{font-size:12.5px; color:var(--muted);}
+.hb-app .hb-bounty-list{list-style:none; margin:0; padding:0;}
+
+.hb-app .hb-bounty-row{
+  display:grid; align-items:center; gap:14px;
+  /* the counter column is sized to the longest value: "3,000 / 3,000" */
+  grid-template-columns:18px minmax(0,1fr) 140px 108px auto;
+  padding:11px 2px; border-bottom:1px solid var(--line2);
+}
+.hb-app .hb-bounty-row__dot{
+  width:17px; height:17px; background-repeat:no-repeat; background-position:center;
+  background-size:contain; image-rendering:pixelated;
+}
+.hb-app .hb-bounty-row__dot[data-bounty-state="open"]{background-image:url("../images/bounty-dot-open-v1.png"); opacity:.75;}
+.hb-app .hb-bounty-row__dot[data-bounty-state="progress"]{background-image:url("../images/bounty-dot-progress-v1.png");}
+.hb-app .hb-bounty-row__dot[data-bounty-state="done"]{background-image:url("../images/bounty-dot-done-v1.png");
+  filter:drop-shadow(0 0 3px color-mix(in srgb,var(--lime) 55%,transparent));}
+.hb-app .hb-bounty-row__dot[data-bounty-state="paid"]{background-image:url("../images/bounty-dot-done-v1.png"); opacity:.35;}
+
+.hb-app .hb-bounty-row__label{display:flex; flex-direction:column; gap:2px; min-width:0;
+  font-family:var(--disp); font-size:16px; color:var(--ivory); letter-spacing:.2px;}
+.hb-app .hb-bounty-row__label small{font-family:var(--body); font-size:11.5px; color:var(--muted); letter-spacing:0;}
+.hb-app .hb-bounty-row__bar{height:7px; border-radius:99px; background:var(--surface3); border:1px solid var(--line2); overflow:hidden;}
+.hb-app .hb-bounty-row__bar>i{display:block; height:100%; background:linear-gradient(90deg,var(--em),var(--lime));}
+.hb-app .hb-bounty-row>b{font-family:var(--body); font-size:14px; color:var(--muted);
+  text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums;}
+.hb-app .hb-bounty-row__rewards{display:flex; gap:6px; justify-content:flex-end;}
+.hb-app .hb-bounty-chip{
+  display:inline-flex; align-items:baseline; gap:5px; padding:3px 9px; border-radius:99px;
+  border:1px solid var(--line); background:var(--surface2);
+  font-size:11.5px; color:var(--muted); white-space:nowrap;
+}
+.hb-app .hb-bounty-chip strong{font-size:13px; color:var(--ivory);}
+
+/* a completed row dims its own text: the eye should catch on the ones that are
+   still open rather than re-counting what is already done */
+.hb-app .hb-bounty-row[data-state="done"] .hb-bounty-row__label{color:var(--muted);}
+.hb-app .hb-bounty-row[data-state="done"]>b{color:var(--lime);}
+.hb-app .hb-bounty-row[data-state="paid"]{opacity:.5;}
+.hb-app .hb-bounty-row[data-state="paid"] .hb-bounty-row__label{font-style:italic;}
+
+.hb-app .hb-bounty-locked{
+  padding:18px; border:1px dashed var(--line); border-radius:12px; background:var(--surface2);
+}
+.hb-app .hb-bounty-locked strong{display:block; font-family:var(--disp); font-size:19px; color:var(--ivory); margin-bottom:4px;}
+.hb-app .hb-bounty-locked p{margin:0; font-size:13px; color:var(--muted);}
+
+/* ---- narrow window ------------------------------------------------
+   The bounty row holds two fixed columns: a 140-pixel progress bar and a
+   108-pixel counter. In a 430-wide window that left about a hundred pixels for
+   the label, and it broke one word per line: "Complete / a / full / Stage / 15".
+   We split the row into two rows — the label full width on top, the bar and the
+   count below. */
+@media (max-width: 980px) {
+  .hb-app .hb-bounty-row{
+    grid-template-columns:18px minmax(0,1fr) auto;
+    row-gap:8px;
+  }
+  .hb-app .hb-bounty-row__label{ grid-column:2 / -1; }
+  .hb-app .hb-bounty-row__bar{ grid-column:2; min-width:0; }
+}

@@ -1,0 +1,524 @@
+/*
+ * Mobile UI Reliability V1
+ * Final coarse-pointer correction layer for the accepted Main Menu/Village
+ * bitmap system, the three-step Hunt setup, and compact combat controls.
+ */
+
+@media (max-width: 980px), (hover: none) and (pointer: coarse) {
+  .desktop-main-menu,
+  .hb-menu-system-overlay:not(.gacha-reveal) {
+    --hb-mobile-font-display: var(--hb-ui-font-display-bitmap);
+    --hb-mobile-font-body: var(--hb-ui-font-body-bitmap);
+    --hb-mobile-font-value: var(--hb-ui-font-body-bold-bitmap);
+    --hb-mobile-type-display-lg: 32px;
+    --hb-mobile-type-display-md: 16px;
+    --hb-mobile-type-body: 16px;
+    --hb-mobile-line-display-lg: 32px;
+    --hb-mobile-line-display-md: 16px;
+    --hb-mobile-line-body: 16px;
+  }
+
+  .desktop-main-menu .hb-app,
+  .desktop-main-menu :is(.hb-main, [data-screen]),
+  .hb-menu-system-overlay:not(.gacha-reveal) {
+    font-family: var(--hb-mobile-font-body);
+    font-size: var(--hb-mobile-type-body);
+    line-height: var(--hb-mobile-line-body);
+    font-smooth: never;
+    -webkit-font-smoothing: none;
+    text-rendering: optimizeSpeed;
+  }
+
+  .desktop-main-menu :is(.hb-main, [data-screen]) :is(p, li, dt, dd, small, input, select, textarea),
+  .hb-menu-system-overlay:not(.gacha-reveal) :is(p, li, dt, dd, small, input, select, textarea) {
+    font-family: var(--hb-mobile-font-body);
+    font-size: var(--hb-mobile-type-body);
+    line-height: var(--hb-mobile-line-body);
+  }
+
+  .desktop-main-menu :is(.hb-main, [data-screen]) :is(h1, h2, h3, button),
+  .desktop-main-menu .hb-sidebar button,
+  .hb-menu-system-overlay:not(.gacha-reveal) :is(h1, h2, h3, button) {
+    font-family: var(--hb-mobile-font-display);
+    font-weight: 400;
+  }
+
+  .desktop-main-menu :is(.hb-main, [data-screen]) h1,
+  .hb-menu-system-overlay:not(.gacha-reveal) h1 {
+    font-size: var(--hb-mobile-type-display-lg);
+    line-height: var(--hb-mobile-line-display-lg);
+  }
+
+  .desktop-main-menu :is(.hb-main, [data-screen]) :is(h2, h3),
+  .hb-menu-system-overlay:not(.gacha-reveal) :is(h2, h3) {
+    font-size: var(--hb-mobile-type-display-md);
+    line-height: var(--hb-mobile-line-display-md);
+  }
+
+  .desktop-main-menu :is(.hb-main, [data-screen]) button,
+  .hb-menu-system-overlay:not(.gacha-reveal) button {
+    font-size: var(--hb-mobile-type-display-md);
+    line-height: var(--hb-mobile-line-display-md);
+  }
+
+  .desktop-main-menu .hb-resource,
+  .desktop-main-menu .hb-resource > span {
+    font-family: var(--hb-mobile-font-value);
+    font-size: 16px !important;
+    font-weight: 700;
+    line-height: 16px;
+  }
+
+  .desktop-main-menu .hb-nav-item {
+    min-height: var(--hb-ui-touch-target) !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    align-items: center;
+    justify-items: stretch;
+    padding: 6px 8px !important;
+    font-family: var(--hb-mobile-font-display) !important;
+    font-size: 16px !important;
+    line-height: 16px !important;
+    text-align: left;
+  }
+
+  .desktop-main-menu .hb-nav-item span {
+    overflow: visible;
+    white-space: normal;
+  }
+
+  .desktop-main-menu .hb-add,
+  .desktop-main-menu .hb-audio-toggle {
+    width: var(--hb-ui-touch-target);
+    min-width: var(--hb-ui-touch-target);
+    height: var(--hb-ui-touch-target);
+    min-height: var(--hb-ui-touch-target);
+  }
+
+  .desktop-main-menu .hb-bounty-list > div {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    gap: 6px 10px;
+    align-items: start;
+  }
+
+  .desktop-main-menu .hb-bounty-list .hb-icon-slot {
+    display: none !important;
+    width: 0 !important;
+  }
+
+  .desktop-main-menu .hb-bounty-list dt {
+    min-width: 0;
+    overflow-wrap: normal;
+    word-break: normal;
+    text-align: left;
+  }
+
+  .desktop-main-menu .hb-bounty-list dd {
+    min-width: max-content;
+    white-space: nowrap;
+    text-align: right;
+  }
+
+  .desktop-main-menu .hb-market-stat-filter {
+    grid-template-columns: minmax(0, 1fr) 44px 44px;
+  }
+
+  .desktop-main-menu .hb-market-stat-filter button {
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    min-height: 44px;
+  }
+
+  body.run-setup-open {
+    overscroll-behavior: none;
+  }
+
+  body.run-setup-open .desktop-main-menu .hb-main {
+    overflow: hidden !important;
+    touch-action: none;
+  }
+
+  .run-setup-modal__panel {
+    background: var(--surface-page);
+    color: var(--hb-ui-ivory);
+  }
+
+  .run-setup-modal__header {
+    grid-template-columns: minmax(0, 1fr) var(--hb-ui-touch-target);
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .run-setup-modal__header p,
+  .run-setup-modal__header span,
+  .prestige-picker span,
+  #runSetupStepLabel {
+    font-family: var(--hb-mobile-font-body);
+    font-size: 16px !important;
+    line-height: 16px !important;
+  }
+
+  .run-setup-modal__header h2 {
+    font-family: var(--hb-mobile-font-display);
+    font-size: 32px !important;
+    line-height: 32px !important;
+    margin: 2px 0 4px;
+  }
+
+  .run-setup-modal__close {
+    width: var(--hb-ui-touch-target);
+    min-width: var(--hb-ui-touch-target);
+    height: var(--hb-ui-touch-target);
+    min-height: var(--hb-ui-touch-target) !important;
+    padding: 0;
+  }
+
+  .run-setup-modal__content {
+    display: flex !important;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden !important;
+    padding: 0;
+  }
+
+  .run-setup-stepper {
+    flex: 0 0 auto;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+
+  .run-setup-stepper button {
+    height: var(--hb-ui-touch-target) !important;
+    min-height: var(--hb-ui-touch-target) !important;
+    max-height: none !important;
+    padding: 6px;
+    font-family: var(--hb-mobile-font-display);
+    font-size: 16px !important;
+    line-height: 16px !important;
+    white-space: nowrap;
+  }
+
+  .run-setup-step {
+    display: none !important;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    padding: 4px 2px 16px;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .run-setup-modal__panel[data-mobile-step="1"] .run-setup-step[data-step="1"],
+  .run-setup-modal__panel[data-mobile-step="2"] .run-setup-step[data-step="2"],
+  .run-setup-modal__panel[data-mobile-step="3"] .run-setup-step[data-step="3"] {
+    display: block !important;
+  }
+
+  .run-setup-mobile-footer {
+    min-height: 52px;
+    padding-top: 8px;
+  }
+
+  #runSetupBack,
+  #runSetupNext,
+  .run-setup-modal__confirm {
+    min-height: var(--hb-ui-touch-target) !important;
+    font-family: var(--hb-mobile-font-display);
+    font-size: 16px !important;
+    line-height: 16px !important;
+  }
+
+  .run-setup-modal__panel[data-mobile-step="2"] .run-setup-step[data-step="2"] {
+    overflow-y: auto !important;
+  }
+
+  .run-setup-modal__panel[data-mobile-step="2"] .bow-picker,
+  .run-setup-modal__panel[data-mobile-step="2"] .equipment-setup,
+  .run-setup-modal__panel[data-mobile-step="2"] .equipment-loadout-layout,
+  .run-setup-modal__panel[data-mobile-step="2"] .equipment-loadout-column,
+  .run-setup-modal__panel[data-mobile-step="2"] .equipment-loadout-detail,
+  .run-setup-modal__panel[data-mobile-step="2"] .selected-equipment-detail,
+  .run-setup-modal__panel[data-mobile-step="2"] .run-owned-equipment {
+    height: auto !important;
+    min-height: 0;
+    overflow: visible !important;
+  }
+
+  .run-setup-modal__panel[data-mobile-step="2"] .bow-picker {
+    display: grid !important;
+    gap: 8px;
+    grid-template-columns: minmax(0, 1fr) !important;
+    padding: 10px;
+  }
+
+  .run-setup-modal__panel[data-mobile-step="2"] .bow-picker > div:first-child > span,
+  .run-setup-modal__panel[data-mobile-step="2"] .equipment-setup__head,
+  .run-setup-modal__panel[data-mobile-step="2"] .scouting-summary,
+  .run-setup-modal__panel[data-mobile-step="2"] .run-owned-equipment > .equipment-loadout-heading,
+  .run-setup-modal__panel[data-mobile-step="2"] .selected-equipment-detail__action {
+    display: flex !important;
+  }
+
+  .run-setup-modal__panel[data-mobile-step="2"] .bow-picker > div:first-child > strong,
+  .run-setup-modal__panel[data-mobile-step="2"] .bow-picker > div:first-child > span,
+  .run-setup-modal__panel[data-mobile-step="2"] .scouting-summary,
+  .run-setup-modal__panel[data-mobile-step="2"] .equipment-setup__head,
+  .run-setup-modal__panel[data-mobile-step="2"] .equipment-loadout-heading,
+  .run-setup-modal__panel[data-mobile-step="2"] .run-equipment-slot > :is(span, strong, small),
+  .run-setup-modal__panel[data-mobile-step="2"] .selected-equipment-detail,
+  .run-setup-modal__panel[data-mobile-step="2"] .run-owned-equipment {
+    font-family: var(--hb-mobile-font-body);
+    font-size: 16px !important;
+    line-height: 16px !important;
+  }
+
+  .run-setup-modal__panel[data-mobile-step="2"] .bow-choices {
+    display: flex !important;
+    gap: 8px;
+    grid-template-columns: none !important;
+    overflow-x: auto;
+    padding: 2px 2px 8px;
+    scroll-snap-type: x mandatory;
+  }
+
+  .run-setup-modal__panel[data-mobile-step="2"] .bow-choices button {
+    flex: 0 0 min(82%, 320px);
+    min-height: 56px !important;
+    padding: 8px 10px;
+    scroll-snap-align: start;
+  }
+
+  .run-setup-modal__panel[data-mobile-step="2"] .bow-choices button strong,
+  .run-setup-modal__panel[data-mobile-step="2"] .bow-choices button span {
+    display: block;
+    font-size: 16px !important;
+    line-height: 16px !important;
+  }
+
+  .run-setup-modal__panel[data-mobile-step="2"] .equipment-setup {
+    display: grid !important;
+    gap: 8px;
+    grid-template-rows: auto auto !important;
+    padding: 10px;
+  }
+
+  .run-setup-modal__panel[data-mobile-step="2"] .equipment-setup__head {
+    align-items: start;
+    gap: 8px;
+  }
+
+  .run-setup-modal__panel[data-mobile-step="2"] .equipment-setup__head > div > span {
+    display: block !important;
+    font-size: 16px !important;
+    line-height: 16px !important;
+  }
+
+  .run-setup-modal__panel[data-mobile-step="2"] .equipment-loadout-layout {
+    display: grid !important;
+    gap: 10px;
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .run-setup-modal__panel[data-mobile-step="2"] .equipment-loadout-column,
+  .run-setup-modal__panel[data-mobile-step="2"] .equipment-loadout-detail,
+  .run-setup-modal__panel[data-mobile-step="2"] .run-owned-equipment {
+    display: grid;
+    gap: 8px;
+    grid-template-rows: auto auto !important;
+    padding: 8px;
+  }
+
+  .run-setup-modal__panel[data-mobile-step="2"] .run-equipment-slots {
+    display: flex !important;
+    gap: 8px;
+    grid-template-columns: none !important;
+    grid-template-rows: none !important;
+    min-height: 0;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 2px 2px 8px;
+    scroll-snap-type: x mandatory;
+  }
+
+  .run-setup-modal__panel[data-mobile-step="2"] .run-equipment-slot {
+    flex: 0 0 min(82%, 320px);
+    display: grid;
+    gap: 4px;
+    grid-template-columns: minmax(0, 1fr) !important;
+    min-height: 72px !important;
+    padding: 9px 10px;
+    scroll-snap-align: start;
+    text-align: left;
+  }
+
+  .run-setup-modal__panel[data-mobile-step="2"] .selected-equipment-detail {
+    display: grid;
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .run-setup-modal__panel[data-mobile-step="2"] .selected-equipment-detail__head strong,
+  .run-setup-modal__panel[data-mobile-step="2"] .selected-equipment-detail__head span,
+  .run-setup-modal__panel[data-mobile-step="2"] .selected-equipment-detail__effect,
+  .run-setup-modal__panel[data-mobile-step="2"] .selected-equipment-detail__empty,
+  .run-setup-modal__panel[data-mobile-step="2"] .equipment-affix-readout :is(b, small),
+  .run-setup-modal__panel[data-mobile-step="2"] .run-owned-equipment__copy strong,
+  .run-setup-modal__panel[data-mobile-step="2"] .run-owned-equipment__rarity {
+    font-family: var(--hb-mobile-font-body);
+    font-size: 16px !important;
+    line-height: 16px !important;
+  }
+
+  .run-setup-modal__panel[data-mobile-step="2"] .selected-equipment-affixes {
+    display: grid;
+    gap: 6px;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .run-setup-modal__panel[data-mobile-step="2"] .selected-equipment-affixes .equipment-affix-readout {
+    display: grid;
+    gap: 2px;
+    grid-template-columns: minmax(0, 1fr);
+    padding: 6px;
+  }
+
+  .run-setup-modal__panel[data-mobile-step="2"] .selected-equipment-detail__action,
+  .run-setup-modal__panel[data-mobile-step="2"] .equipment-favourite-button,
+  .run-setup-modal__panel[data-mobile-step="2"] .run-owned-equipment__action,
+  .run-setup-modal__panel[data-mobile-step="2"] .equipment-favourites-filter,
+  .run-setup-modal__panel[data-mobile-step="2"] .run-equipment-filters select {
+    min-height: var(--hb-ui-touch-target) !important;
+    min-width: var(--hb-ui-touch-target);
+    padding: 6px 8px;
+    font-size: 16px !important;
+    line-height: 16px !important;
+  }
+
+  .run-setup-modal__panel[data-mobile-step="2"] .run-equipment-filters {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .run-setup-modal__panel[data-mobile-step="2"] .run-equipment-filters label {
+    display: grid;
+    gap: 4px;
+    font-family: var(--hb-mobile-font-body);
+    font-size: 16px !important;
+    line-height: 16px !important;
+  }
+
+  .run-setup-modal__panel[data-mobile-step="2"] .equipment-favourites-filter {
+    grid-column: 1 / -1;
+  }
+
+  .run-setup-modal__panel[data-mobile-step="2"] .run-owned-equipment__list {
+    display: grid;
+    gap: 8px;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .run-setup-modal__panel[data-mobile-step="2"] .run-owned-equipment__item {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: minmax(0, 1fr) var(--hb-ui-touch-target) minmax(76px, auto) !important;
+    padding: 10px;
+  }
+
+  .run-setup-modal__panel[data-mobile-step="2"] .run-owned-equipment__copy {
+    grid-column: 1 / -1;
+  }
+
+  .run-setup-modal__panel[data-mobile-step="2"] .run-owned-equipment__stats {
+    display: grid;
+    gap: 6px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 8px;
+  }
+
+  .run-setup-modal__panel[data-mobile-step="2"] .run-owned-equipment__stats .equipment-affix-readout {
+    display: grid;
+    gap: 2px;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  body[data-view="run"] .hb-player-hud__logo-wrap,
+  body[data-view="run"] .hb-player-hud__logo {
+    display: none !important;
+  }
+
+  body[data-view="run"] .touch-controls__pause {
+    width: var(--hb-ui-touch-target) !important;
+    min-width: var(--hb-ui-touch-target) !important;
+    height: var(--hb-ui-touch-target) !important;
+    min-height: var(--hb-ui-touch-target) !important;
+    padding: 4px;
+    font-family: var(--hb-ui-font-display-bitmap);
+    font-size: 16px;
+    line-height: 16px;
+    z-index: 10;
+  }
+
+  body[data-view="run"] .touch-controls {
+    z-index: 10;
+  }
+
+  body[data-view="run"] .game-grid.hb-fit-stage,
+  body[data-view="run"] [data-overlay-kind]:not(.gacha-reveal) {
+    font-family: var(--hb-ui-font-body-bitmap);
+  }
+
+  body[data-view="run"] .game-grid.hb-fit-stage button,
+  body[data-view="run"] [data-overlay-kind]:not(.gacha-reveal) button {
+    font-family: var(--hb-ui-font-display-bitmap);
+  }
+}
+
+@media (max-width: 980px) and (max-height: 430px) and (orientation: landscape) {
+  .desktop-main-menu .hb-shell-body {
+    grid-template-columns: clamp(216px, 29vw, 240px) minmax(0, 1fr);
+  }
+
+  .desktop-main-menu .hb-sidebar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(4, minmax(44px, 1fr));
+    gap: 3px;
+    padding-right: 4px;
+  }
+
+  .desktop-main-menu .hb-nav-item {
+    min-height: 44px !important;
+    padding: 4px 6px !important;
+  }
+
+  .run-setup-modal__panel {
+    padding: max(6px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
+  }
+
+  .run-setup-modal__header {
+    margin-bottom: 4px;
+  }
+
+  .run-setup-modal__header h2 {
+    font-size: 16px !important;
+    line-height: 16px !important;
+  }
+
+  .run-setup-modal__header p {
+    display: none;
+  }
+
+  .run-setup-stepper {
+    margin-bottom: 4px;
+  }
+
+  .run-setup-mobile-footer {
+    min-height: 48px;
+    padding-top: 4px;
+  }
+}

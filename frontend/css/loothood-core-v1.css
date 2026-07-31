@@ -1,0 +1,188 @@
+/* LOOTHOOD — core v1 · the foundation for every screen
+   ------------------------------------------------------------------
+   Loaded AFTER loothood-hunt-v1.css and BEFORE the per-screen files.
+   Three things live here and nothing else:
+     1. motion tokens (curves + durations)
+     2. interaction primitives (press, focus, hover protection on touch)
+     3. the fix for the gold rim around the perimeter
+   Per-screen files must not redeclare buttons — only layout.  */
+
+/* ============ 1 · MOTION TOKENS ============
+   The --lh-ease-out curve was already written out as a literal in hb-promo-art;
+   it is hoisted here so that every screen shares one character of motion. */
+.hb-app,
+.desktop-main-menu {
+  /* Entrances, responses, anything that appears — starts fast. */
+  --lh-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Moving an already visible element across the screen. */
+  --lh-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  /* Sliding panels, an iOS-like curve. */
+  --lh-ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
+  --lh-dur-press: 120ms;   /* button response to a press */
+  --lh-dur-hover: 140ms;   /* hover, colour change */
+  --lh-dur-pop: 180ms;     /* tooltips, small popovers */
+  --lh-dur-panel: 240ms;   /* dropdowns, tabs */
+  --lh-dur-sheet: 320ms;   /* modals, sheets */
+
+  /* Rim gold — eyedropped from hb-ingame-ornament-frame-v1.png. */
+  --lh-frame-gold: #bb942c;
+}
+
+/* ============ 2 · INTERACTION PRIMITIVES ============ */
+
+/* 2.1 Press response.
+   :active used to merely cancel the lift from hover — so pressing with a
+   finger, with no hover involved, produced nothing at all. Now any clickable
+   element acknowledges the press by shrinking. */
+.hb-app button,
+.hb-app [role="button"],
+.hb-app .hb-nav-item,
+.hb-app summary {
+  transition: transform var(--lh-dur-press) var(--lh-ease-out);
+}
+
+.hb-app button:active:not(:disabled),
+.hb-app [role="button"]:active,
+.hb-app .hb-nav-item:active,
+.hb-app summary:active {
+  transform: scale(0.97);
+}
+
+/* Large CTAs shrink more gently — 0.97 on a wide button reads as a jolt. */
+.hb-app .hb-hunt-primary:active,
+.hb-app .hb-hunt-card > button:active,
+.hb-app .hb-featured__footer > button:active,
+.hb-app .hb-ledger-button:active {
+  transform: scale(0.985);
+}
+
+/* Navigation items and small icons — almost invisible, but felt. */
+.hb-app .hb-nav-item:active,
+.hb-app .hb-add:active,
+.hb-app .hb-audio-toggle:active {
+  transform: scale(0.98);
+}
+
+.hb-app button:disabled,
+.hb-app button:disabled:active {
+  transform: none;
+}
+
+/* 2.2 Hover protection on touch.
+   On a touch device a tap triggers hover and it sticks until the next tap.
+   Hover lifts are kept only where there is a real cursor. */
+@media not all and (hover: hover) and (pointer: fine) {
+  .hb-app .hb-hunt-card:hover,
+  .hb-app .hb-hunt-card > button:hover,
+  .hb-app .hb-hunt-primary:hover,
+  .hb-app .hb-featured__footer > button:hover {
+    transform: none;
+    filter: none;
+  }
+}
+
+/* 2.3 Keyboard focus — identical across every screen. */
+.hb-app :is(button, [role="button"], a, input, select, summary):focus-visible {
+  outline: 2px solid var(--lime, #b7f24a);
+  outline-offset: 2px;
+  border-radius: 9px;
+}
+
+/* 2.4 Respect for prefers-reduced-motion.
+   We drop the movement and keep opacity and colour — those aid comprehension. */
+@media (prefers-reduced-motion: reduce) {
+  .hb-app *,
+  .hb-app *::before,
+  .hb-app *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .hb-app button:active,
+  .hb-app [role="button"]:active {
+    transform: none;
+  }
+}
+
+/* ============ 3 · GOLD RIM AROUND THE PERIMETER ============
+   The ornament had two gold lines: an outer one along the window edge and an
+   inner hatching a quarter of the way into the frame. The inner one kept
+   breaking up — it is hand-drawn, wanders between rows of the image, and the
+   nine-slice lost pieces of it when stretched to the window width. It was
+   removed entirely.
+
+   How it is removed: in the source the band around the hatching is black, so we
+   simply cover it with a black strip at the same depth. The carved pattern in
+   the corners and the wooden texture of the frame are left untouched — the
+   strip stops 26 pixels short of the corners.
+
+   The outer line we draw ourselves: on the ornament it was effectively absent
+   at the bottom and on the left (edge pixel brightness 6 and 19 against 192 on
+   the right). */
+
+/* GEOMETRY. Legacy sets .hb-app { width:100vw; height:100vh }. The vw unit is
+   measured INCLUDING the scrollbar, so in a real browser with a visible
+   scrollbar the app window is wider than the visible area: the right edge runs
+   off screen, a horizontal scrollbar appears at the bottom and lifts the bottom
+   edge by its own height. Visually this reads as "the gold line hangs above the
+   bottom of the window, and on the right it is missing entirely". Measurement
+   on the owner's screenshot confirmed it: at the top and on the left the line
+   sits at depth 0, at the bottom at 9 CSS pixels, and on the right it was not
+   found at all. Percentages are measured against the parent and do not include
+   the scrollbar. */
+.desktop-main-menu .hb-app {
+  width: 100% !important;
+  height: 100dvh !important;
+  max-width: 100%;
+}
+
+.hb-app::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* Layer 52: 50 belongs to the ornament, 51 is taken by --hb-ui-layer-utility. */
+  z-index: 52;
+
+  /* A single gold line right along the window edge. */
+  box-shadow: inset 0 0 0 1px var(--lh-frame-gold);
+
+  /* Four strips that suppress ALL of the ornament's inner content.
+     In the frame image each side carries not one spurious line but two: the
+     hatching on row 6-7 out of 22, and another bright line on the very last,
+     21st row — that is, along the inner edge of the frame. My first version of
+     the strip was 4px tall and it only suppressed the hatching, while the inner
+     line survived and read as a broken band underneath the content. So the
+     strip now spans the full thickness of the frame: from 2.5px (below the
+     outer line) to the inner edge. Exactly one gold line is left along the
+     window edge. */
+  --lh-strip: #080b0a;
+  --lh-frame-w: clamp(10px, .84cqw, 14px);
+  --lh-strip-off: 2.5px;
+  --lh-strip-h: calc(var(--lh-frame-w) - 2.5px);
+  --lh-strip-pad: 26px;    /* inset from the corners so the carving is untouched */
+  background-image:
+    linear-gradient(var(--lh-strip), var(--lh-strip)),
+    linear-gradient(var(--lh-strip), var(--lh-strip)),
+    linear-gradient(var(--lh-strip), var(--lh-strip)),
+    linear-gradient(var(--lh-strip), var(--lh-strip));
+  background-repeat: no-repeat;
+  background-position:
+    left var(--lh-strip-pad) top var(--lh-strip-off),
+    left var(--lh-strip-pad) bottom var(--lh-strip-off),
+    left var(--lh-strip-off) top var(--lh-strip-pad),
+    right var(--lh-strip-off) top var(--lh-strip-pad);
+  background-size:
+    calc(100% - var(--lh-strip-pad) * 2) var(--lh-strip-h),
+    calc(100% - var(--lh-strip-pad) * 2) var(--lh-strip-h),
+    var(--lh-strip-h) calc(100% - var(--lh-strip-pad) * 2),
+    var(--lh-strip-h) calc(100% - var(--lh-strip-pad) * 2);
+}
+
+/* Legacy corner remnants near the corners of the top bar. */
+.hb-app .hb-topbar::before,
+.hb-app .hb-topbar::after {
+  border-width: 0 !important;
+  content: none !important;
+}

@@ -1,0 +1,312 @@
+/* Simple life in static scenes.
+   ------------------------------------------------------------------
+   The key art pieces are still PNGs. Frame-by-frame animation cannot be had
+   from generation: the model draws a new forest for every frame, and they
+   cannot be stitched together. So we animate not the picture but the air
+   above it.
+
+   Everything rests on transform and opacity — they are the only properties
+   that do not force the browser to recompute layout. Not a single property
+   that changes geometry may appear here, otherwise a dozen dots will start
+   costing frames.
+
+   Under prefers-reduced-motion everything is switched off entirely rather
+   than slowed down: flicker in peripheral vision is exactly what that
+   setting asks to remove.
+
+   But enabling the animation through (prefers-reduced-motion: no-preference)
+   is not an option, and I got burned on this. That query is true only when
+   the system has explicitly reported "no preference". The moment a person
+   turns off animation effects in Windows settings — or the system says
+   nothing — the query is false, and so nothing is enabled anywhere. The
+   correct order is the reverse: the animation runs by default, and a
+   separate rule under (prefers-reduced-motion: reduce) switches it off. Then
+   the unknown state means "show" rather than "stay silent". */
+
+@media (prefers-reduced-motion: reduce) {
+  .hb-firefly,
+  .hb-app .hb-settlement-hero::after {
+    animation: none !important;
+  }
+  .hb-firefly { opacity: 0 !important; }
+}
+
+/* The firefly layer is absolutely positioned, so it needs a positioned parent.
+   The key art has several containers (hb-hunt-hero, hb-settlement-hero,
+   hb-prepare-hero and others), and some of them are not positioned — the layer
+   went off to measure its coordinates from the page and overhung the right edge
+   of the window by eight pixels. We match the parent by the art itself rather
+   than by a list of classes: a list will sooner or later drift apart from the
+   markup. */
+/* The scene container must be positioned: otherwise the firefly layer measures
+   its coordinates from the page and stretches across the whole window. We match
+   the container by the art itself rather than by a list of classes — a list will
+   sooner or later drift apart from the markup. The image itself is left alone:
+   it is already absolute and anchored to this same container. */
+.hb-app :has(> .hb-promo-art) {
+  position: relative;
+}
+
+
+.hb-fireflies {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hb-firefly {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #d8ff86;
+  box-shadow: 0 0 6px 2px rgba(183, 242, 74, .55);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* Nine dots, each with its own launch angle, duration and delay. The overall
+   cycle is deliberately non-commensurate: if the trajectories line up in phase,
+   the swarm will start blinking in unison and turn into fairy lights. */
+.hb-firefly:nth-child(1) { left: 12%; top: 62%; --dx:  38px; --dy: -46px; --t: 9.3s;  --d: 0s;    }
+.hb-firefly:nth-child(2) { left: 24%; top: 78%; --dx: -26px; --dy: -60px; --t: 11.7s; --d: -2.4s; }
+.hb-firefly:nth-child(3) { left: 37%; top: 55%; --dx:  44px; --dy: -34px; --t: 8.6s;  --d: -5.1s; }
+.hb-firefly:nth-child(4) { left: 49%; top: 84%; --dx: -34px; --dy: -52px; --t: 13.2s; --d: -1.2s; }
+.hb-firefly:nth-child(5) { left: 61%; top: 66%; --dx:  30px; --dy: -58px; --t: 10.4s; --d: -7.3s; }
+.hb-firefly:nth-child(6) { left: 72%; top: 80%; --dx: -42px; --dy: -40px; --t: 12.1s; --d: -3.6s; }
+.hb-firefly:nth-child(7) { left: 83%; top: 58%; --dx:  24px; --dy: -64px; --t: 9.9s;  --d: -8.8s; }
+.hb-firefly:nth-child(8) { left: 91%; top: 74%; --dx: -30px; --dy: -44px; --t: 14.5s; --d: -4.7s; }
+.hb-firefly:nth-child(9) { left:  5%; top: 71%; --dx:  36px; --dy: -50px; --t: 10.8s; --d: -6.2s; }
+/* Seven extra dots for the wide menu scenes. The sign-in screen makes do with
+   the first nine — the strip there is narrower and the swarm is dense enough as
+   it is. */
+.hb-firefly:nth-child(10) { left: 17%; top: 88%; --dx: -22px; --dy: -66px; --t: 11.2s; --d: -0.7s;  }
+.hb-firefly:nth-child(11) { left: 30%; top: 68%; --dx:  40px; --dy: -42px; --t: 13.9s; --d: -9.4s;  }
+.hb-firefly:nth-child(12) { left: 43%; top: 60%; --dx: -36px; --dy: -56px; --t: 9.1s;  --d: -3.1s;  }
+.hb-firefly:nth-child(13) { left: 56%; top: 90%; --dx:  28px; --dy: -70px; --t: 12.6s; --d: -6.9s;  }
+.hb-firefly:nth-child(14) { left: 67%; top: 63%; --dx: -44px; --dy: -38px; --t: 10.1s; --d: -1.9s;  }
+.hb-firefly:nth-child(15) { left: 78%; top: 86%; --dx:  32px; --dy: -62px; --t: 14.8s; --d: -8.2s;  }
+.hb-firefly:nth-child(16) { left: 88%; top: 61%; --dx: -26px; --dy: -48px; --t: 8.9s;  --d: -5.6s;  }
+
+.hb-firefly {
+  animation: hb-drift var(--t) ease-in-out var(--d) infinite;
+}
+
+@keyframes hb-drift {
+  0%   { transform: translate3d(0, 0, 0);                                   opacity: 0; }
+  14%  {                                                                    opacity: .85; }
+  46%  { transform: translate3d(calc(var(--dx) * .55), calc(var(--dy) * .5), 0); opacity: .35; }
+  62%  {                                                                    opacity: .9; }
+  100% { transform: translate3d(var(--dx), var(--dy), 0);                   opacity: 0; }
+}
+
+/* ---- village campfire --------------------------------------------
+   In the village art the fire burns as an even blob. We lay a warm pulse
+   underneath it: it does not draw flames, it only makes the light breathe, and
+   that is enough for the scene to stop reading as frozen.
+
+   The coordinates were taken from the rendered scene rather than from the source
+   file: the art has object-fit: cover and object-position: right center, so the
+   visible part of the picture depends on the panel width and the fractions
+   within the file do not match the fractions within the container. They are
+   found not by eye but by searching for the brightest warm point in the frame —
+   if the art is regenerated, it is enough to repeat the measurement.
+   After the crop change the fire sits at 54% of the width and 50% of the height. */
+/* Village scene crop.
+   The 2016x864 art is shown in a 1386x315 strip through cover, so slightly more
+   than half of it is visible vertically. With centre alignment the fire fell at
+   95% of the strip height — that is, it was clipped by the bottom edge. We shift
+   the window down so the fire sits at roughly two thirds of the height and is
+   fully visible. */
+.hb-app .hb-settlement-hero .hb-promo-art {
+  object-position: right 86% !important;
+}
+
+.hb-app .hb-settlement-hero { position: relative; }
+
+.hb-app .hb-settlement-hero::after {
+  content: "";
+  position: absolute;
+  left: 54%;
+  top: 50%;
+  width: 13%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(255, 176, 74, .34) 0%,
+    rgba(255, 138, 46, .18) 38%,
+    transparent 68%);
+  pointer-events: none;
+  mix-blend-mode: screen;
+  z-index: 1;
+}
+
+.hb-app .hb-settlement-hero::after {
+  animation: hb-ember 2.7s ease-in-out infinite;
+}
+
+/* Flame does not flicker evenly: it flinches. Hence the uneven fractions and the
+   non-coinciding peaks of brightness and size. */
+@keyframes hb-ember {
+  0%   { opacity: .72; transform: translate(-50%, -50%) scale(1);    }
+  17%  { opacity: 1;   transform: translate(-50%, -50%) scale(1.07); }
+  34%  { opacity: .64; transform: translate(-50%, -50%) scale(.97);  }
+  51%  { opacity: .92; transform: translate(-50%, -50%) scale(1.04); }
+  68%  { opacity: .7;  transform: translate(-50%, -50%) scale(1);    }
+  84%  { opacity: .98; transform: translate(-50%, -50%) scale(1.05); }
+  100% { opacity: .72; transform: translate(-50%, -50%) scale(1);    }
+}
+
+/* ---- fireflies on the sign-in screen ------------------------------
+   Sign-in is what a person sees first and for the longest: while loading runs
+   there simply are no other screens. It was also the only one left motionless.
+
+   The layer must sit ABOVE the darkening, and this was a mistake. At first I put
+   it between the art and the scrim, reasoning that the dots should fade towards
+   the left edge along with the forest. But the scrim on sign-in is opaque up to
+   38% of the width and half-dense up to 62% — it simply ate almost the whole
+   swarm, and what was left on the right was too dim to notice.
+
+   So the layer is lifted above the darkening, and the dots on sign-in are larger
+   and brighter than in the menu: there they lie on a light scene, here on a
+   darkened one. */
+.hb-fireflies--gate {
+  position: absolute;
+  inset: 0;
+  z-index: var(--hb-ui-layer-local-chrome, 3);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hb-fireflies--gate .hb-firefly {
+  width: 4px;
+  height: 4px;
+  background: #eaffb0;
+  box-shadow: 0 0 10px 3px rgba(183, 242, 74, .75);
+}
+
+
+/* ---- a living camp on the sign-in screen ---------------------------
+   The previous sign-in was an animated GIF: in my friend's version the lanterns
+   breathed and fireflies flew about. I replaced it with a still PNG, and the
+   screen a person sees first and for the longest went dead. Nine dim dots, half
+   of which sit under the opaque left part of the darkening anyway, are not
+   enough of a replacement.
+
+   The light sources were found not by eye but by searching for bright warm spots
+   in the rendered frame: two lanterns by the gate at 45% and 57% of the width,
+   35% of the height, and a campfire on the right at 88% and 75%. If the art is
+   regenerated, it is enough to repeat the measurement.
+
+   The lanterns and the fire breathe out of step: different durations and
+   different phases. Should they coincide, the camp will start blinking like
+   Christmas lights. */
+
+.hb-account-gate__glow {
+  position: absolute;
+  inset: 0;
+  z-index: var(--hb-ui-layer-local-chrome, 20);
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hb-account-gate__glow i {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: screen;
+  background: radial-gradient(circle,
+    rgba(255, 186, 92, .40) 0%,
+    rgba(255, 146, 48, .20) 40%,
+    transparent 70%);
+}
+
+/* The blob sizes were trimmed after I looked at a capture of the frame rather
+   than at the code. A lantern in the frame is about twenty-five points wide,
+   while I had set the halo to nine percent of the strip — that is a hundred and
+   fifty. The result was two even orange spheres living independently of the
+   lanterns supposedly producing them. Six percent keeps the light attached to
+   the lantern. */
+/* left lantern by the gate */
+.hb-account-gate__glow i:nth-child(1) {
+  left: 45%; top: 35%; width: 6%; aspect-ratio: 1;
+  animation: hb-lamp 3.4s ease-in-out infinite;
+}
+/* right lantern */
+.hb-account-gate__glow i:nth-child(2) {
+  left: 57%; top: 35%; width: 6%; aspect-ratio: 1;
+  animation: hb-lamp 4.1s ease-in-out -1.7s infinite;
+}
+/* campfire on the right: warmer and more prominent than the lanterns */
+.hb-account-gate__glow i:nth-child(3) {
+  left: 88%; top: 75%; width: 10%; aspect-ratio: 1;
+  background: radial-gradient(circle,
+    rgba(255, 168, 66, .46) 0%,
+    rgba(255, 120, 34, .22) 42%,
+    transparent 72%);
+  animation: hb-ember 2.7s ease-in-out -0.9s infinite;
+}
+
+@keyframes hb-lamp {
+  0%   { opacity: .70; transform: translate(-50%, -50%) scale(1);    }
+  23%  { opacity: 1;   transform: translate(-50%, -50%) scale(1.06); }
+  47%  { opacity: .78; transform: translate(-50%, -50%) scale(.98);  }
+  71%  { opacity: .95; transform: translate(-50%, -50%) scale(1.03); }
+  100% { opacity: .70; transform: translate(-50%, -50%) scale(1);    }
+}
+
+/* Fireflies on sign-in stay further right: the darkening is opaque on the left
+   and the dots simply disappear there. */
+.hb-fireflies--gate .hb-firefly:nth-child(1) { left: 46%; }
+.hb-fireflies--gate .hb-firefly:nth-child(2) { left: 54%; }
+.hb-fireflies--gate .hb-firefly:nth-child(3) { left: 61%; }
+.hb-fireflies--gate .hb-firefly:nth-child(9) { left: 50%; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hb-account-gate__glow i { animation: none !important; }
+}
+
+/* ---- campfire on the hunt screen ---------------------------------
+   In the key art there is a campfire by the tent, and it is the only source of
+   warmth in the frame. The art window used to sit so that only the top of the
+   fire was visible; the window has been lowered, and now it deserves to breathe
+   the same way the village fire does.
+
+   The blob is deliberately smaller and dimmer than the village one: there the
+   fire is in the middle of the scene and holds the frame, here it is off to the
+   side and must not compete with the Start Hunt button.
+
+   The blob does not hang on the hero itself, and that matters. The hero's
+   ::after is already taken — the darkening lives there, and it is what makes the
+   button panel readable. A node has only one such pseudo-element, so my fire
+   simply displaced the darkening and the panel was left standing on bare forest.
+   We hang it on the firefly layer: that is what it was created for, to hold
+   everything that moves, and it is stretched exactly over the hero. */
+.hb-app .hb-hunt-hero { position: relative; }
+
+.hb-app .hb-hunt-hero .hb-fireflies::after {
+  content: "";
+  position: absolute;
+  left: 64%;
+  top: 66%;
+  width: 9%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(255, 172, 70, .30) 0%,
+    rgba(255, 132, 40, .15) 40%,
+    transparent 70%);
+  pointer-events: none;
+  mix-blend-mode: screen;
+  z-index: 1;
+  animation: hb-ember 2.9s ease-in-out -1.3s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hb-app .hb-hunt-hero .hb-fireflies::after { animation: none !important; }
+}

@@ -1,0 +1,434 @@
+/* Desktop Main Menu thematic border hierarchy. Mobile remains unchanged. */
+@media (hover: hover) and (pointer: fine) and (min-width: 900px) {
+  .desktop-main-menu {
+    --hb-ui-frame-border: 1px;
+    --hb-menu-corner-weight: 2px;
+    --hb-menu-icon-cell: 0px;
+    --hb-menu-rule-diamond: 8px;
+    --hb-menu-bevel-fill: var(--surface-panel);
+    --hb-menu-bevel-light: color-mix(in srgb, var(--hb-menu-bevel-fill) 76%, var(--border-frame));
+    --hb-menu-bevel-dark: color-mix(in srgb, var(--hb-menu-bevel-fill) 72%, var(--hb-ink));
+  }
+
+  /* Fill value carries structural hierarchy; borders only reinforce it. */
+  .desktop-main-menu .hb-app,
+  .desktop-main-menu .hb-shell-body,
+  .desktop-main-menu .hb-main,
+  .desktop-main-menu .hb-plots-screen {
+    background-color: var(--surface-page);
+  }
+
+  .desktop-main-menu :is(.hb-topbar, .hb-sidebar) {
+    background: var(--surface-panel);
+  }
+
+  .desktop-main-menu :is(
+    .hb-featured,
+    .hb-season-dashboard > article:not(.hb-season-rules),
+    .hb-ticket-dashboard > article:not(.hb-ticket-payment):not(.hb-ticket-certificate),
+    .hb-leaderboard-dashboard > article:not(.hb-leaderboard-prize-card),
+    .hb-prepare-dashboard > article:not(.hb-prepare-rules),
+    .hb-settlement-dashboard > article:not(.hb-settlement-bonuses),
+    .hb-plot-board
+  ) {
+    background: var(--surface-panel);
+  }
+
+  .desktop-main-menu .hb-hunt-panel,
+  .desktop-main-menu :is(.hb-season-overview, .hb-ticket-overview, .hb-prepare-overview, .hb-settlement-overview) {
+    background: linear-gradient(
+      90deg,
+      var(--surface-panel) 0%,
+      color-mix(in srgb, var(--surface-panel) 94%, transparent) 76%,
+      color-mix(in srgb, var(--surface-panel) 16%, transparent) 100%
+    );
+  }
+
+  .desktop-main-menu .hb-hunt-card {
+    --card-surface: var(--surface-card);
+    background: var(--surface-card);
+  }
+
+  .desktop-main-menu .hb-hunt-card.is-selected {
+    --card-surface: color-mix(in srgb, var(--surface-card) 78%, var(--hb-forest-active));
+  }
+
+  .desktop-main-menu :is(
+    .hb-season-summary,
+    .hb-ticket-review-summary,
+    .hb-ticket-secured-summary,
+    .hb-prepare-state,
+    .hb-prepare-loadout,
+    .hb-settlement-status,
+    .hb-passive-resource,
+    .hb-operation-advancement,
+    .hb-operation-row,
+    .hb-land-progress,
+    .hb-plot
+  ) {
+    background-color: var(--surface-card);
+  }
+
+  .desktop-main-menu .hb-app[data-panel-texture="on"] {
+    --hb-menu-panel-texture:
+      radial-gradient(circle at 48% 44%, transparent 46%, color-mix(in srgb, var(--hb-ink) 8%, transparent) 100%),
+      repeating-linear-gradient(45deg, color-mix(in srgb, var(--border-separator) 5%, transparent) 0 1px, transparent 1px 6px);
+  }
+
+  .desktop-main-menu .hb-app[data-panel-texture="off"] {
+    --hb-menu-panel-texture: none;
+  }
+
+  /* Every desktop border begins at separator tier and opts upward below. */
+  .desktop-main-menu *,
+  .desktop-main-menu *::before,
+  .desktop-main-menu *::after {
+    border-color: var(--border-separator);
+  }
+
+  .desktop-main-menu .hb-nav-item {
+    justify-content: flex-start;
+    min-height: var(--hb-ui-touch-target);
+    gap: 0;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  /* Frame tier: structural shells and major panel/card edges. */
+  .desktop-main-menu :is(
+    .hb-topbar,
+    .hb-sidebar,
+    .hb-hunt-hero,
+    .hb-season-hero,
+    .hb-ticket-hero,
+    .hb-prepare-hero,
+    .hb-settlement-hero,
+    .hb-plots-heading,
+    .hb-bounties,
+    .hb-featured,
+    .hb-hunt-card,
+    .hb-season-dashboard > article,
+    .hb-ticket-dashboard > article,
+    .hb-leaderboard-dashboard > article,
+    .hb-prepare-dashboard > article,
+    .hb-settlement-dashboard > article,
+    .hb-plot-board,
+    .hb-plot-grid
+  ) {
+    border-color: var(--border-frame);
+    border-width: 1px;
+  }
+
+  /* Interactive tier: actions, active navigation and focus indication. */
+  .desktop-main-menu :is(
+    .hb-add,
+    .hb-audio-toggle,
+    .hb-hunt-card > button,
+    .hb-featured__footer button,
+    .hb-season-tabs button,
+    .hb-ledger-button,
+    .hb-operation-row button,
+    .hb-prestige-selector,
+    .hb-prepare-foundation-option,
+    .hb-nav-item.is-active
+  ) {
+    border-color: var(--border-interactive);
+  }
+
+  .desktop-main-menu :is(
+    button,
+    select,
+    input,
+    textarea,
+    a[href],
+    [role="button"],
+    [role="tab"],
+    [role="radio"],
+    [role="checkbox"]
+  ):focus-visible {
+    outline-color: var(--border-interactive);
+  }
+
+  .desktop-main-menu [data-screen-heading]:focus {
+    outline: none;
+  }
+
+  /* Separator tier: row dividers, trackers and internal rules. */
+  .desktop-main-menu :is(
+    .hb-brand-divider,
+    .hb-nav-item:not(.is-active),
+    .hb-bounty-list > div,
+    .hb-featured__stats > div,
+    .hb-season-summary,
+    .hb-season-summary dl,
+    .hb-season-summary dl > div,
+    .hb-ticket-review-summary,
+    .hb-ticket-review-summary dl > div,
+    .hb-ticket-controller dl > div,
+    .hb-ticket-terms li,
+    .hb-ticket-terms__timer,
+    .hb-ticket-secured-summary,
+    .hb-ticket-secured-summary dl > div,
+    .hb-ticket-certificate__body dl > div,
+    .hb-ticket-record dl > div,
+    .hb-ticket-next li,
+    .hb-full-leaderboard td,
+    .hb-prepare-state,
+    .hb-prepare-state li,
+    .hb-prepare-loadout dl > div,
+    .hb-settlement-status,
+    .hb-settlement-status dl > div,
+    .hb-settlement-bonuses dl > div,
+    .hb-passive-resource,
+    .hb-operation-advancement,
+    .hb-operation-row,
+    .hb-land-progress,
+    .hb-land-progress__track,
+    .hb-prestige-tier-status span
+  ) {
+    border-color: var(--border-separator);
+  }
+
+  .desktop-main-menu :is(
+    .hb-season-rules,
+    .hb-ticket-payment,
+    .hb-ticket-certificate,
+    .hb-leaderboard-prize-card,
+    .hb-prepare-rules,
+    .hb-settlement-bonuses
+  )::after {
+    border-color: var(--border-separator) !important;
+  }
+
+  .desktop-main-menu .hb-progress span {
+    border-color: var(--border-separator);
+  }
+
+  .desktop-main-menu .hb-progress span.is-earned {
+    border-color: var(--border-frame);
+  }
+
+  .desktop-main-menu [data-loadout-valid="false"] :is(
+    .hb-prepare-loadout-warning,
+    .hb-prepare-state li[data-loadout-status]::before
+  ) {
+    border-color: var(--hb-ui-danger);
+  }
+
+  /* Reusable diamond-terminal rule. */
+  .desktop-main-menu .hb-diamond-rule {
+    --hb-rule-fill: var(--surface-panel);
+    position: relative;
+    display: block;
+    height: var(--hb-menu-rule-diamond);
+    border-top: 1px solid var(--border-frame);
+  }
+
+  .desktop-main-menu .hb-diamond-rule::before,
+  .desktop-main-menu .hb-diamond-rule::after {
+    content: "";
+    position: absolute;
+    top: calc((var(--hb-menu-rule-diamond) / -2) - 1px);
+    width: var(--hb-menu-rule-diamond);
+    height: var(--hb-menu-rule-diamond);
+    transform: rotate(45deg);
+    border: 1px solid var(--border-frame);
+    background: var(--hb-rule-fill);
+  }
+
+  .desktop-main-menu .hb-diamond-rule::before { left: 0; }
+  .desktop-main-menu .hb-diamond-rule::after { right: 0; }
+
+  .desktop-main-menu .hb-diamond-rule--screen {
+    --hb-rule-fill: var(--surface-page);
+    width: min(170px, 10.2cqw);
+    margin-top: var(--hb-ui-space-2);
+  }
+
+  .desktop-main-menu .hb-diamond-rule--panel {
+    width: min(180px, 72%);
+    margin-top: var(--hb-ui-space-1);
+  }
+
+  .desktop-main-menu .hb-bounties .hb-diamond-rule {
+    --hb-rule-fill: var(--hb-parchment);
+    border-top-color: var(--border-separator);
+  }
+
+  .desktop-main-menu .hb-bounties .hb-diamond-rule::before,
+  .desktop-main-menu .hb-bounties .hb-diamond-rule::after {
+    border-color: var(--border-separator);
+  }
+
+  /* One-pixel fill-derived bevels. */
+  .desktop-main-menu :is(
+    .hb-bounties,
+    .hb-featured,
+    .hb-hunt-card,
+    .hb-season-dashboard > article,
+    .hb-ticket-dashboard > article,
+    .hb-leaderboard-dashboard > article,
+    .hb-prepare-dashboard > article,
+    .hb-settlement-dashboard > article,
+    .hb-add,
+    .hb-audio-toggle,
+    .hb-hunt-card > button,
+    .hb-featured__footer button,
+    .hb-season-tabs button,
+    .hb-ledger-button,
+    .hb-operation-row button,
+    .hb-pity
+  ) {
+    box-shadow:
+      inset 1px 1px 0 var(--hb-menu-bevel-light),
+      inset -1px -1px 0 var(--hb-menu-bevel-dark);
+  }
+
+  .desktop-main-menu .hb-bounties,
+  .desktop-main-menu .hb-settlement-bonuses {
+    --hb-menu-bevel-fill: var(--hb-parchment);
+  }
+
+  .desktop-main-menu .hb-hunt-card {
+    --hb-menu-bevel-fill: var(--card-surface);
+  }
+
+  .desktop-main-menu .hb-hunt-card > button {
+    bottom: 0;
+  }
+
+  .desktop-main-menu .hb-audio-toggle:not([aria-pressed="false"]) {
+    --hb-menu-bevel-fill: var(--hb-forest-active);
+    box-shadow:
+      inset 1px 1px 0 var(--hb-menu-bevel-light),
+      inset -1px -1px 0 var(--hb-menu-bevel-dark),
+      0 0 10px color-mix(in srgb, var(--hb-green) 18%, transparent);
+  }
+
+  .desktop-main-menu .hb-pity {
+    --hb-menu-bevel-fill: var(--hb-ink);
+    border-color: var(--border-frame);
+  }
+
+  /* Corner brackets belong only to the two Hunt dashboard panels and Hunt cards. */
+  .desktop-main-menu :is(
+    .hb-season-dashboard,
+    .hb-ticket-dashboard,
+    .hb-leaderboard-dashboard,
+    .hb-prepare-dashboard,
+    .hb-settlement-dashboard
+  ) > article::before,
+  .desktop-main-menu :is(
+    .hb-season-dashboard,
+    .hb-ticket-dashboard,
+    .hb-leaderboard-dashboard,
+    .hb-prepare-dashboard,
+    .hb-settlement-dashboard
+  ) > article::after,
+  .desktop-main-menu .hb-plots-heading::before,
+  .desktop-main-menu .hb-plots-heading::after {
+    content: none;
+  }
+
+  .desktop-main-menu :is(.hb-bounties, .hb-featured)::before,
+  .desktop-main-menu :is(.hb-bounties, .hb-featured)::after,
+  .desktop-main-menu .hb-hunt-card::before,
+  .desktop-main-menu .hb-hunt-card::after {
+    width: 14px;
+    height: 14px;
+    border-color: var(--border-frame);
+    border-width: 0;
+  }
+
+  .desktop-main-menu :is(.hb-bounties, .hb-featured)::after,
+  .desktop-main-menu .hb-hunt-card::before {
+    border-top-width: var(--hb-menu-corner-weight);
+    border-left-width: var(--hb-menu-corner-weight);
+  }
+
+  .desktop-main-menu :is(.hb-bounties, .hb-featured)::before,
+  .desktop-main-menu .hb-hunt-card::after {
+    border-right-width: var(--hb-menu-corner-weight);
+    border-bottom-width: var(--hb-menu-corner-weight);
+  }
+
+  /* Reversible Art hooks remain in markup, but the text-only release reserves no space. */
+  .desktop-main-menu .hb-icon-slot {
+    display: none;
+    width: 0;
+    height: 0;
+    flex: 0 0 0;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    image-rendering: pixelated;
+  }
+
+  .desktop-main-menu .hb-icon-slot--bounty { background-image: url("../images/icon-slot-bounty-v1.png"); }
+  .desktop-main-menu .hb-icon-slot--equipment-stat { background-image: url("../images/icon-slot-equipment-stat-v1.png"); }
+  .desktop-main-menu .hb-icon-slot--foundation { background-image: url("../images/icon-slot-foundation-v1.png"); }
+  .desktop-main-menu .hb-icon-slot--status { background-image: url("../images/icon-slot-status-v1.png"); }
+
+  .desktop-main-menu .hb-bounty-list > div {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .desktop-main-menu .hb-featured__rolls,
+  .desktop-main-menu .hb-metadata-line {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: center;
+    gap: var(--hb-ui-space-2);
+  }
+
+  .desktop-main-menu .hb-featured__rolls {
+    justify-content: center;
+  }
+
+  .desktop-main-menu .hb-featured__rolls::before,
+  .desktop-main-menu .hb-featured__stats dt::before {
+    content: none;
+  }
+
+  .desktop-main-menu .hb-featured__stats > div {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .desktop-main-menu .hb-featured__stats > div::before {
+    content: none;
+    width: 0;
+    height: 0;
+    background: url("../images/icon-slot-equipment-stat-v1.png") center / contain no-repeat;
+    image-rendering: pixelated;
+  }
+
+  /* Optional texture flag; default runtime value remains off. */
+  .desktop-main-menu .hb-app[data-panel-texture="on"] :is(
+    .hb-featured,
+    .hb-hunt-card,
+    .hb-season-dashboard > article,
+    .hb-ticket-dashboard > article,
+    .hb-leaderboard-dashboard > article,
+    .hb-prepare-dashboard > article,
+    .hb-settlement-dashboard > article
+  ) {
+    background-image: var(--hb-menu-panel-texture);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 3400px) {
+  .desktop-main-menu {
+    --hb-menu-corner-weight: 3px;
+    --hb-menu-icon-cell: 0px;
+    --hb-menu-rule-diamond: 12px;
+  }
+
+  .desktop-main-menu .hb-settlement-operations .hb-diamond-rule--panel {
+    margin-top: 0;
+  }
+
+  .desktop-main-menu .hb-settlement-operations .hb-land-progress {
+    margin-top: var(--hb-ui-space-1);
+  }
+}

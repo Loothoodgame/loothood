@@ -1,0 +1,209 @@
+/* Approved desktop Main Menu and Village bitmap typography checkpoint. */
+@media (hover: hover) and (pointer: fine) and (min-width: 900px) {
+  .desktop-main-menu,
+  .desktop-overlay-root,
+  .hb-menu-system-overlay {
+    --hb-menu-font-display: var(--hb-ui-font-display-bitmap);
+    --hb-menu-font-body: var(--hb-ui-font-body-bitmap);
+    --hb-menu-font-value: var(--hb-ui-font-body-bold-bitmap);
+    --hb-menu-font-meta: var(--hb-ui-font-body-bitmap);
+    --hb-menu-type-display-xl: 32px;
+    --hb-menu-type-display-lg: 32px;
+    --hb-menu-type-panel-heading: 32px;
+    --hb-menu-type-display-md: 16px;
+    --hb-menu-type-body: 16px;
+    --hb-menu-type-value: 16px;
+    --hb-menu-type-meta: 16px;
+    --hb-menu-line-display-xl: 32px;
+    --hb-menu-line-display-lg: 32px;
+    --hb-menu-line-display-md: 16px;
+    --hb-menu-line-panel-heading: 32px;
+    --hb-menu-line-body: 16px;
+    --hb-menu-line-value: 16px;
+    --hb-menu-line-meta: 16px;
+  }
+
+  .desktop-main-menu .hb-app,
+  .desktop-overlay-root {
+    font-family: var(--hb-menu-font-body);
+    font-size: var(--hb-menu-type-body);
+    line-height: var(--hb-menu-line-body);
+    font-smooth: never;
+    -webkit-font-smoothing: none;
+    text-rendering: optimizeSpeed;
+  }
+
+  /* Every desktop family descendant inherits an integer role size. */
+  .desktop-main-menu .hb-app *,
+  .desktop-overlay-root * {
+    font-size: inherit;
+    letter-spacing: 0;
+    font-smooth: inherit;
+    -webkit-font-smoothing: inherit;
+    text-rendering: inherit;
+  }
+
+  .desktop-main-menu .hb-app :is(h1, h2, h3, button),
+  .desktop-overlay-root :is(h1, h2, h3, button) {
+    font-family: var(--hb-menu-font-display);
+    font-weight: 400;
+  }
+
+  .desktop-main-menu .hb-app h1,
+  .desktop-overlay-root h1 {
+    font-size: var(--hb-menu-type-display-xl);
+    line-height: var(--hb-menu-line-display-xl);
+    text-transform: uppercase;
+  }
+
+  .desktop-main-menu .hb-app :is(h2, h3),
+  .desktop-overlay-root :is(h2, h3) {
+    font-size: var(--hb-menu-type-display-lg);
+    line-height: var(--hb-menu-line-display-lg);
+    text-transform: uppercase;
+  }
+
+  .desktop-main-menu .hb-panel-heading h2,
+  .desktop-overlay-root .hb-panel-heading h2 {
+    font-size: var(--hb-menu-type-panel-heading);
+    line-height: var(--hb-menu-line-panel-heading);
+  }
+
+  .desktop-main-menu .hb-app button,
+  .desktop-overlay-root button,
+  .desktop-main-menu .hb-featured__rolls,
+  .desktop-overlay-root .hb-featured__rolls {
+    font-family: var(--hb-menu-font-display);
+    font-size: var(--hb-menu-type-display-md);
+    line-height: var(--hb-menu-line-display-md);
+    text-transform: uppercase;
+  }
+
+  .desktop-main-menu .hb-app :is(p, dt, dd, li, td, th, small),
+  .desktop-overlay-root :is(p, dt, dd, li, td, th, small) {
+    font-family: var(--hb-menu-font-body);
+    font-size: var(--hb-menu-type-body);
+    font-weight: 400;
+    line-height: var(--hb-menu-line-body);
+    text-transform: none;
+  }
+
+  .desktop-main-menu .hb-app :is(dd, .hb-value, td strong, .hb-resource > span),
+  .desktop-overlay-root :is(dd, .hb-value, td strong, .hb-resource > span) {
+    font-family: var(--hb-menu-font-value);
+    font-size: var(--hb-menu-type-value);
+    font-weight: 700;
+    line-height: var(--hb-menu-line-value);
+  }
+
+  .desktop-main-menu .hb-app :where(
+    .hb-version-label,
+    .hb-reset,
+    .hb-panel-heading > div > p,
+    .hb-featured__name > p,
+    .hb-pity,
+    .hb-season-summary__eyebrow,
+    .hb-season-ticket__state,
+    .hb-season-leaderboard__note,
+    .hb-prepare-season-line,
+    .hb-prepare-foundation-note,
+    .hb-settlement-dashboard header > p,
+    .hb-passive-resource small,
+    .hb-passive-note,
+    .hb-plot-build-dialog__header > div > p,
+    .hb-build-catalogue header p,
+    .hb-build-option em,
+    .hb-build-selection > p:first-of-type,
+    .hb-build-selection > strong
+  ),
+  .desktop-overlay-root :where(
+    .hb-version-label,
+    .hb-reset,
+    .hb-panel-heading > div > p,
+    .hb-featured__name > p,
+    .hb-pity,
+    .hb-season-summary__eyebrow,
+    .hb-season-ticket__state,
+    .hb-season-leaderboard__note,
+    .hb-prepare-season-line,
+    .hb-prepare-foundation-note,
+    .hb-settlement-dashboard header > p,
+    .hb-passive-resource small,
+    .hb-passive-note,
+    .hb-plot-build-dialog__header > div > p,
+    .hb-build-catalogue header p,
+    .hb-build-option em,
+    .hb-build-selection > p:first-of-type,
+    .hb-build-selection > strong
+  ) {
+    font-family: var(--hb-menu-font-meta);
+    font-size: var(--hb-menu-type-meta);
+    font-weight: 400;
+    line-height: var(--hb-menu-line-meta);
+    text-transform: uppercase;
+  }
+
+  .desktop-main-menu .hb-prestige,
+  .desktop-overlay-root .hb-prestige {
+    font-family: var(--hb-menu-font-display);
+    font-size: var(--hb-menu-type-display-md);
+    font-weight: 400;
+    line-height: var(--hb-menu-line-display-md);
+    text-transform: none;
+  }
+
+  .desktop-main-menu .hb-app .hb-version-label,
+  .desktop-overlay-root .hb-version-label {
+    font-family: var(--hb-ui-font-compact-bitmap);
+    font-size: 8px;
+    line-height: 8px;
+  }
+
+  .desktop-main-menu .hb-hunt-card__icon--seasonal {
+    font-family: var(--hb-ui-font-symbol);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 1440px) {
+  .desktop-main-menu,
+  .desktop-overlay-root,
+  .hb-menu-system-overlay {
+    --hb-menu-type-display-xl: 48px;
+    --hb-menu-line-display-xl: 48px;
+    --hb-menu-type-panel-heading: 32px;
+    --hb-menu-line-panel-heading: 32px;
+  }
+}
+
+/* Font doubling kicks in only on a genuine 4K screen, not on 2K.
+   The threshold used to be 2200, so at 2560 the text jumped by a factor of two
+   (16 -> 32) while the boxes around it grow on container units, i.e. only by
+   1.33: 2560/1920. The text doubled and the room for it grew by a third — hence
+   "nothing fits on any page in 2K", even though everything is fine at Full HD.
+   Half-steps are not possible here: the font is bitmap and stays crisp only at
+   integer multiples, 16 or 32, while 21 turns to mush. So instead of softening
+   the jump we move it to where it is correct: at 3840 the container is exactly
+   twice the Full HD size, and doubling the font coincides with doubling the
+   boxes.
+   Between 1920 and 3840 the screen gets the Full HD layout — it simply occupies
+   a smaller share of a large monitor, and that is exactly what we want. */
+@media (hover: hover) and (pointer: fine) and (min-width: 3400px) {
+  .desktop-main-menu,
+  .desktop-overlay-root,
+  .hb-menu-system-overlay {
+    --hb-menu-type-display-xl: 48px;
+    --hb-menu-type-display-lg: 48px;
+    --hb-menu-type-panel-heading: 48px;
+    --hb-menu-type-display-md: 32px;
+    --hb-menu-type-body: 32px;
+    --hb-menu-type-value: 32px;
+    --hb-menu-type-meta: 24px;
+    --hb-menu-line-display-xl: 48px;
+    --hb-menu-line-display-lg: 48px;
+    --hb-menu-line-panel-heading: 48px;
+    --hb-menu-line-display-md: 32px;
+    --hb-menu-line-body: 32px;
+    --hb-menu-line-value: 32px;
+    --hb-menu-line-meta: 24px;
+  }
+}

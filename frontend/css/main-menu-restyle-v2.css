@@ -1,0 +1,682 @@
+/* Approved desktop Main Menu border and action anatomy. */
+@media (hover: hover) and (pointer: fine) and (min-width: 900px) {
+  .desktop-main-menu {
+    --hb-menu-nav-min: 184px;
+    --hb-menu-nav-max: 280px;
+    --hb-menu-nav-padding-inline: var(--hb-ui-space-2);
+    --hb-menu-nav-arrow-size: 8px;
+    --hb-menu-action-height: var(--hb-ui-touch-target);
+  }
+
+  .desktop-main-menu .hb-shell-body {
+    grid-template-columns: clamp(var(--hb-menu-nav-min), 15.5cqw, var(--hb-menu-nav-max)) minmax(0, 1fr);
+  }
+
+  .desktop-main-menu .hb-sidebar {
+    padding-inline: var(--hb-menu-nav-padding-inline);
+  }
+
+  .desktop-main-menu .hb-nav-item {
+    padding-right: calc(var(--hb-ui-space-3) + var(--hb-menu-nav-arrow-size));
+  }
+
+  .desktop-main-menu :is(img, canvas) {
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+  }
+
+  .desktop-main-menu .hb-sidebar::after {
+    content: none;
+  }
+
+  .desktop-main-menu .hb-nav-item.is-active {
+    border: var(--hb-ui-frame-border) solid var(--hb-gold);
+    box-shadow: none;
+  }
+
+  .desktop-main-menu .hb-nav-item.is-active::after {
+    right: var(--hb-ui-space-2);
+    border-top-width: var(--hb-menu-nav-arrow-size);
+    border-bottom-width: var(--hb-menu-nav-arrow-size);
+    border-left-width: var(--hb-menu-nav-arrow-size);
+  }
+
+  .desktop-main-menu .hb-hunt-card {
+    box-shadow: none;
+  }
+
+  .desktop-main-menu :is(
+    .hb-add,
+    .hb-audio-toggle,
+    .hb-hunt-card > button,
+    .hb-featured__footer button,
+    .hb-season-tabs button,
+    .hb-ledger-button
+  ) {
+    box-shadow: none;
+    min-height: var(--hb-menu-action-height);
+    white-space: nowrap;
+  }
+
+  .desktop-main-menu .hb-audio-toggle:not([aria-pressed="false"]) {
+    box-shadow: 0 0 10px color-mix(in srgb,var(--hb-green) 18%,transparent);
+  }
+
+  .desktop-main-menu :is(
+    .hb-add,
+    .hb-audio-toggle,
+    .hb-hunt-card > button,
+    .hb-featured__footer button,
+    .hb-season-tabs button,
+    .hb-ledger-button
+  )::after {
+    content: none;
+  }
+
+  .desktop-main-menu .hb-pity {
+    box-shadow: none;
+  }
+
+  .desktop-main-menu .hb-resource.is-zero .hb-resource__icon {
+    --hb-ui-modern-filter: saturate(var(--hb-ui-resource-zero-saturation));
+    opacity: var(--hb-ui-resource-zero-icon-opacity);
+  }
+
+  .desktop-main-menu .hb-resource.is-zero > span {
+    opacity: var(--hb-ui-resource-zero-value-opacity);
+  }
+
+  .desktop-main-menu :is(.hb-bounties, .hb-featured) {
+    --hb-panel-frame: var(--hb-gold);
+    border: var(--hb-ui-frame-border) solid var(--hb-panel-frame);
+  }
+
+  .desktop-main-menu .hb-bounties {
+    border-right-width: 1px;
+  }
+
+  .desktop-main-menu .hb-featured {
+    border-left-width: 1px;
+  }
+
+  .desktop-main-menu :is(.hb-bounties, .hb-featured)::after,
+  .desktop-main-menu :is(
+    .hb-season-dashboard,
+    .hb-ticket-dashboard,
+    .hb-leaderboard-dashboard,
+    .hb-prepare-dashboard,
+    .hb-settlement-dashboard
+  ) > article::after {
+    content: "";
+    position: absolute;
+    z-index: var(--hb-ui-layer-local-chrome);
+    inset: auto;
+    top: 8px;
+    left: 8px;
+    width: 12px;
+    height: 12px;
+    border: 0;
+    border-top: var(--hb-ui-frame-border) solid var(--hb-panel-frame);
+    border-left: var(--hb-ui-frame-border) solid var(--hb-panel-frame);
+    box-shadow: none;
+    pointer-events: none;
+  }
+
+  .desktop-main-menu :is(.hb-bounties, .hb-featured)::before,
+  .desktop-main-menu :is(
+    .hb-season-dashboard,
+    .hb-ticket-dashboard,
+    .hb-leaderboard-dashboard,
+    .hb-prepare-dashboard,
+    .hb-settlement-dashboard
+  ) > article::before {
+    content: "";
+    position: absolute;
+    z-index: var(--hb-ui-layer-local-chrome);
+    right: 8px;
+    bottom: 8px;
+    width: 12px;
+    height: 12px;
+    border-right: var(--hb-ui-frame-border) solid var(--hb-panel-frame);
+    border-bottom: var(--hb-ui-frame-border) solid var(--hb-panel-frame);
+    pointer-events: none;
+  }
+
+  .desktop-main-menu :is(
+    .hb-season-dashboard,
+    .hb-ticket-dashboard,
+    .hb-leaderboard-dashboard,
+    .hb-prepare-dashboard,
+    .hb-settlement-dashboard
+  ) > article {
+    --hb-panel-frame: var(--hb-gold);
+    border: var(--hb-ui-frame-border) solid var(--hb-panel-frame);
+    border-right-width: 1px;
+    border-left-width: 1px;
+  }
+
+  .desktop-main-menu :is(
+    .hb-season-dashboard,
+    .hb-ticket-dashboard,
+    .hb-leaderboard-dashboard,
+    .hb-prepare-dashboard,
+    .hb-settlement-dashboard
+  ) > article:first-child {
+    border-left-width: var(--hb-ui-frame-border);
+  }
+
+  .desktop-main-menu :is(
+    .hb-season-dashboard,
+    .hb-ticket-dashboard,
+    .hb-leaderboard-dashboard,
+    .hb-prepare-dashboard,
+    .hb-settlement-dashboard
+  ) > article:last-child {
+    border-right-width: var(--hb-ui-frame-border);
+  }
+
+  .desktop-main-menu .hb-ledger-button.is-primary {
+    border-color: var(--hb-gold-bright);
+    color: var(--hb-gold-bright);
+    background: var(--hb-forest-active);
+  }
+
+  .desktop-main-menu .hb-hunt-panel {
+    padding: var(--hb-ui-space-4) var(--hb-ui-space-6);
+  }
+
+  .desktop-main-menu .hb-screen-heading {
+    height: auto;
+    min-height: 0;
+  }
+
+  .desktop-main-menu .hb-hunt-card {
+    margin-top: var(--hb-ui-space-2);
+    padding: var(--hb-ui-space-2) var(--hb-ui-space-3) var(--hb-ui-space-1);
+  }
+
+  .desktop-main-menu .hb-hunt-card__copy h2 {
+    margin-bottom: var(--hb-ui-space-1);
+  }
+
+  .desktop-main-menu .hb-hunt-card__copy p {
+    margin: 0;
+  }
+
+  .desktop-main-menu :is(.hb-bounties, .hb-featured) {
+    padding: var(--hb-ui-space-4) var(--hb-ui-space-6) var(--hb-ui-space-3);
+  }
+
+  .desktop-main-menu .hb-panel-heading,
+  .desktop-main-menu .hb-featured__heading {
+    gap: var(--hb-ui-space-4);
+  }
+
+  .desktop-main-menu .hb-progress {
+    margin: var(--hb-ui-space-3) var(--hb-ui-space-2) var(--hb-ui-space-1);
+  }
+
+  .desktop-main-menu .hb-bounty-list {
+    gap: var(--hb-ui-space-1);
+  }
+
+  .desktop-main-menu .hb-bounty-list > div {
+    gap: var(--hb-ui-space-4);
+    padding: var(--hb-ui-space-1) var(--hb-ui-space-3);
+  }
+
+  .desktop-main-menu .hb-featured__name {
+    margin: var(--hb-ui-space-3) auto var(--hb-ui-space-2);
+  }
+
+  .desktop-main-menu .hb-featured__effect,
+  .desktop-main-menu .hb-featured__rolls {
+    margin-top: var(--hb-ui-space-3);
+  }
+
+  .desktop-main-menu .hb-featured__footer {
+    left: var(--hb-ui-space-6);
+    right: var(--hb-ui-space-6);
+    bottom: var(--hb-ui-space-4);
+    gap: var(--hb-ui-space-4);
+  }
+
+  .desktop-main-menu :is(
+    .hb-season-dashboard,
+    .hb-ticket-dashboard,
+    .hb-leaderboard-dashboard,
+    .hb-prepare-dashboard,
+    .hb-settlement-dashboard
+  ) > article {
+    padding: var(--hb-ui-space-4) var(--hb-ui-space-6) var(--hb-ui-space-3);
+  }
+
+  /* Settlement extends the locked panel/action grammar without changing its accounting layout. */
+  .desktop-main-menu .hb-settlement-overview {
+    padding: var(--hb-ui-space-4) var(--hb-ui-space-6) var(--hb-ui-space-3);
+  }
+
+  .desktop-main-menu .hb-settlement-status {
+    margin-top: var(--hb-ui-space-3);
+    padding-top: var(--hb-ui-space-2);
+  }
+
+  .desktop-main-menu .hb-settlement-status h2 {
+    margin-bottom: var(--hb-ui-space-1);
+  }
+
+  .desktop-main-menu .hb-settlement-status dl {
+    margin-bottom: var(--hb-ui-space-2);
+  }
+
+  .desktop-main-menu .hb-settlement-status dl div {
+    min-height: var(--hb-ui-space-8);
+    gap: var(--hb-ui-space-4);
+  }
+
+  .desktop-main-menu .hb-settlement-dashboard header {
+    margin-bottom: var(--hb-ui-space-2);
+  }
+
+  .desktop-main-menu .hb-settlement-dashboard header h2 {
+    margin-bottom: var(--hb-ui-space-1);
+  }
+
+  .desktop-main-menu .hb-settlement-bonuses {
+    --hb-panel-frame: var(--hb-parchment-focus);
+  }
+
+  .desktop-main-menu .hb-settlement-bonuses dl div {
+    min-height: calc(var(--hb-ui-space-8) + var(--hb-ui-space-2));
+    gap: var(--hb-ui-space-2);
+  }
+
+  .desktop-main-menu .hb-passive-resource {
+    min-height: calc(var(--hb-ui-space-8) * 2);
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: var(--hb-ui-space-2);
+    padding: var(--hb-ui-space-2);
+  }
+
+  .desktop-main-menu .hb-passive-resource img {
+    width: 48px;
+    height: 48px;
+  }
+
+  .desktop-main-menu .hb-passive-resource > div {
+    gap: var(--hb-ui-space-1) var(--hb-ui-space-2);
+  }
+
+  .desktop-main-menu .hb-passive-note {
+    margin-top: var(--hb-ui-space-2);
+  }
+
+  .desktop-main-menu .hb-settlement-panel-actions {
+    left: var(--hb-ui-space-6);
+    right: var(--hb-ui-space-6);
+    bottom: var(--hb-ui-space-4);
+    gap: var(--hb-ui-space-2);
+  }
+
+  .desktop-main-menu .hb-operation-advancement {
+    margin-bottom: var(--hb-ui-space-1);
+    padding: var(--hb-ui-space-2);
+  }
+
+  .desktop-main-menu .hb-operation-advancement > div,
+  .desktop-main-menu .hb-land-progress > div:first-child {
+    gap: var(--hb-ui-space-4);
+  }
+
+  .desktop-main-menu .hb-operation-advancement p {
+    margin-top: var(--hb-ui-space-1);
+  }
+
+  .desktop-main-menu .hb-operation-row {
+    min-height: 56px;
+    grid-template-columns: minmax(0, 1fr) minmax(176px, .8fr);
+    gap: var(--hb-ui-space-3);
+    padding: var(--hb-ui-space-2);
+  }
+
+  .desktop-main-menu .hb-operation-row > div {
+    gap: var(--hb-ui-space-1);
+  }
+
+  .desktop-main-menu .hb-operation-row button {
+    width: 100%;
+    height: var(--hb-menu-action-height);
+    min-width: 176px;
+    min-height: var(--hb-menu-action-height);
+    padding: var(--hb-ui-space-1) var(--hb-ui-space-2);
+    border-width: var(--hb-ui-action-border-standard);
+    border-color: var(--hb-gold);
+    box-shadow: none;
+    white-space: nowrap;
+  }
+
+  .desktop-main-menu .hb-operation-row button:focus-visible {
+    outline: 2px solid var(--hb-gold-bright);
+    outline-offset: 2px;
+  }
+
+  .desktop-main-menu .hb-land-progress {
+    margin-top: var(--hb-ui-space-2);
+    padding: var(--hb-ui-space-2);
+  }
+
+  .desktop-main-menu .hb-land-progress__track {
+    margin: var(--hb-ui-space-2) 0 var(--hb-ui-space-1);
+  }
+
+  .desktop-main-menu .hb-land-progress p {
+    margin: var(--hb-ui-space-1) 0 var(--hb-ui-space-2);
+  }
+
+  /* Plots remains one continuous ground board; only shell grammar is normalized. */
+  .desktop-main-menu .hb-plots-heading {
+    gap: var(--hb-ui-space-6);
+    padding: var(--hb-ui-space-4) var(--hb-ui-space-6) var(--hb-ui-space-3);
+  }
+
+  .desktop-main-menu .hb-plots-heading::before,
+  .desktop-main-menu .hb-plots-heading::after {
+    content: "";
+    position: absolute;
+    z-index: var(--hb-ui-layer-local-chrome);
+    width: 12px;
+    height: 12px;
+    border: 0;
+    pointer-events: none;
+  }
+
+  .desktop-main-menu .hb-plots-heading::before {
+    top: var(--hb-ui-space-2);
+    left: var(--hb-ui-space-2);
+    border-top: var(--hb-ui-frame-border) solid var(--hb-gold);
+    border-left: var(--hb-ui-frame-border) solid var(--hb-gold);
+  }
+
+  .desktop-main-menu .hb-plots-heading::after {
+    right: var(--hb-ui-space-2);
+    bottom: var(--hb-ui-space-2);
+    border-right: var(--hb-ui-frame-border) solid var(--hb-gold);
+    border-bottom: var(--hb-ui-frame-border) solid var(--hb-gold);
+  }
+
+  .desktop-main-menu .hb-plots-heading dl div {
+    padding: var(--hb-ui-space-2) var(--hb-ui-space-3);
+  }
+
+  .desktop-main-menu .hb-plot-board {
+    padding: var(--hb-ui-space-3);
+  }
+
+  .desktop-main-menu .hb-plot-grid {
+    padding: var(--hb-ui-space-6);
+  }
+
+  .desktop-main-menu .hb-plot__label {
+    min-height: calc(var(--hb-ui-space-8) * 2);
+    padding: var(--hb-ui-space-1) var(--hb-ui-space-2);
+    box-shadow: none;
+  }
+
+  .desktop-main-menu .hb-plot__label :is(small, em),
+  .desktop-main-menu .hb-plot__empty small {
+    margin-top: var(--hb-ui-space-1);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 3400px) {
+  .desktop-main-menu {
+    --hb-menu-nav-min: 320px;
+    --hb-menu-nav-max: 352px;
+    --hb-menu-action-height: 64px;
+    --hb-ui-space-1: 6px;
+    --hb-ui-space-2: 12px;
+    --hb-ui-space-3: 18px;
+    --hb-ui-space-4: 24px;
+    --hb-ui-space-6: 36px;
+    --hb-ui-space-8: 48px;
+  }
+
+  .desktop-overlay-root {
+    --hb-menu-action-height: 64px;
+    --hb-ui-space-1: 6px;
+    --hb-ui-space-2: 12px;
+    --hb-ui-space-3: 18px;
+    --hb-ui-space-4: 24px;
+    --hb-ui-space-6: 36px;
+    --hb-ui-space-8: 48px;
+  }
+
+  .desktop-main-menu .hb-operation-row {
+    grid-template-columns: minmax(0, 1fr) minmax(240px, .8fr);
+  }
+
+  .desktop-main-menu .hb-operation-row button {
+    min-width: 240px;
+  }
+
+  .desktop-main-menu :is(
+    .hb-hunt-panel,
+    .hb-prepare-overview,
+    .hb-season-overview,
+    .hb-ticket-overview,
+    .hb-settlement-overview
+  ) {
+    width: clamp(680px, 34cqw, 760px);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 1920px) and (min-height: 900px) {
+  .desktop-main-menu .hb-main[data-screen="hunt"] {
+    grid-template-rows: 62% 38%;
+  }
+
+  .desktop-main-menu .hb-main.hb-settlement-screen {
+    grid-template-rows: 48% 52%;
+  }
+
+  .desktop-main-menu .hb-bounties,
+  .desktop-main-menu .hb-featured,
+  .desktop-main-menu .hb-settlement-dashboard > article {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .desktop-main-menu .hb-bounties .hb-progress {
+    margin-top: var(--hb-ui-space-3);
+  }
+
+  .desktop-main-menu .hb-bounties .hb-bounty-list {
+    margin-top: var(--hb-ui-space-1);
+  }
+
+  .desktop-main-menu .hb-featured {
+    padding-bottom: calc(var(--hb-menu-action-height) + var(--hb-ui-space-8));
+  }
+
+  .desktop-main-menu .hb-featured__name {
+    margin-top: var(--hb-ui-space-3);
+  }
+
+  .desktop-main-menu .hb-featured__rolls {
+    margin-bottom: 0;
+  }
+
+  .desktop-main-menu .hb-settlement-bonuses dl {
+    display: grid;
+    grid-auto-rows: auto;
+    gap: min(var(--hb-ui-space-3), 1.5lh);
+    align-content: start;
+  }
+
+  .desktop-main-menu .hb-settlement-passive {
+    padding-bottom: calc((var(--hb-menu-action-height) * 2) + var(--hb-ui-space-8));
+  }
+
+  .desktop-main-menu .hb-settlement-passive .hb-passive-resource {
+    flex: 0 0 auto;
+  }
+
+  .desktop-main-menu .hb-settlement-passive .hb-passive-resource + .hb-passive-resource {
+    margin-top: min(var(--hb-ui-space-2), 1.5lh);
+  }
+
+  .desktop-main-menu .hb-settlement-passive .hb-passive-note {
+    margin-block: min(var(--hb-ui-space-2), 1.5lh) 0;
+  }
+
+  .desktop-main-menu .hb-settlement-operations .hb-operation-row {
+    flex: 0 0 auto;
+  }
+
+  .desktop-main-menu .hb-settlement-operations .hb-operation-row + .hb-operation-row {
+    margin-top: min(var(--hb-ui-space-2), 1.5lh);
+  }
+
+  .desktop-main-menu .hb-settlement-operations .hb-land-progress {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 3400px) and (min-height: 900px) {
+  .desktop-main-menu .hb-main.hb-settlement-screen {
+    grid-template-rows: 44% 56%;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 900px) and (max-height: 740px) {
+  .desktop-main-menu .hb-hunt-card {
+    height: 37%;
+    margin-top: var(--hb-ui-space-1);
+    padding-top: var(--hb-ui-space-1);
+  }
+
+  .desktop-main-menu .hb-hunt-card__copy h2 {
+    margin-bottom: 0;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 900px) and (max-width: 1280px) {
+  .desktop-main-menu .hb-hunt-card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 900px) and (max-width: 1280px),
+       (hover: hover) and (pointer: fine) and (min-width: 900px) and (max-height: 800px) {
+  .desktop-main-menu .hb-settlement-dashboard {
+    grid-template-columns: 30% 23% 47%;
+  }
+
+  .desktop-main-menu .hb-settlement-overview,
+  .desktop-main-menu .hb-settlement-dashboard > article {
+    padding: var(--hb-ui-space-3) var(--hb-ui-space-4) var(--hb-ui-space-2);
+  }
+
+  .desktop-main-menu .hb-settlement-status {
+    margin-top: var(--hb-ui-space-2);
+    padding-top: var(--hb-ui-space-1);
+  }
+
+  .desktop-main-menu .hb-settlement-status h2,
+  .desktop-main-menu .hb-settlement-dashboard header {
+    margin-bottom: var(--hb-ui-space-1);
+  }
+
+  .desktop-main-menu .hb-settlement-status dl {
+    margin-bottom: var(--hb-ui-space-1);
+  }
+
+  .desktop-main-menu .hb-settlement-status dl div {
+    min-height: 24px;
+  }
+
+  .desktop-main-menu .hb-settlement-status .hb-ledger-button,
+  .desktop-main-menu .hb-operation-row button {
+    min-height: 36px;
+  }
+
+  .desktop-main-menu .hb-settlement-bonuses dl div {
+    min-height: var(--hb-ui-space-8);
+  }
+
+  .desktop-main-menu .hb-passive-resource {
+    min-height: 56px;
+    grid-template-columns: 40px minmax(0, 1fr);
+    padding: var(--hb-ui-space-1);
+  }
+
+  .desktop-main-menu .hb-passive-resource img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .desktop-main-menu .hb-settlement-panel-actions {
+    left: var(--hb-ui-space-4);
+    right: var(--hb-ui-space-4);
+    bottom: var(--hb-ui-space-2);
+    gap: var(--hb-ui-space-1);
+  }
+
+  .desktop-main-menu .hb-operation-advancement,
+  .desktop-main-menu .hb-operation-row,
+  .desktop-main-menu .hb-land-progress {
+    padding: var(--hb-ui-space-1);
+  }
+
+  .desktop-main-menu .hb-operation-row {
+    min-height: 48px;
+    grid-template-columns: minmax(0, 1fr) minmax(160px, .75fr);
+    gap: var(--hb-ui-space-2);
+  }
+
+  /* There used to be a nowrap here, and it sat exactly where space is scarcest:
+     this query catches a narrow or short window. The line "Rank 1 · +0.05/min ·
+     +2/stage" needs 245 pixels, the cell gives 143 in a 1366 window, and the
+     difference slid off to the right under the UPGRADE button. Let it wrap. */
+  .desktop-main-menu .hb-operation-row > div > span {
+    white-space: normal;
+  }
+
+  .desktop-main-menu .hb-operation-row button {
+    min-width: 160px;
+    min-height: var(--hb-menu-action-height);
+  }
+
+  .desktop-main-menu .hb-land-progress {
+    margin-top: var(--hb-ui-space-1);
+  }
+
+  .desktop-main-menu .hb-land-progress__track,
+  .desktop-main-menu .hb-land-progress p {
+    margin-top: var(--hb-ui-space-1);
+    margin-bottom: var(--hb-ui-space-1);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 3400px) {
+  .desktop-main-menu .hb-operation-row > div > span {
+    white-space: nowrap;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 900px) and (max-height: 740px) {
+  .desktop-main-menu .hb-settlement-status {
+    margin-top: var(--hb-ui-space-1);
+  }
+
+  .desktop-main-menu .hb-settlement-status dl div {
+    min-height: 22px;
+  }
+
+  .desktop-main-menu .hb-settlement-status .hb-ledger-button {
+    min-height: 28px;
+  }
+}

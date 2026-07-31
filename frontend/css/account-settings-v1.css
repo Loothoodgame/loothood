@@ -1,0 +1,782 @@
+.hb-account-settings,
+.hb-account-settings * {
+  box-sizing: border-box;
+}
+
+body.account-settings-open {
+  overflow: hidden;
+}
+
+.hb-account-settings {
+  --as-forest: var(--hb-forest, #0b1e16);
+  --as-forest-deep: var(--hb-forest-deep, #06110d);
+  --as-forest-raised: var(--hb-forest-active, #142d21);
+  --as-gold: var(--hb-gold, #c69c45);
+  --as-gold-bright: var(--hb-gold-bright, #f2d681);
+  --as-ivory: var(--hb-ivory, #f2ead2);
+  --as-muted: var(--hb-muted, #b9b29e);
+  --as-green: var(--hb-green, #2be28a);
+  position: fixed;
+  inset: 0;
+  z-index: 2200;
+  display: grid;
+  place-items: center;
+  padding: clamp(12px, 2.4vw, 34px);
+  color: var(--as-ivory);
+  background: rgba(3, 9, 7, .84);
+  font-family: "Pixel Operator", ui-monospace, monospace;
+}
+
+.hb-account-settings[hidden] {
+  display: none;
+}
+
+.hb-account-settings button,
+.hb-account-settings input,
+.hb-account-settings select,
+.hb-account-settings textarea {
+  font: inherit;
+}
+
+.hb-account-settings button,
+.hb-account-settings summary,
+.hb-account-settings input[type="range"],
+.hb-account-settings select {
+  cursor: pointer;
+}
+
+.hb-account-settings button:focus-visible,
+.hb-account-settings summary:focus-visible,
+.hb-account-settings input:focus-visible,
+.hb-account-settings select:focus-visible,
+.hb-account-settings textarea:focus-visible,
+.hb-account-settings__panel:focus-visible {
+  outline: 3px solid var(--as-gold-bright);
+  outline-offset: 3px;
+}
+
+.hb-account-settings__panel {
+  width: min(1180px, 96vw);
+  height: min(790px, 94vh);
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  overflow: hidden;
+  border: 3px solid var(--as-gold);
+  background:
+    linear-gradient(90deg, rgba(198, 156, 69, .07) 1px, transparent 1px) 0 0 / 16px 16px,
+    linear-gradient(rgba(198, 156, 69, .05) 1px, transparent 1px) 0 0 / 16px 16px,
+    var(--as-forest-deep);
+  box-shadow:
+    inset 0 0 0 5px #020705,
+    inset 0 0 0 7px rgba(198, 156, 69, .36),
+    0 18px 70px rgba(0, 0, 0, .66);
+}
+
+.hb-account-settings__header {
+  min-height: 92px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 20px clamp(20px, 3vw, 42px) 15px;
+  border-bottom: 1px solid rgba(198, 156, 69, .32);
+  background: linear-gradient(180deg, #173628, #0c2118);
+}
+
+.hb-account-settings__header h1,
+.hb-account-settings__body h2,
+.hb-account-settings__body h3 {
+  margin: 0;
+  color: var(--as-ivory);
+  font-family: "Alagard", Georgia, serif;
+  font-weight: 400;
+  letter-spacing: .035em;
+}
+
+.hb-account-settings__header h1 {
+  font-size: clamp(26px, 3vw, 44px);
+  line-height: 1;
+}
+
+.hb-account-settings__rule {
+  width: min(360px, 45vw);
+  height: 8px;
+  display: block;
+  margin-top: 10px;
+  background:
+    linear-gradient(90deg, var(--as-gold), rgba(198, 156, 69, .12)) center / 100% 1px no-repeat,
+    radial-gradient(circle, var(--as-gold-bright) 0 2px, transparent 3px) left center / 8px 8px no-repeat;
+}
+
+.hb-account-settings__close {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  padding: 0 0 5px;
+  border: 2px solid var(--as-gold);
+  color: var(--as-gold-bright);
+  background: #07140f;
+  font-family: "Alagard", Georgia, serif;
+  font-size: 34px;
+  line-height: 1;
+}
+
+.hb-account-settings__tabs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding: 0 clamp(12px, 3vw, 38px);
+  border-bottom: 2px solid rgba(198, 156, 69, .48);
+  background: #081712;
+}
+
+.hb-account-settings__tabs button {
+  min-height: 54px;
+  position: relative;
+  padding: 10px 14px;
+  border: 0;
+  border-left: 1px solid rgba(198, 156, 69, .18);
+  color: var(--as-muted);
+  background: transparent;
+  font-family: "Alagard", Georgia, serif;
+  font-size: clamp(16px, 1.55vw, 22px);
+}
+
+.hb-account-settings__tabs button:last-child {
+  border-right: 1px solid rgba(198, 156, 69, .18);
+}
+
+.hb-account-settings__tabs button[aria-selected="true"] {
+  color: var(--as-gold-bright);
+  background: linear-gradient(180deg, rgba(42, 84, 57, .5), rgba(15, 39, 28, .9));
+}
+
+.hb-account-settings__tabs button[aria-selected="true"]::after {
+  content: "";
+  position: absolute;
+  right: 14%;
+  bottom: -2px;
+  left: 14%;
+  height: 3px;
+  background: var(--as-gold-bright);
+  box-shadow: 0 0 10px rgba(242, 214, 129, .45);
+}
+
+.hb-account-settings__unread {
+  min-width: 22px;
+  height: 22px;
+  display: inline-grid;
+  place-items: center;
+  margin-left: 7px;
+  padding: 0 5px;
+  border: 1px solid #f2c76f;
+  border-radius: 50%;
+  color: #07110d;
+  background: #f2c76f;
+  font-family: "Pixel Operator", ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 700;
+  vertical-align: 2px;
+}
+
+.hb-account-settings__unread[hidden] {
+  display: none;
+}
+
+.hb-account-settings__scroll {
+  min-height: 0;
+  position: relative;
+  overflow-y: auto;
+  scrollbar-width: auto;
+  scrollbar-color: var(--as-gold) #07140f;
+}
+
+.hb-account-settings__scroll::-webkit-scrollbar {
+  width: 13px;
+}
+
+.hb-account-settings__scroll::-webkit-scrollbar-track {
+  background: #07140f;
+}
+
+.hb-account-settings__scroll::-webkit-scrollbar-thumb {
+  border: 3px solid #07140f;
+  background: var(--as-gold);
+}
+
+.hb-account-settings__scroll-cue {
+  position: sticky;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  display: none;
+  padding: 17px 20px 8px;
+  color: var(--as-gold-bright);
+  background: linear-gradient(transparent, rgba(6, 17, 13, .98) 62%);
+  text-align: center;
+  pointer-events: none;
+}
+
+.hb-account-settings__scroll[data-can-scroll="true"][data-at-end="false"] .hb-account-settings__scroll-cue {
+  display: block;
+}
+
+.hb-account-settings__body {
+  min-height: 100%;
+  padding: clamp(20px, 3vw, 42px);
+}
+
+.hb-account-settings__footer {
+  min-height: 66px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 10px clamp(20px, 3vw, 42px);
+  border-top: 2px solid rgba(198, 156, 69, .44);
+  background: #081712;
+}
+
+.hb-account-settings__footer p {
+  min-height: 20px;
+  margin: 0;
+  color: var(--as-green);
+}
+
+.hb-account-settings__footer p.is-error {
+  color: #ff9a7d;
+}
+
+.hb-account-settings button {
+  min-height: 42px;
+  padding: 8px 16px;
+  border: 2px solid rgba(198, 156, 69, .72);
+  color: var(--as-ivory);
+  background: #153525;
+}
+
+.hb-account-settings button:hover:not(:disabled) {
+  border-color: var(--as-gold-bright);
+  color: var(--as-gold-bright);
+  background: #1b422e;
+}
+
+.hb-account-settings button:disabled {
+  cursor: not-allowed;
+  opacity: .45;
+}
+
+.hb-account-settings button.hb-account-settings__primary {
+  border-color: var(--as-gold-bright);
+  color: #0b160f;
+  background: linear-gradient(#f2d681, #c69c45);
+  font-weight: 700;
+}
+
+.hb-account-settings__back {
+  min-width: 130px;
+}
+
+.hb-account-settings__identity {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  padding: 20px;
+  border: 2px solid rgba(198, 156, 69, .52);
+  background: linear-gradient(90deg, rgba(33, 76, 51, .74), rgba(10, 28, 20, .8));
+}
+
+.hb-account-settings__crest {
+  width: 66px;
+  height: 66px;
+  display: grid;
+  place-items: center;
+  border: 3px double var(--as-gold);
+  border-radius: 50%;
+  color: var(--as-gold-bright);
+  background: #07140f;
+  font-family: "Alagard", Georgia, serif;
+  font-size: 34px;
+}
+
+.hb-account-settings__identity h2 {
+  font-size: clamp(25px, 3vw, 38px);
+}
+
+.hb-account-settings__identity p {
+  margin: 7px 0 0;
+  color: var(--as-muted);
+  letter-spacing: .06em;
+}
+
+.hb-account-settings__status {
+  padding: 6px 10px;
+  border: 1px solid #c98259;
+  color: #f2c19e;
+  background: rgba(72, 31, 23, .55);
+  text-transform: uppercase;
+}
+
+.hb-account-settings__status.is-secured {
+  border-color: var(--as-green);
+  color: #b9eda8;
+  background: rgba(29, 75, 43, .55);
+}
+
+.hb-account-settings__facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin: 18px 0;
+  background: rgba(198, 156, 69, .3);
+}
+
+.hb-account-settings__facts div {
+  padding: 14px 16px;
+  background: #0b2118;
+}
+
+.hb-account-settings__facts dt {
+  margin-bottom: 5px;
+  color: var(--as-muted);
+  text-transform: uppercase;
+}
+
+.hb-account-settings__facts dd {
+  margin: 0;
+  color: var(--as-ivory);
+}
+
+.hb-account-settings__methods {
+  margin: 0 0 18px;
+  padding: 0;
+  list-style: none;
+}
+
+.hb-account-settings__methods li {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 12px 16px;
+  border: 1px solid rgba(198, 156, 69, .28);
+  background: rgba(9, 29, 20, .7);
+}
+
+.hb-account-settings__section,
+.hb-account-settings__setting,
+.hb-account-settings__feedback,
+.hb-account-settings__recovery {
+  margin-top: 18px;
+  padding: clamp(16px, 2.2vw, 26px);
+  border: 1px solid rgba(198, 156, 69, .38);
+  background: rgba(8, 27, 19, .82);
+}
+
+.hb-account-settings__section h3,
+.hb-account-settings__setting h2,
+.hb-account-settings__feedback h2 {
+  margin-bottom: 8px;
+  font-size: clamp(20px, 2vw, 27px);
+}
+
+.hb-account-settings__session-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.hb-account-settings__session-actions h3 {
+  flex: 1 0 100%;
+}
+
+.hb-account-settings__details {
+  margin-top: 14px;
+  border-top: 1px solid rgba(198, 156, 69, .25);
+  padding-top: 14px;
+}
+
+.hb-account-settings__details summary {
+  color: var(--as-gold-bright);
+}
+
+.hb-account-settings__form {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.hb-account-settings__form.is-compact {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.hb-account-settings__form.is-compact button {
+  grid-column: 1 / -1;
+}
+
+.hb-account-settings label,
+.hb-account-settings__range {
+  display: grid;
+  gap: 7px;
+  color: var(--as-muted);
+}
+
+.hb-account-settings input:not([type="range"]),
+.hb-account-settings select,
+.hb-account-settings textarea {
+  width: 100%;
+  min-height: 42px;
+  padding: 9px 11px;
+  border: 2px solid rgba(198, 156, 69, .52);
+  border-radius: 0;
+  color: var(--as-ivory);
+  background: #06130e;
+}
+
+.hb-account-settings textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.hb-account-settings__notice,
+.hb-account-settings__warning,
+.hb-account-settings__hint {
+  margin: 12px 0;
+  line-height: 1.45;
+}
+
+.hb-account-settings__notice {
+  padding: 12px 14px;
+  border-left: 4px solid var(--as-gold);
+  background: rgba(198, 156, 69, .08);
+}
+
+.hb-account-settings__notice.is-success {
+  border-left-color: var(--as-green);
+  color: #b9eda8;
+}
+
+.hb-account-settings__warning {
+  padding: 12px 14px;
+  border: 1px solid #bd7454;
+  color: #ffd1b5;
+  background: rgba(90, 34, 21, .42);
+}
+
+.hb-account-settings__hint {
+  color: var(--as-muted);
+}
+
+.hb-account-settings__wallet-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.hb-account-settings__wallet-list button {
+  display: grid;
+  gap: 3px;
+  text-align: left;
+}
+
+.hb-account-settings__wallet-list small {
+  color: var(--as-muted);
+}
+
+.hb-account-settings__recovery output {
+  display: block;
+  margin: 12px 0;
+  padding: 14px;
+  overflow-wrap: anywhere;
+  border: 2px dashed var(--as-gold);
+  color: var(--as-gold-bright);
+  background: #06130e;
+  font-size: clamp(14px, 1.7vw, 20px);
+  letter-spacing: .045em;
+  user-select: all;
+}
+
+.hb-account-settings__settings {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.hb-account-settings__setting {
+  margin: 0;
+  display: grid;
+  align-content: start;
+  gap: 14px;
+}
+
+.hb-account-settings__setting p {
+  margin: 0;
+  color: var(--as-muted);
+  line-height: 1.4;
+}
+
+.hb-account-settings__range {
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+
+.hb-account-settings__range input {
+  grid-column: 1 / -1;
+  width: 100%;
+  accent-color: var(--as-gold);
+}
+
+.hb-account-settings__empty {
+  min-height: 320px;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.hb-account-settings__empty h2 {
+  font-size: clamp(26px, 3vw, 40px);
+}
+
+.hb-account-settings__empty p {
+  margin: 0;
+  color: var(--as-muted);
+}
+
+.hb-account-settings__mailbox {
+  min-height: 430px;
+  display: grid;
+  grid-template-columns: minmax(250px, .72fr) minmax(0, 1.5fr);
+  border: 1px solid rgba(198, 156, 69, .42);
+  background: #07150f;
+}
+
+.hb-account-settings__mail-list {
+  min-height: 0;
+  display: grid;
+  align-content: start;
+  border-right: 1px solid rgba(198, 156, 69, .42);
+  background: #081a13;
+}
+
+.hb-account-settings__mail-row {
+  min-height: 78px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 7px;
+  padding: 13px 15px;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(198, 156, 69, .24) !important;
+  background: transparent !important;
+  text-align: left;
+}
+
+.hb-account-settings__mail-row.is-selected {
+  box-shadow: inset 4px 0 var(--as-gold-bright);
+  background: rgba(41, 82, 55, .46) !important;
+}
+
+.hb-account-settings__mail-row.is-unread strong {
+  color: var(--as-gold-bright);
+}
+
+.hb-account-settings__mail-row span {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.hb-account-settings__mail-row strong,
+.hb-account-settings__mail-row small,
+.hb-account-settings__mail-row b {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hb-account-settings__mail-row small {
+  color: var(--as-muted);
+}
+
+.hb-account-settings__mail-row b {
+  color: #b9eda8;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.hb-account-settings__mail-detail {
+  min-width: 0;
+  padding: clamp(18px, 3vw, 36px);
+}
+
+.hb-account-settings__mail-detail header {
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(198, 156, 69, .3);
+}
+
+.hb-account-settings__mail-detail header p,
+.hb-account-settings__mail-detail time {
+  margin: 0;
+  color: var(--as-muted);
+}
+
+.hb-account-settings__mail-detail h2 {
+  margin: 8px 0;
+  color: var(--as-gold-bright);
+  font-size: clamp(25px, 3vw, 38px);
+}
+
+.hb-account-settings__mail-copy {
+  min-height: 110px;
+  margin: 24px 0;
+  line-height: 1.6;
+}
+
+.hb-account-settings__reward {
+  display: grid;
+  gap: 5px;
+  padding: 14px 16px;
+  border: 2px solid rgba(118, 199, 90, .52);
+  background: rgba(31, 80, 43, .28);
+}
+
+.hb-account-settings__reward span,
+.hb-account-settings__reward small {
+  color: var(--as-muted);
+}
+
+.hb-account-settings__reward strong {
+  color: #b9eda8;
+  font-size: 18px;
+}
+
+.hb-account-settings__mail-detail footer {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.hb-account-settings__feedback {
+  width: min(760px, 100%);
+  margin: 0 auto;
+}
+
+.hb-account-settings__feedback header p {
+  color: var(--as-muted);
+  line-height: 1.5;
+}
+
+@media (max-width: 760px) {
+  .hb-account-settings {
+    padding: 0;
+  }
+
+  .hb-account-settings__panel {
+    width: 100vw;
+    height: 100dvh;
+    max-height: none;
+    border-width: 0;
+    box-shadow: none;
+  }
+
+  .hb-account-settings__header {
+    min-height: 70px;
+    padding: 14px 16px 10px;
+  }
+
+  .hb-account-settings__header h1 {
+    font-size: 26px;
+  }
+
+  .hb-account-settings__rule {
+    width: 210px;
+  }
+
+  .hb-account-settings__close {
+    width: 42px;
+    height: 42px;
+  }
+
+  .hb-account-settings__tabs {
+    grid-template-columns: repeat(4, max-content);
+    justify-content: start;
+    overflow-x: auto;
+    padding: 0;
+    scrollbar-color: var(--as-gold) #07140f;
+  }
+
+  .hb-account-settings__tabs button {
+    min-width: 115px;
+    min-height: 50px;
+    font-size: 16px;
+  }
+
+  .hb-account-settings__body {
+    padding: 16px;
+  }
+
+  .hb-account-settings__footer {
+    min-height: 60px;
+    padding: 8px 14px;
+  }
+
+  .hb-account-settings__footer p {
+    max-width: calc(100vw - 150px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .hb-account-settings__facts,
+  .hb-account-settings__settings,
+  .hb-account-settings__mailbox {
+    grid-template-columns: 1fr;
+  }
+
+  .hb-account-settings__identity {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .hb-account-settings__status {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+
+  .hb-account-settings__mail-list {
+    border-right: 0;
+    border-bottom: 1px solid rgba(198, 156, 69, .42);
+  }
+
+  .hb-account-settings__mail-row:not(.is-selected) {
+    display: none;
+  }
+
+  .hb-account-settings__mail-row.is-selected {
+    min-height: 64px;
+  }
+
+  .hb-account-settings__mail-detail {
+    padding: 18px;
+  }
+
+  .hb-account-settings__form.is-compact {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hb-account-settings *,
+  .hb-account-settings *::before,
+  .hb-account-settings *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .001ms !important;
+    animation-duration: .001ms !important;
+  }
+}

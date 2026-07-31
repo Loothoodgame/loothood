@@ -1,0 +1,496 @@
+/* ============================================================
+   A SINGLE LANGUAGE FOR CONTROLS
+   ------------------------------------------------------------
+   A survey of the screens turned up eleven different corner radii,
+   and five on Market alone: 999 on the filters, 10 on the native
+   select, 9 on the tabs, 8 on the plus/minus, 0 on reset. Because
+   of that the screen reads as if assembled from somebody else's
+   parts.
+
+   The scale is reduced to three values and to nothing else:
+     12px — panel, card, large container
+      8px — control: tab, filter, field, small button
+      0px — pixel button on a 9-slice: its border is drawn in
+
+   This file is loaded last and works on top of the others.
+   The edits are surgical: we touch only the radius, the border and
+   the fill, and leave sizes and layout alone — otherwise we would
+   disturb layout nobody asked us to change.
+   ============================================================ */
+.hb-app{
+  --ctl-radius:8px;
+  --ctl-border:var(--line,#28352f);
+  --ctl-bg:var(--surface2,#16201c);
+  --ctl-bg-hover:var(--surface3,#1c2a24);
+}
+
+/* ---- filters and chips: used to be 999px pills ---- */
+.hb-app .hb-filter-chip,
+.hb-app .hb-loadout-filters button,
+.hb-app .hb-market-filters button,
+.hb-app .hb-market-stat-filter button,
+.hb-app .hb-bounty-chip{
+  border-radius:var(--ctl-radius) !important;
+}
+
+/* ---- select elements ------------------------------------------------
+   In loothood-market-v1 the select already has its own arrow and its own
+   fill; everything there is on-language — only the radius diverged (10
+   against 8). So here we touch exactly the radius: redrawing the arrow
+   would give us two of them. For selects with no styling of their own we
+   suppress the native appearance. Specificity is raised to
+   .hb-app .hb-market-view select — (0,3,1); a single .hb-app select with
+   !important was not enough. */
+.hb-app select,
+.hb-app .hb-market-view select,
+.hb-app .hb-market-panel select{
+  border-radius:var(--ctl-radius) !important;
+}
+.hb-app select:not([class]):not(.hb-market-view select){
+  -webkit-appearance:none; appearance:none;
+}
+.hb-app select:focus-visible{outline:1px solid var(--lime,#b7f24a); outline-offset:1px;}
+
+/* ---- segmented tabs: the active one is the only bright one ---- */
+.hb-app .hb-market-tabs button,
+.hb-app .hb-gacha-tabs button,
+.hb-app [role="tablist"] button{
+  border-radius:var(--ctl-radius) !important;
+}
+
+/* ---- small square plus/minus buttons ---- */
+.hb-app .hb-market-stat-filter button{
+  border-radius:var(--ctl-radius) !important;
+  background:var(--ctl-bg) !important;
+  border:1px solid var(--ctl-border) !important;
+}
+.hb-app .hb-market-stat-filter button:hover{background:var(--ctl-bg-hover) !important;}
+
+/* ---- input fields brought into line with the rest ---- */
+.hb-app input[type="text"],
+.hb-app input[type="number"],
+.hb-app input[type="search"]{
+  border-radius:var(--ctl-radius) !important;
+  border:1px solid var(--ctl-border) !important;
+  background:var(--ctl-bg) !important;
+  color:var(--ivory,#eaf5ee) !important;
+  font-family:var(--body,"PixelOperator",monospace) !important;
+}
+
+/* ---- run rules panel: it stayed parchment ---------------------------
+   Measured: article.hb-prepare-rules has a background of rgb(207,227,214) —
+   a light grey sheet, 402x457, while all three neighbouring panels are
+   almost black. This is parchment from the original build:
+   main-menu-foundation-v1 paints it with the --hb-parchment and
+   --hb-parchment-ink variables, and the reskin did not cover it. On a dark
+   screen it looks like a forgotten patch.
+   ------------------------------------------------------------------- */
+.hb-app .hb-prepare-rules{
+  background:linear-gradient(180deg,var(--surface2,#16201c),var(--surface,#0f1613)) !important;
+  color:var(--ivory,#eaf5ee) !important;
+  border:1px solid var(--line,#28352f) !important;
+  border-radius:12px !important;
+}
+.hb-app .hb-prepare-rules::after{border-color:transparent !important;}
+.hb-app .hb-prepare-rules h2{color:var(--ivory,#eaf5ee) !important;}
+.hb-app .hb-prepare-rules dt{color:var(--muted,#8ea89b) !important;}
+.hb-app .hb-prepare-rules dd,
+.hb-app .hb-prepare-rules dl > div{color:var(--ivory,#eaf5ee) !important;}
+.hb-app .hb-prepare-rules .hb-value{color:var(--lime,#b7f24a) !important;}
+/* the rest of the panel text was parchment too: the mode heading
+   "P0 · Standard Hunt" read as an empty line on a dark background */
+.hb-app .hb-prepare-rules h3,
+.hb-app .hb-prepare-rules strong,
+.hb-app .hb-prepare-rules p,
+.hb-app .hb-prepare-rules span,
+.hb-app .hb-prepare-rules small{color:var(--ivory,#eaf5ee) !important;}
+.hb-app .hb-prepare-rules p,
+.hb-app .hb-prepare-rules small{color:var(--muted,#8ea89b) !important;}
+
+/* the prestige switch inside it sat on a sand-coloured fill */
+.hb-app .hb-prestige-selector{
+  background:var(--surface3,#1c2a24) !important;
+  border:1px solid var(--line,#28352f) !important;
+  color:var(--ivory,#eaf5ee) !important;
+  border-radius:var(--ctl-radius) !important;
+}
+.hb-app .hb-prestige-selector > span,
+.hb-app .hb-prestige-selector select{color:var(--ivory,#eaf5ee) !important;}
+
+/* ---- tab backgrounds were invisible ---------------------------------
+   Measured: in the right-hand third of Loot Pulls the mean brightness is 7
+   with a spread of 5 — flat black, even though the background file itself
+   has a brightness of 32. Neither the scrim nor the screen background is to
+   blame: turning them off changed nothing. The content panels were covering
+   it — they are filled with a solid rgb(15,22,19) and each takes up to 45%
+   of the area, so the art has nowhere to show through.
+
+   The panels become semi-transparent with a light blur: the text on them
+   stays readable because the blur suppresses the detail underneath, and the
+   art reads between the blocks and along the edges.
+   -------------------------------------------------------------------- */
+.hb-app [data-screen="equipment-pulls"] .hb-equipment-panel,
+.hb-app [data-screen="equipment-pulls"] .hb-gacha-standard,
+.hb-app [data-screen="outfitter"] .hb-equipment-panel,
+.hb-app [data-screen="outfitter"] .hb-equipment-filter-panel,
+.hb-app [data-screen="marketplace"] .hb-market-panel,
+.hb-app [data-screen="marketplace"] .hb-market-tabs,
+.hb-app [data-screen="bounties"] .hb-bounty-strip,
+.hb-app [data-screen="bounties"] .hb-bounty-locked{
+  background-color:rgba(15,22,19,.78) !important;
+  -webkit-backdrop-filter:blur(3px);
+  backdrop-filter:blur(3px);
+}
+
+/* ---- account and sound buttons: pixel border -----------------------
+   They were the only things left in the top bar with an ordinary plate and
+   rounded corners, while everything else is on pixel sprites.
+   The small sprite is used, 16 pixels with a slice of 6: the button side is
+   38, and an ordinary 12-pixel border would have eaten almost all the room
+   left for the icon.
+   -------------------------------------------------------------------- */
+.hb-app .hb-add,
+.hb-app .hb-audio-toggle{
+  --btn9s:url("../images/btn9s-neutral-v1.png?r11");
+  --btn9sh:url("../images/btn9s-neutral-hover-v1.png?r11");
+  --btn9sp:url("../images/btn9s-neutral-pressed-v1.png?r11");
+  border:6px solid transparent !important;
+  border-image:var(--btn9s) 6 fill stretch !important;
+  border-radius:0 !important;
+  background:none !important;
+  box-shadow:none !important;
+  image-rendering:pixelated;
+  padding:0 !important;
+}
+.hb-app .hb-add:hover,
+.hb-app .hb-audio-toggle:hover{
+  border-image-source:var(--btn9sh) !important;
+  background:none !important; filter:none !important;
+}
+.hb-app .hb-add:active,
+.hb-app .hb-audio-toggle:active{
+  border-image-source:var(--btn9sp) !important;
+}
+
+/* ---- empty icon slots break the grid ------------------------------
+   icon-slot-bounty, icon-slot-equipment-stat, icon-slot-foundation and
+   icon-slot-status — all four PNGs are one hundred percent transparent. They
+   draw nothing but still occupy space in the layout, and wherever a row is
+   declared as a single-column grid the extra element pushes the text onto the
+   next line. That is how, in the READY list on the hunt preparation screen, the
+   tick next to "Loadout Selected" and "Foundation Selected" ended up above the
+   label instead of beside it.
+
+   Remove this rule once real images are put into the sprites. */
+.hb-app .hb-icon-slot,
+.desktop-main-menu .hb-icon-slot {
+  display: none !important;
+}
+
+/* Hiding the slot is not enough: the rows of the READY list are declared as
+   .hb-metadata-line, and in the thematic file that has a single-column grid. The
+   tick from ::before and the label remain two elements and still stack one above
+   the other. We give them back the same pair of columns an ordinary list item has. */
+.desktop-main-menu .hb-prepare-state li.hb-metadata-line {
+  grid-template-columns: clamp(20px, 1.6cqw, 27px) minmax(0, 1fr);
+}
+
+/* ---- narrow window: the menu must not fall apart ------------------
+   .hb-shell-body is a "sidebar plus content" grid, and it has min-width: auto.
+   That means it cannot shrink below its min-content width: in a 430-pixel
+   window it stayed at 889, ran off the edge, and the right-hand part of every
+   screen was simply clipped.
+
+   The mobile media query in main-menu-mobile-transpose-v3.css does exist, but
+   it was written for the previous mobile markup and does not reach the new
+   desktop menu (body.desktop-menu-active).
+
+   This is not a re-layout but precisely the removal of a strut: we let the grid
+   shrink, let the sidebar narrow down to icons, and let the content take the
+   rest. */
+@media (max-width: 980px) {
+  /* The strut was held not by the sidebar but by the top bar: six resource
+     chips with wrapping disabled set a minimum width of about 890 pixels, and
+     the whole grid stretched to accommodate them. Six chips do not fit into
+     430 pixels by any means, so the resource row becomes scrollable sideways. */
+  .hb-app {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .hb-app .hb-topbar,
+  .hb-app .hb-resources {
+    min-width: 0;
+    max-width: 100%;
+  }
+  .hb-app .hb-resources {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .hb-app .hb-resources::-webkit-scrollbar { display: none; }
+
+  .hb-app .hb-shell-body {
+    min-width: 0;
+    grid-template-columns: clamp(58px, 20vw, 154px) minmax(0, 1fr);
+  }
+  .hb-app .hb-sidebar,
+  .hb-app .hb-shell-body > * {
+    min-width: 0;
+  }
+  /* At this width an item label does not fit next to the icon and breaks onto
+     two lines. We keep the icon; the name stays available to the keyboard and
+     to screen readers through the button's own aria-label. */
+  .hb-app .hb-sidebar .hb-nav-item span:not(.hb-nav-ic) {
+    display: none;
+  }
+  .hb-app .hb-sidebar .hb-nav-group-label {
+    font-size: 9px;
+    letter-spacing: .04em;
+  }
+}
+
+/* ---- stash overflow dialog ---------------------------------------
+   The one dialog we never got to: one-pixel borders, buttons with no pixel
+   sprites, typography from the previous game. Next to the rest of the interface
+   it read as foreign.
+
+   We dress it with the same set as the leave-run confirmation: dark panel, our
+   fonts, a lime button for the safe action and a red one for the risky one. The
+   warning about losing resources is red not for decoration — this is the only
+   place where the player can silently lose what they have earned. */
+
+.hb-app #storehouseRiskModal,
+body.desktop-menu-active #storehouseRiskModal {
+  background: color-mix(in srgb, #010804 78%, transparent) !important;
+}
+
+body.desktop-menu-active #storehouseRiskModal .storehouse-risk__panel {
+  max-width: 560px;
+  padding: 26px 28px 24px !important;
+  border: 1px solid var(--line, #22302a) !important;
+  border-radius: 14px !important;
+  background: var(--surface, #0e1512) !important;
+  box-shadow: 0 28px 70px -34px #000 !important;
+}
+
+body.desktop-menu-active #storehouseRiskModal .storehouse-risk__panel > p:first-of-type {
+  margin: 0 0 4px;
+  color: var(--lime, #b7f24a);
+  font-family: var(--body, "Pixel Operator", monospace);
+  font-size: 11.5px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+body.desktop-menu-active #storehouseRiskModal h2 {
+  margin: 0 0 10px !important;
+  font-family: var(--disp, "Alagard", serif) !important;
+  font-size: 26px !important;
+  line-height: 1.12;
+  color: var(--ivory, #eaf5ee) !important;
+  text-shadow: none !important;
+}
+
+body.desktop-menu-active #storehouseRiskModal #storehouseRiskDescription,
+body.desktop-menu-active #storehouseRiskModal strong {
+  display: block;
+  margin: 0 0 14px;
+  max-width: 56ch;
+  color: var(--muted, #8ea89b) !important;
+  font-family: var(--body, "Pixel Operator", monospace);
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+/* The line about destroying what has been earned is the only one that must not
+   be skimmed past, which is why it is the only bright one. */
+body.desktop-menu-active #storehouseRiskModal strong {
+  color: var(--ivory, #eaf5ee) !important;
+  font-weight: 400;
+}
+
+body.desktop-menu-active #storehouseRiskModal .storehouse-risk__resource {
+  border: 1px solid var(--line, #22302a) !important;
+  border-radius: 10px !important;
+  background: var(--surface2, #141d18) !important;
+}
+
+body.desktop-menu-active #storehouseRiskModal .storehouse-risk__resource[data-at-risk="true"] {
+  border-color: color-mix(in srgb, #ff6b6b 55%, var(--line, #22302a)) !important;
+}
+
+body.desktop-menu-active #storehouseRiskModal .storehouse-risk__actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+
+body.desktop-menu-active #storehouseRiskModal .storehouse-risk__actions button {
+  min-height: 46px !important;
+  padding: 0 20px !important;
+  border-radius: 12px !important;
+  border: 1px solid var(--line, #22302a) !important;
+  background: var(--surface2, #141d18) !important;
+  color: var(--ivory, #eaf5ee) !important;
+  font-family: var(--disp, "Alagard", serif) !important;
+  font-size: 16px !important;
+  letter-spacing: .3px;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  cursor: pointer;
+  transition: background 140ms var(--lh-ease-out, cubic-bezier(.16,1,.3,1)),
+              border-color 140ms var(--lh-ease-out, cubic-bezier(.16,1,.3,1));
+}
+
+body.desktop-menu-active #storehouseRiskModal #reviewStorehouseRisk {
+  border-color: color-mix(in srgb, var(--lime, #b7f24a) 45%, var(--line, #22302a)) !important;
+  color: var(--lime, #b7f24a) !important;
+}
+
+body.desktop-menu-active #storehouseRiskModal .button--danger {
+  border-color: color-mix(in srgb, #ff6b6b 50%, var(--line, #22302a)) !important;
+  background: color-mix(in srgb, #ff6b6b 12%, var(--surface2, #141d18)) !important;
+  color: #ff8f8f !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body.desktop-menu-active #storehouseRiskModal #reviewStorehouseRisk:hover {
+    background: var(--lime, #b7f24a) !important;
+    color: #08120a !important;
+  }
+  body.desktop-menu-active #storehouseRiskModal .button--danger:hover {
+    background: #ff6b6b !important;
+    color: #160a0a !important;
+  }
+}
+
+/* The close cross must not be round: everywhere else in the interface it is a
+   square with rounded corners, like any other button. */
+body.desktop-menu-active #storehouseRiskModal .storehouse-risk__close {
+  border-radius: 10px !important;
+  border: 1px solid var(--line, #22302a) !important;
+  background: var(--surface2, #141d18) !important;
+  color: var(--muted, #8ea89b) !important;
+}
+
+/* ---- headings and close crosses across every dialog ---------------
+   Surveying all the dialogs at once turned up two things that the eye catches
+   poorly but numbers reveal immediately.
+
+   First: the heading of the run summary dialog was rendered in Courier New, and
+   the headings of the build and settings dialogs simply in serif. They declare
+   no font of their own, and body in styles.css sets a monospace fallback stack,
+   which they inherited. In other words, three dialogs out of ten showed their
+   heading in the browser's own font.
+
+   Second: the close cross is round in six dialogs and rounded by 10-12 pixels
+   in the rest. The circle carries no meaning here: it is the same kind of
+   button as any other.
+
+   The rule is deliberately broad and avoids !important where it can: it has to
+   reach dialogs we have not reworked yet, and to yield to those that are
+   already styled. */
+
+.hb-outcome__title,
+.stats-modal__head h2,
+.utility-modal__panel h2,
+#runSummaryModal h2,
+#runBuildModalTitle,
+#desktopSettingsTitle,
+#statsModalTitle,
+#inventoryModalTitle {
+  font-family: var(--disp, "Alagard"), Georgia, serif !important;
+}
+
+.stats-modal__close,
+.utility-modal__close,
+.tutorial-guide__close,
+#closeRunBuildModal,
+#closeStatsModal,
+#closeInventoryModal,
+#closeTutorialGuide,
+[class*="__close"] {
+  border-radius: 10px !important;
+}
+
+/* ---- mobile guide dialog ------------------------------------------
+   On desktop the guide became a screen, but on narrow screens it stays a
+   dialog, and its bottom buttons kept their previous look: square corners, a
+   one-pixel border. The combat dialogs do not suffer from this — there the
+   rules hang off body[data-view="run"] and everything is already styled — but
+   this dialog opens from the menu and misses those rules. */
+
+.tutorial-guide-modal .stats-modal__footer button,
+.tutorial-guide-modal .utility-modal__back,
+#replayTutorial,
+#closeTutorialGuideFooter {
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 10px !important;
+  border: 1px solid var(--line, #22302a) !important;
+  background: var(--surface2, #141d18) !important;
+  color: var(--ivory, #eaf5ee) !important;
+  font-family: var(--disp, "Alagard"), Georgia, serif !important;
+  font-size: 15.5px;
+  letter-spacing: .3px;
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+
+#replayTutorial {
+  border-color: color-mix(in srgb, var(--lime, #b7f24a) 45%, var(--line, #22302a)) !important;
+  color: var(--lime, #b7f24a) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .tutorial-guide-modal .stats-modal__footer button:hover,
+  #replayTutorial:hover {
+    background: var(--surface3, #1b2620) !important;
+  }
+}
+
+/* ---- account dialog: more room for the content ---------------------
+   Measured in a 1280x720 window: the panel is 1180x677, while the scrollable
+   area was left with 374 pixels against the 438 it needed. Scrolling was almost
+   always required, even though the dialog itself fills the whole screen.
+
+   The height was eaten by the housekeeping chrome: the header at least 92
+   pixels, the tab strip another 54, the footer 66, all with generous padding.
+   We squeeze the chrome, not the content: the "Account & Settings" heading is
+   no worse for having twenty pixels around it instead of thirty-five, whereas a
+   scrollbar that disappears changes the feel of the whole dialog.
+
+   On top of that the panel itself grows to nearly full screen: it is modal
+   anyway, and there is no point leaving empty margins around the edges. */
+
+.hb-account-settings__panel {
+  height: min(920px, 97vh) !important;
+}
+
+.hb-account-settings__head {
+  min-height: 0 !important;
+  padding: 14px clamp(16px, 2.4vw, 32px) 12px !important;
+}
+
+.hb-account-settings__tabs {
+  padding: 0 clamp(10px, 2.4vw, 28px) !important;
+}
+
+.hb-account-settings__tabs button {
+  min-height: 44px !important;
+}
+
+.hb-account-settings__foot {
+  min-height: 0 !important;
+  padding-block: 12px !important;
+}
+
+/* The cross was a pale dot inside a large border: the glyph itself small, the
+   colour dim. A button should read as a button. */
+.hb-account-settings__close {
+  width: 40px !important;
+  height: 40px !important;
+  padding: 0 !important;
+  border-width: 1px !important;
+  font-size: 20px !important;
+  line-height: 1 !important;
+}

@@ -1,0 +1,227 @@
+/* LOOTHOOD — Account & Settings v1
+   ------------------------------------------------------------------
+   The window under the account button was the last fully legacy place in the
+   interface: gold on everything — the panel border, the heading, the tabs, the
+   close button and "Back" — square corners and a gold grid in the background.
+   Bringing it in line with the Hunt language.
+
+   Not scoped to .hb-app: the panel lives higher up in the tree. */
+
+.hb-account-settings {
+  --lh-bg: #080b0a;
+  --lh-surface: #0f1613;
+  --lh-surface2: #141d19;
+  --lh-surface3: #1b2620;
+  --lh-line: #28352f;
+  --lh-line2: #1b2621;
+  --lh-ivory: #eaf5ee;
+  --lh-muted: #93ab9e;
+  --lh-dim: #63776b;
+  --lh-lime: #b7f24a;
+  --lh-lime-deep: #7fae2a;
+  --lh-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  background: rgba(4, 7, 6, .72) !important;
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+
+/* ============ PANEL ============ */
+
+.hb-account-settings__panel {
+  border: 1px solid var(--lh-line) !important;
+  border-radius: 18px !important;
+  background: linear-gradient(180deg, rgba(17,25,21,.99), rgba(11,16,14,.99)) !important;
+  box-shadow: 0 40px 90px -40px #000 !important;
+  padding: 24px 26px 20px !important;
+}
+
+.hb-account-settings__header {
+  align-items: flex-start;
+  margin-bottom: 16px !important;
+}
+.hb-account-settings__header h1 {
+  margin: 0 !important;
+  font-family: 'Alagard', serif;
+  font-size: 30px !important;
+  letter-spacing: .4px;
+  color: var(--lh-ivory) !important;
+}
+/* Rule with a diamond — the language of the old menu. */
+.hb-account-settings__rule { display: none !important; }
+
+.hb-account-settings__close {
+  width: 38px !important;
+  height: 38px !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--lh-line) !important;
+  border-radius: 50% !important;
+  background: var(--lh-surface2) !important;
+  color: var(--lh-muted) !important;
+  font-size: 17px;
+  line-height: 1;
+  box-shadow: none !important;
+}
+@media (hover: hover) and (pointer: fine) {
+  .hb-account-settings__close:hover {
+    color: var(--lh-ivory) !important;
+    border-color: color-mix(in srgb, var(--lh-lime) 45%, var(--lh-line)) !important;
+    background: var(--lh-surface3) !important;
+  }
+}
+
+/* ============ TABS ============
+   There used to be four full-width gold boxes, and the active one differed
+   only by an underline. A segmented switch instead, as in the gacha and on
+   the market. */
+
+.hb-account-settings__tabs {
+  display: inline-flex !important;
+  gap: 4px;
+  width: auto !important;
+  padding: 4px !important;
+  border: 1px solid var(--lh-line) !important;
+  border-radius: 12px !important;
+  background: var(--lh-surface) !important;
+  margin-bottom: 16px;
+}
+.hb-account-settings__tabs button {
+  flex: none !important;
+  min-height: 0 !important;
+  padding: 9px 20px !important;
+  border: none !important;
+  border-radius: 9px !important;
+  background: transparent !important;
+  color: var(--lh-muted) !important;
+  font-family: 'Alagard', serif;
+  font-size: 16px;
+  letter-spacing: .3px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 140ms var(--lh-ease), background 140ms var(--lh-ease);
+}
+.hb-account-settings__tabs button[aria-selected="true"],
+.hb-account-settings__tabs button.is-active {
+  color: #08120a !important;
+  background: linear-gradient(180deg, #c8f85e, var(--lh-lime) 45%, var(--lh-lime-deep)) !important;
+  box-shadow: 0 8px 18px -12px color-mix(in srgb, var(--lh-lime) 70%, transparent) !important;
+}
+@media (hover: hover) and (pointer: fine) {
+  .hb-account-settings__tabs button:not([aria-selected="true"]):hover {
+    color: var(--lh-ivory) !important;
+    background: var(--lh-surface2) !important;
+  }
+}
+/* Unread counter in Mailbox. */
+.hb-account-settings__unread {
+  min-width: 18px;
+  height: 18px;
+  margin-left: 7px;
+  padding: 0 5px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--lh-lime) !important;
+  color: #08120a !important;
+  font-family: 'PixelOperator', monospace;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* ============ BODY ============
+   The background used to be a gold grid and the field was outlined in gold. */
+
+.hb-account-settings__scroll,
+.hb-account-settings__body {
+  border: 1px solid var(--lh-line) !important;
+  border-radius: 13px !important;
+  background: var(--lh-surface) !important;
+  background-image: none !important;
+  padding: 18px 20px !important;
+  color: var(--lh-muted) !important;
+}
+.hb-account-settings__body :is(h2, h3) {
+  font-family: 'Alagard', serif;
+  color: var(--lh-ivory) !important;
+}
+.hb-account-settings__body p { color: var(--lh-muted) !important; }
+
+/* Empty state: the heading used to be larger than the heading of the window itself. */
+.hb-account-settings__empty {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 6px;
+  min-height: 240px;
+  text-align: center;
+}
+.hb-account-settings__empty :is(h2, h3, strong) {
+  font-family: 'Alagard', serif;
+  font-size: 20px !important;
+  color: var(--lh-ivory) !important;
+}
+.hb-account-settings__empty p,
+.hb-account-settings__empty span {
+  max-width: 46ch;
+  color: var(--lh-dim) !important;
+  font-family: 'PixelOperator', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.hb-account-settings__scroll-cue { color: var(--lh-dim) !important; }
+
+/* ============ FOOTER ============ */
+
+.hb-account-settings__footer {
+  margin-top: 16px !important;
+  padding-top: 0 !important;
+  border-top: none !important;
+}
+.hb-account-settings__back {
+  min-height: 44px;
+  padding: 11px 22px !important;
+  border: 1px solid var(--lh-line) !important;
+  border-radius: 11px !important;
+  background: var(--lh-surface2) !important;
+  color: var(--lh-ivory) !important;
+  font-family: 'Alagard', serif;
+  font-size: 16px;
+  letter-spacing: .3px;
+  cursor: pointer;
+  transition: border-color 140ms var(--lh-ease), background 140ms var(--lh-ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .hb-account-settings__back:hover {
+    border-color: color-mix(in srgb, var(--lh-lime) 45%, var(--lh-line)) !important;
+    background: var(--lh-surface3) !important;
+  }
+}
+
+/* Fields and toggles inside the Settings tab. */
+.hb-account-settings input[type="text"],
+.hb-account-settings input[type="password"],
+.hb-account-settings input[type="email"],
+.hb-account-settings select {
+  min-height: 42px;
+  padding: 10px 13px !important;
+  border: 1px solid var(--lh-line) !important;
+  border-radius: 10px !important;
+  background: var(--lh-surface2) !important;
+  color: var(--lh-ivory) !important;
+  font-family: 'PixelOperator', monospace !important;
+  font-size: 14px;
+}
+.hb-account-settings button:not(.hb-account-settings__tabs button):not(.hb-account-settings__close):not(.hb-account-settings__back) {
+  min-height: 42px;
+  padding: 10px 18px !important;
+  border: 1px solid var(--lh-line) !important;
+  border-radius: 11px !important;
+  background: var(--lh-surface2) !important;
+  color: var(--lh-ivory) !important;
+  font-family: 'Alagard', serif;
+  font-size: 15px;
+  cursor: pointer;
+}

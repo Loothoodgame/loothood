@@ -1,0 +1,459 @@
+:root {
+  --hb-reward-black: var(--hb-ui-ink);
+  --hb-reward-green: var(--hb-ui-forest);
+  --hb-reward-gold: var(--hb-ui-gold);
+  --hb-reward-gold-bright: var(--hb-ui-gold-bright);
+  --hb-reward-ivory: var(--hb-ui-ivory);
+  --hb-reward-uncommon: var(--hb-ui-rarity-uncommon);
+  --hb-reward-rare: var(--hb-ui-rarity-rare);
+  --hb-reward-epic: var(--hb-ui-rarity-epic);
+  --hb-reward-panel-left: var(--hb-ui-sheet-left);
+  --hb-reward-panel-top: var(--hb-ui-sheet-top);
+  --hb-reward-panel-width: var(--hb-ui-sheet-width);
+  --hb-reward-panel-height: var(--hb-ui-sheet-height);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body[data-view="run"] .hb-reward-modal {
+    position: fixed;
+    inset: 0;
+    display: block;
+    overflow: hidden;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    backdrop-filter: none;
+    color: var(--hb-reward-ivory);
+    font-family: var(--hb-font-display);
+  }
+
+  body[data-view="run"] .hb-reward-modal[hidden] { display: none; }
+
+  body[data-view="run"] .hb-reward {
+    position: absolute;
+    left: calc(var(--hb-stage-left) / var(--hb-stage-scale) + var(--hb-reward-panel-left));
+    top: calc(var(--hb-stage-top) / var(--hb-stage-scale) + var(--hb-reward-panel-top));
+    width: var(--hb-reward-panel-width);
+    height: var(--hb-reward-panel-height);
+    max-width: none;
+    max-height: none;
+    overflow: hidden;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    /* zoom instead of transform: scale — transform rasterizes the layer and then
+       scales the resulting image, which produces seams on 9-slice borders. With
+       zoom the element's own left/top are multiplied by the scale as well, so
+       the scene offset is divided by it. */
+    zoom: var(--hb-stage-scale);
+    background:
+      linear-gradient(rgba(2, 16, 8, .86), rgba(1, 14, 7, .96)),
+      repeating-linear-gradient(45deg, #010e07 0 7px, #010f08 7px 8px);
+    box-shadow: 0 9px 22px rgba(0, 0, 0, .58);
+  }
+
+  body[data-view="run"] .hb-reward::before { display: none; }
+
+  body[data-view="run"] .hb-reward::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    pointer-events: none;
+    background: url('../images/reward-frame-v1.png') 0 0 / 947px 644px no-repeat;
+  }
+
+  body[data-view="run"] .hb-reward__header {
+    position: absolute;
+    left: 31px;
+    right: 31px;
+    top: 23px;
+    height: 166px;
+    display: block;
+    margin: 0;
+    text-align: center;
+  }
+
+  body[data-view="run"] .hb-reward__header > div:last-child { display: block; }
+  body[data-view="run"] .hb-reward__header .upgrade-modal__crest,
+  body[data-view="run"] .hb-reward__header .upgrade-modal__eyebrow { display: none; }
+
+  body[data-view="run"] .hb-reward__title,
+  body[data-view="run"] .hb-reward .upgrade-modal__panel h2 {
+    margin: 0;
+    color: var(--hb-reward-gold-bright);
+    font-size: 42px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    line-height: 1.23;
+    text-transform: uppercase;
+  }
+
+  body[data-view="run"] .hb-reward .upgrade-modal__summary {
+    display: none;
+    margin: 10px 0 0;
+    color: var(--hb-reward-gold-bright);
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  body[data-view="run"] .hb-reward__meta {
+    display: flex;
+    justify-content: center;
+    gap: 78px;
+    margin-top: 8px;
+    color: var(--hb-reward-gold-bright);
+    font-size: 25px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  body[data-view="run"] .hb-reward__meta[hidden] { display: none; }
+  body[data-view="run"] .hb-reward__meta b { color: inherit; font: inherit; }
+
+  body[data-view="run"] .hb-reward-modal[data-mode="relic"] .upgrade-modal__summary,
+  body[data-view="run"] .hb-reward-modal[data-mode="vault"] .upgrade-modal__summary {
+    display: block;
+  }
+
+  body[data-view="run"] .hb-reward .reward-breakdown { display: none; }
+
+  body[data-view="run"] .hb-reward__cards {
+    position: absolute;
+    left: 31px;
+    right: 31px;
+    top: 205px;
+    height: 419px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 21px;
+    overflow: visible;
+    padding: 0;
+  }
+
+  body[data-view="run"] .hb-card {
+    --card-accent: var(--hb-reward-gold);
+    --card-surface: rgba(2, 18, 9, .97);
+    position: relative;
+    min-width: 0;
+    width: auto;
+    height: 419px;
+    min-height: 419px;
+    overflow: hidden;
+    padding: 14px 15px 13px;
+    border: var(--hb-ui-frame-border) solid var(--card-accent);
+    border-radius: 0;
+    background: var(--card-surface);
+    box-shadow:
+      inset 0 0 0 5px rgba(0, 0, 0, .45),
+      inset 0 0 0 6px color-mix(in srgb, var(--card-accent) 72%, transparent);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    color: var(--hb-reward-ivory);
+    text-align: center;
+    animation: none;
+    transform: none;
+  }
+
+  body[data-view="run"] .hb-card::before,
+  body[data-view="run"] .hb-card::after {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    width: 16px;
+    height: 16px;
+    pointer-events: none;
+    background: none;
+    transform: none;
+  }
+
+  body[data-view="run"] .hb-card::before {
+    left: 8px;
+    top: 8px;
+    border-left: 2px solid var(--card-accent);
+    border-top: 2px solid var(--card-accent);
+  }
+
+  body[data-view="run"] .hb-card::after {
+    right: 8px;
+    bottom: 8px;
+    border-right: 2px solid var(--card-accent);
+    border-bottom: 2px solid var(--card-accent);
+  }
+
+  body[data-view="run"] .hb-card:hover { filter: none; transform: none; }
+  body[data-view="run"] .hb-card--uncommon { --card-accent: var(--hb-reward-uncommon); --card-surface: rgba(3, 30, 14, .97); }
+  body[data-view="run"] .hb-card--rare { --card-accent: var(--hb-reward-rare); --card-surface: rgba(3, 24, 32, .97); }
+  body[data-view="run"] .hb-card--epic { --card-accent: var(--hb-reward-epic); --card-surface: rgba(28, 8, 34, .97); }
+  body[data-view="run"] .hb-card--legendary { --card-accent: var(--hb-reward-gold-bright); --card-surface: rgba(33, 23, 5, .97); }
+  body[data-view="run"] .hb-card--relic { --card-accent: var(--hb-reward-gold); --card-surface: rgba(2, 18, 9, .97); }
+
+  body[data-view="run"] .hb-card__rarity {
+    height: 31px;
+    flex: 0 0 31px;
+    margin: 0;
+    color: var(--card-accent);
+    font-size: 21px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  body[data-view="run"] .hb-card__art {
+    width: 200px;
+    height: 144px;
+    flex: 0 0 144px;
+    margin: 0 auto 10px;
+    border: 1px solid color-mix(in srgb, var(--card-accent) 42%, transparent);
+    border-radius: 7px;
+    background: rgba(0, 12, 8, .62);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+
+  body[data-view="run"] .hb-card__art img {
+    display: block;
+    width: 126px;
+    height: 126px;
+    object-fit: contain;
+    image-rendering: pixelated;
+  }
+
+  body[data-view="run"] .hb-card__name {
+    min-height: 44px;
+    margin: 0;
+    display: grid;
+    place-items: center;
+    color: var(--hb-reward-ivory);
+    font-size: 27px;
+    font-weight: 500;
+    letter-spacing: .7px;
+    line-height: 1.04;
+    text-transform: uppercase;
+  }
+
+  body[data-view="run"] .hb-card__effect,
+  body[data-view="run"] .hb-card__value,
+  body[data-view="run"] .hb-card__ingredients {
+    margin: 0;
+    color: var(--hb-reward-ivory);
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: .5px;
+    line-height: 1.24;
+  }
+
+  body[data-view="run"] .hb-card__effect {
+    min-height: 46px;
+    display: grid;
+    place-items: center;
+  }
+
+  body[data-view="run"] .hb-card__value {
+    min-height: 39px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+
+  body[data-view="run"] .hb-card__value strong { color: var(--card-accent); }
+
+  body[data-view="run"] .hb-card__ingredients {
+    margin: 14px 3px 0;
+    padding: 10px 5px;
+    border-top: 1px solid color-mix(in srgb, var(--card-accent) 55%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--card-accent) 55%, transparent);
+    color: var(--card-accent);
+    font-size: 15px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  body[data-view="run"] .hb-card__button {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    height: 49px;
+    min-height: 49px;
+    flex: 0 0 49px;
+    margin-top: auto;
+    padding: 0;
+    border: 2px solid var(--card-accent);
+    border-radius: 0;
+    background: color-mix(in srgb, var(--card-surface) 64%, var(--card-accent) 36%);
+    box-shadow: none;
+    color: var(--hb-reward-ivory);
+    cursor: pointer;
+    font: 500 25px/1 var(--hb-font-display);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  body[data-view="run"] .hb-card__button::after {
+    content: '';
+    position: absolute;
+    inset: var(--hb-ui-action-inner-standard);
+    border: 1px solid color-mix(in srgb, var(--card-accent) 48%, transparent);
+    pointer-events: none;
+  }
+
+  body[data-view="run"] .hb-card__button:hover,
+  body[data-view="run"] .hb-card__button:focus-visible,
+  body[data-view="run"] .hb-card__button[aria-pressed="true"] {
+    filter: brightness(1.18);
+    outline: 2px solid var(--hb-reward-ivory);
+    outline-offset: 2px;
+    transform: none;
+  }
+
+  body[data-view="run"] .hb-card.upgrade-card--selected { opacity: 1; filter: brightness(1.1); }
+  body[data-view="run"] .hb-reward__cards.upgrade-choices--confirming .hb-card:not(.upgrade-card--selected) { opacity: .62; filter: brightness(.72) saturate(.72); }
+
+  body[data-view="run"] .hb-card--text { padding-top: 20px; }
+  body[data-view="run"] .hb-card--text .hb-card__name {
+    min-height: 82px;
+    padding: 4px 8px 15px;
+    font-size: 27px;
+    line-height: 1.15;
+  }
+  body[data-view="run"] .hb-card--text .hb-card__effect {
+    min-height: 0;
+    padding: 17px 13px;
+    flex: 1 1 auto;
+    align-content: center;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.36;
+  }
+  body[data-view="run"] .hb-card--evolution .hb-card__name {
+    min-height: 62px;
+    padding-bottom: 8px;
+    color: var(--hb-reward-gold-bright);
+    font-size: 32px;
+  }
+  body[data-view="run"] .hb-card--evolution .hb-card__effect { padding: 15px 10px 10px; font-size: 17px; line-height: 1.28; }
+  body[data-view="run"] .hb-card--evolution .hb-card__ingredients { margin-top: 4px; }
+  body[data-view="run"] .hb-card--dense .hb-card__effect,
+  body[data-view="run"] .hb-card--dense .hb-card__value { font-size: 16px; line-height: 1.18; }
+
+  body[data-view="run"] .upgrade-modal--revealing,
+  body[data-view="run"] .upgrade-modal--revealing .upgrade-modal__panel { animation: none; }
+
+  body[data-view="run"] .hb-reward-modal[data-mode="equipment"] .hb-reward__cards {
+    grid-template-columns: 281px;
+    justify-content: center;
+  }
+
+  body[data-view="run"] .hb-reward-modal[data-mode="reshuffle"] .hb-reward__cards {
+    top: 150px;
+    height: 474px;
+    overflow-y: auto;
+  }
+
+  body[data-view="run"] .hb-confirmation-layer {
+    position: fixed;
+    inset: 0;
+    display: block;
+    overflow: hidden;
+    padding: 0;
+    border: 0;
+    background: rgba(0, 0, 0, .62);
+    backdrop-filter: none;
+    color: var(--hb-reward-ivory);
+    font-family: var(--hb-font-display);
+  }
+
+  body[data-view="run"] .hb-confirmation-layer[hidden] { display: none; }
+
+  body[data-view="run"] .hb-confirmation {
+    position: absolute;
+    left: calc(var(--hb-stage-left) + 420px * var(--hb-stage-scale));
+    top: calc(var(--hb-stage-top) + 316px * var(--hb-stage-scale));
+    width: 548px;
+    min-height: 310px;
+    max-width: none;
+    padding: 29px 34px 28px;
+    border: var(--hb-ui-frame-border) solid var(--hb-reward-gold);
+    /* zoom instead of transform: scale — transform rasterizes the layer and then
+       scales the resulting image, which produces seams on 9-slice borders. With
+       zoom the element's own left/top are multiplied by the scale as well, so
+       the scene offset is divided by it. */
+    zoom: var(--hb-stage-scale);
+    background:
+      linear-gradient(rgba(2, 16, 8, .98), rgba(1, 14, 7, .99)),
+      repeating-linear-gradient(45deg, #010e07 0 7px, #010f08 7px 8px);
+    box-shadow:
+      0 12px 34px rgba(0, 0, 0, .75),
+      inset 0 0 0 6px rgba(0, 0, 0, .45),
+      inset 0 0 0 7px rgba(216, 152, 32, .65);
+    display: block;
+    text-align: center;
+  }
+
+  body[data-view="run"] .hb-confirmation .partial-upgrade-modal__eyebrow,
+  body[data-view="run"] .hb-confirmation .partial-upgrade-modal__values { display: none; }
+
+  body[data-view="run"] .hb-confirmation__title,
+  body[data-view="run"] .hb-confirmation h2 {
+    margin: 0;
+    color: var(--hb-reward-gold-bright);
+    font-size: 34px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  body[data-view="run"] .hb-confirmation__rule {
+    height: 1px;
+    margin: 16px 0 18px;
+    background: rgba(216, 152, 32, .7);
+  }
+
+  body[data-view="run"] #partialUpgradeDescription {
+    margin: 0 auto;
+    max-width: 445px;
+    color: var(--hb-reward-ivory);
+    font-size: 20px;
+    line-height: 1.35;
+  }
+
+  body[data-view="run"] #partialUpgradeDescription strong { color: var(--hb-reward-gold-bright); }
+
+  body[data-view="run"] .hb-confirmation__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 26px;
+  }
+
+  body[data-view="run"] .hb-confirmation__button {
+    height: 52px;
+    min-height: 52px;
+    padding: 0;
+    border: 2px solid var(--hb-reward-gold);
+    border-radius: 0;
+    background: var(--hb-reward-green);
+    box-shadow: none;
+    color: var(--hb-reward-ivory);
+    font: 500 20px/1 var(--hb-font-display);
+    letter-spacing: 1px;
+  }
+
+  body[data-view="run"] .hb-confirmation__button--take { background: #5b3a0e; }
+  body[data-view="run"] .hb-confirmation__button:hover,
+  body[data-view="run"] .hb-confirmation__button:focus-visible {
+    filter: brightness(1.18);
+    outline: 2px solid var(--hb-reward-ivory);
+    outline-offset: 2px;
+    transform: none;
+  }
+}

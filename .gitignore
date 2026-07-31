@@ -1,0 +1,11 @@
+node_modules/
+.env
+*.log
+
+# Python cache: machine-generated, unrelated to the project, and it used to
+# land in history and add noise to every commit that touched the tools.
+__pycache__/
+*.pyc
+node_modules/
+tools/sprites/legs/
+tools/sprites/steps.png

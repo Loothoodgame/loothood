@@ -1,0 +1,1115 @@
+/* Accepted Main Menu visual system applied to remaining desktop surfaces. */
+@media (hover: hover) and (pointer: fine) and (min-width: 900px) {
+  /* Shared overlay grammar. Screen-specific selectors opt into this class. */
+  body.desktop-menu-active:not(.is-running) .hb-menu-system-overlay,
+  body.desktop-menu-active:not(.is-running) .hb-menu-system-overlay * {
+    box-sizing: border-box;
+  }
+
+  body.desktop-menu-active:not(.is-running) .hb-menu-system-overlay {
+    color: var(--hb-ui-ivory);
+    font-family: var(--hb-menu-font-body);
+    font-size: var(--hb-menu-type-body);
+    line-height: var(--hb-menu-line-body);
+  }
+
+  body.desktop-menu-active:not(.is-running) .hb-menu-system-overlay :is(h1, h2, h3, button) {
+    font-family: var(--hb-menu-font-display);
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  body.desktop-menu-active:not(.is-running) .hb-menu-system-overlay h2 {
+    font-size: var(--hb-menu-type-display-lg);
+    line-height: var(--hb-menu-line-display-lg);
+    text-transform: uppercase;
+  }
+
+  body.desktop-menu-active:not(.is-running) .hb-menu-system-overlay :is(h3, button) {
+    font-size: var(--hb-menu-type-display-md);
+    line-height: var(--hb-menu-line-display-md);
+  }
+
+  body.desktop-menu-active:not(.is-running) .hb-menu-system-overlay :is(p, dt, dd, li, span, small, label, option) {
+    font-family: var(--hb-menu-font-body);
+    font-size: var(--hb-menu-type-body);
+    line-height: var(--hb-menu-line-body);
+    letter-spacing: 0;
+  }
+
+  body.desktop-menu-active:not(.is-running) .hb-menu-system-overlay :is(dd, strong, b, output, [data-value]) {
+    font-family: var(--hb-menu-font-value);
+    font-size: var(--hb-menu-type-value);
+    font-weight: 700;
+    line-height: var(--hb-menu-line-value);
+  }
+
+  body.desktop-menu-active:not(.is-running) .hb-menu-system-overlay .stats-modal__head > div > p,
+  body.desktop-menu-active:not(.is-running) .hb-menu-system-overlay .stats-modal__head > div > span:not(.hb-diamond-rule) {
+    font-size: var(--hb-menu-type-meta);
+    line-height: var(--hb-menu-line-meta);
+    text-transform: uppercase;
+  }
+
+  body.desktop-menu-active:not(.is-running) .hb-menu-system-overlay .hb-diamond-rule {
+    position: relative;
+    display: block;
+    width: min(180px, 72%);
+    height: var(--hb-menu-rule-diamond);
+    margin-top: var(--hb-ui-space-1);
+    border-top: 1px solid var(--border-frame);
+  }
+
+  body.desktop-menu-active:not(.is-running) .hb-menu-system-overlay .hb-diamond-rule::before,
+  body.desktop-menu-active:not(.is-running) .hb-menu-system-overlay .hb-diamond-rule::after {
+    content: "";
+    position: absolute;
+    top: calc((var(--hb-menu-rule-diamond) / -2) - 1px);
+    width: var(--hb-menu-rule-diamond);
+    height: var(--hb-menu-rule-diamond);
+    transform: rotate(45deg);
+    border: 1px solid var(--border-frame);
+    background: var(--surface-panel);
+  }
+
+  body.desktop-menu-active:not(.is-running) .hb-menu-system-overlay .hb-diamond-rule::before { left: 0; }
+  body.desktop-menu-active:not(.is-running) .hb-menu-system-overlay .hb-diamond-rule::after { right: 0; }
+
+  body.desktop-menu-active:not(.is-running) .hb-menu-system-overlay :is(button, select, input, textarea):focus-visible {
+    outline: 2px solid var(--border-interactive);
+    outline-offset: 2px;
+  }
+
+  /* Plots */
+  .desktop-main-menu .hb-plots-screen {
+    background: var(--surface-page);
+  }
+
+  .desktop-main-menu .hb-plots-heading,
+  .desktop-main-menu .hb-plot-board {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-panel);
+    box-shadow:
+      inset 1px 1px 0 color-mix(in srgb, var(--surface-panel) 76%, var(--border-frame)),
+      inset -1px -1px 0 color-mix(in srgb, var(--surface-panel) 72%, var(--surface-page));
+  }
+
+  .desktop-main-menu .hb-plot-grid {
+    border: 1px solid var(--border-separator);
+    background: var(--surface-panel);
+  }
+
+  .desktop-main-menu .hb-plot {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-card);
+    box-shadow:
+      inset 1px 1px 0 color-mix(in srgb, var(--surface-card) 76%, var(--border-frame)),
+      inset -1px -1px 0 color-mix(in srgb, var(--surface-card) 72%, var(--surface-page));
+  }
+
+  .desktop-main-menu .hb-plot:is(:hover, :focus-visible) {
+    border-color: var(--border-interactive);
+  }
+
+  .desktop-main-menu .hb-plots-heading dd,
+  .desktop-main-menu .hb-plot .hb-value {
+    font-family: var(--hb-menu-font-value);
+    font-weight: 700;
+  }
+
+  /* Equipment Pulls */
+  body.desktop-menu-active:not(.is-running) #gachaModal {
+    background: color-mix(in srgb, var(--surface-page) 74%, transparent);
+  }
+
+  body.desktop-menu-active:not(.is-running) #gachaModal .gacha-modal__panel {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-panel);
+    box-shadow:
+      inset 1px 1px 0 color-mix(in srgb, var(--surface-panel) 76%, var(--border-frame)),
+      inset -1px -1px 0 color-mix(in srgb, var(--surface-panel) 72%, var(--surface-page));
+  }
+
+  body.desktop-menu-active:not(.is-running) #gachaModal :is(.stats-modal__head, .stats-modal__footer) {
+    border-color: var(--border-separator);
+    background: var(--surface-panel);
+  }
+
+  body.desktop-menu-active:not(.is-running) #gachaModal .stats-modal__body {
+    background: var(--surface-page);
+  }
+
+  body.desktop-menu-active:not(.is-running) #gachaModal :is(
+    .gacha-balances,
+    .gacha-tier-tabs,
+    .gacha-draw-surface,
+    .gacha-history
+  ) {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-card);
+  }
+
+  body.desktop-menu-active:not(.is-running) #gachaModal :is(.gacha-odds > div, .gacha-pity > div, .gacha-history > div) {
+    border-color: var(--border-separator);
+  }
+
+  body.desktop-menu-active:not(.is-running) #gachaModal :is(button, select) {
+    min-height: var(--hb-ui-touch-target);
+    border: 1px solid var(--border-interactive);
+    background: var(--surface-card);
+    color: var(--hb-ui-ivory);
+    box-shadow:
+      inset 1px 1px 0 color-mix(in srgb, var(--surface-card) 76%, var(--border-frame)),
+      inset -1px -1px 0 color-mix(in srgb, var(--surface-card) 72%, var(--surface-page));
+  }
+
+  body.desktop-menu-active:not(.is-running) #gachaModal .gacha-tier-tabs button:not([aria-selected="true"]) {
+    border-color: var(--border-separator);
+  }
+
+  /* Outfitter */
+  body.desktop-menu-active:not(.is-running) #outfitterModal {
+    background: color-mix(in srgb, var(--surface-page) 74%, transparent);
+  }
+
+  body.desktop-menu-active:not(.is-running) #outfitterModal .outfitter-modal__panel {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-panel);
+    box-shadow:
+      inset 1px 1px 0 color-mix(in srgb, var(--surface-panel) 76%, var(--border-frame)),
+      inset -1px -1px 0 color-mix(in srgb, var(--surface-panel) 72%, var(--surface-page));
+  }
+
+  body.desktop-menu-active:not(.is-running) #outfitterModal :is(.stats-modal__head, .stats-modal__footer) {
+    border-color: var(--border-separator);
+    background: var(--surface-panel);
+  }
+
+  body.desktop-menu-active:not(.is-running) #outfitterModal .stats-modal__body {
+    background: var(--surface-page);
+  }
+
+  body.desktop-menu-active:not(.is-running) #outfitterModal :is(
+    .equipment-slot,
+    .equipment-revision-bench,
+    .equipment-revision-bench__item,
+    .equipment-revision-bench__preview,
+    .scrap-forge,
+    .outfitter-inventory__head,
+    .equipment-item,
+    .outfitter-test-tools,
+    .equipment-playtest-crate,
+    .equipment-test-catalogue,
+    .equipment-catalogue-card
+  ) {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-card);
+  }
+
+  body.desktop-menu-active:not(.is-running) #outfitterModal :is(
+    .equipment-affixes > span,
+    .equipment-revision-roll,
+    .equipment-playtest-result,
+    .equipment-catalogue-card dl > div
+  ) {
+    border-color: var(--border-separator);
+  }
+
+  body.desktop-menu-active:not(.is-running) #outfitterModal :is(button, select, summary) {
+    min-height: var(--hb-ui-touch-target);
+  }
+
+  body.desktop-menu-active:not(.is-running) #outfitterModal .outfitter-test-tools > summary {
+    min-height: 48px;
+    padding-block: 14px;
+  }
+
+  body.desktop-menu-active:not(.is-running) #outfitterModal .outfitter-test-tools {
+    overflow: visible;
+  }
+
+  body.desktop-menu-active:not(.is-running) #outfitterModal :is(button, select) {
+    border: 1px solid var(--border-interactive);
+    background: var(--surface-card);
+    color: var(--hb-ui-ivory);
+    box-shadow:
+      inset 1px 1px 0 color-mix(in srgb, var(--surface-card) 76%, var(--border-frame)),
+      inset -1px -1px 0 color-mix(in srgb, var(--surface-card) 72%, var(--surface-page));
+  }
+
+  body.desktop-menu-active:not(.is-running) #outfitterModal :is(button:disabled, select:disabled) {
+    border-color: var(--border-separator);
+  }
+
+  body.desktop-menu-active:not(.is-running) #outfitterModal :is(
+    .equipment-affixes b,
+    .equipment-revision-bench__preview strong,
+    .scrap-forge__action strong,
+    .equipment-item__head strong
+  ) {
+    font-family: var(--hb-menu-font-value);
+    font-weight: 700;
+  }
+
+  body.desktop-menu-active:not(.is-running) #outfitterModal .equipment-catalogue-card dl > div {
+    grid-template-columns: minmax(max-content, .45fr) minmax(0, 1fr);
+  }
+
+  /* Bounties */
+  body.desktop-menu-active:not(.is-running) #bountiesModal {
+    background: color-mix(in srgb, var(--surface-page) 74%, transparent);
+  }
+
+  body.desktop-menu-active:not(.is-running) #bountiesModal .utility-modal__panel {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-panel);
+    box-shadow:
+      inset 1px 1px 0 color-mix(in srgb, var(--surface-panel) 76%, var(--border-frame)),
+      inset -1px -1px 0 color-mix(in srgb, var(--surface-panel) 72%, var(--surface-page));
+  }
+
+  body.desktop-menu-active:not(.is-running) #bountiesModal .stats-modal__head,
+  body.desktop-menu-active:not(.is-running) #bountiesModal > .utility-modal__panel > .utility-modal__back {
+    border-color: var(--border-separator);
+    background: var(--surface-panel);
+  }
+
+  body.desktop-menu-active:not(.is-running) #bountiesModal .bounty-section {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-panel);
+  }
+
+  body.desktop-menu-active:not(.is-running) #bountiesModal :is(
+    .weekly-ticket-progress,
+    .bounty,
+    .bounty-empty,
+    .bounty-balances span,
+    .bounty__rewards span
+  ) {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-card);
+  }
+
+  body.desktop-menu-active:not(.is-running) #bountiesModal :is(
+    .bounty-section + .bounty-section,
+    .bounty__rewards span,
+    meter
+  ) {
+    border-color: var(--border-separator);
+  }
+
+  body.desktop-menu-active:not(.is-running) #bountiesModal :is(
+    .bounty__head b,
+    .bounty__rewards strong,
+    .weekly-ticket-progress > b,
+    .bounty-balances strong
+  ) {
+    font-family: var(--hb-menu-font-value);
+    font-weight: 700;
+  }
+
+  body.desktop-menu-active:not(.is-running) #bountiesModal button {
+    min-height: var(--hb-ui-touch-target);
+    border: 1px solid var(--border-interactive);
+    background: var(--surface-card);
+    color: var(--hb-ui-ivory);
+    box-shadow:
+      inset 1px 1px 0 color-mix(in srgb, var(--surface-card) 76%, var(--border-frame)),
+      inset -1px -1px 0 color-mix(in srgb, var(--surface-card) 72%, var(--surface-page));
+  }
+
+  /* Guide */
+  body.desktop-menu-active:not(.is-running) #tutorialGuideModal {
+    background: color-mix(in srgb, var(--surface-page) 74%, transparent);
+  }
+
+  body.desktop-menu-active:not(.is-running) #tutorialGuideModal .utility-modal__panel {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-panel);
+    box-shadow:
+      inset 1px 1px 0 color-mix(in srgb, var(--surface-panel) 76%, var(--border-frame)),
+      inset -1px -1px 0 color-mix(in srgb, var(--surface-panel) 72%, var(--surface-page));
+  }
+
+  body.desktop-menu-active:not(.is-running) #tutorialGuideModal :is(.stats-modal__head, .stats-modal__footer) {
+    border-color: var(--border-separator);
+    background: var(--surface-panel);
+  }
+
+  body.desktop-menu-active:not(.is-running) #tutorialGuideModal .tutorial-guide__body {
+    background: var(--surface-page);
+  }
+
+  body.desktop-menu-active:not(.is-running) #tutorialGuideModal .tutorial-guide__entry {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-card);
+    box-shadow:
+      inset 1px 1px 0 color-mix(in srgb, var(--surface-card) 76%, var(--border-frame)),
+      inset -1px -1px 0 color-mix(in srgb, var(--surface-card) 72%, var(--surface-page));
+  }
+
+  body.desktop-menu-active:not(.is-running) #tutorialGuideModal .tutorial-guide__entry small {
+    font-size: var(--hb-menu-type-meta);
+    line-height: var(--hb-menu-line-meta);
+    text-transform: uppercase;
+  }
+
+  body.desktop-menu-active:not(.is-running) #tutorialGuideModal button {
+    min-height: var(--hb-ui-touch-target);
+    border: 1px solid var(--border-interactive);
+    background: var(--surface-card);
+    color: var(--hb-ui-ivory);
+    box-shadow:
+      inset 1px 1px 0 color-mix(in srgb, var(--surface-card) 76%, var(--border-frame)),
+      inset -1px -1px 0 color-mix(in srgb, var(--surface-card) 72%, var(--surface-page));
+  }
+
+  /* Prepare Hunt detail */
+  .desktop-main-menu :is(.hb-standard-hunt-preparation, .hb-seasonal-hunt-preparation) {
+    grid-template-rows: 45% 55%;
+    background: var(--surface-page);
+  }
+
+  .desktop-main-menu :is(.hb-standard-hunt-preparation, .hb-seasonal-hunt-preparation) .hb-prepare-dashboard > article {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-panel);
+    box-shadow:
+      inset 1px 1px 0 color-mix(in srgb, var(--surface-panel) 76%, var(--border-frame)),
+      inset -1px -1px 0 color-mix(in srgb, var(--surface-panel) 72%, var(--surface-page));
+  }
+
+  .desktop-main-menu :is(.hb-standard-hunt-preparation, .hb-seasonal-hunt-preparation) .hb-prepare-dashboard > .hb-prepare-rules {
+    background: var(--hb-ui-parchment);
+  }
+
+  .desktop-main-menu :is(.hb-standard-hunt-preparation, .hb-seasonal-hunt-preparation) .hb-prepare-rules .hb-diamond-rule {
+    --hb-rule-fill: var(--hb-ui-parchment);
+    border-color: var(--border-separator);
+  }
+
+  .desktop-main-menu :is(.hb-standard-hunt-preparation, .hb-seasonal-hunt-preparation) .hb-prepare-rules .hb-prestige-control {
+    background: transparent;
+  }
+
+  .desktop-main-menu :is(.hb-standard-hunt-preparation, .hb-seasonal-hunt-preparation) :is(
+    .hb-prepare-state,
+    .hb-prepare-loadout dl > div,
+    .hb-prestige-control,
+    .hb-prepare-foundation-option
+  ) {
+    border-color: var(--border-separator);
+    background: var(--surface-card);
+  }
+
+  .desktop-main-menu :is(.hb-standard-hunt-preparation, .hb-seasonal-hunt-preparation) :is(
+    .hb-ledger-button,
+    .hb-prestige-selector,
+    .hb-prepare-foundation-option[aria-checked="true"]
+  ) {
+    min-height: var(--hb-ui-touch-target);
+    border-color: var(--border-interactive);
+  }
+
+  .desktop-main-menu :is(.hb-standard-hunt-preparation, .hb-seasonal-hunt-preparation) :is(
+    .hb-prepare-rules dd,
+    .hb-prepare-loadout dd,
+    .hb-prestige-control strong,
+    .hb-prestige-control small
+  ) {
+    font-family: var(--hb-menu-font-value);
+    font-weight: 700;
+  }
+
+  .desktop-main-menu :is(.hb-standard-hunt-preparation, .hb-seasonal-hunt-preparation) .hb-prepare-foundation {
+    display: grid;
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+  }
+
+  .desktop-main-menu :is(.hb-standard-hunt-preparation, .hb-seasonal-hunt-preparation) .hb-prepare-foundation-list {
+    min-height: 0;
+    align-content: start;
+  }
+
+  .desktop-main-menu :is(.hb-standard-hunt-preparation, .hb-seasonal-hunt-preparation) .hb-prepare-rules dl .hb-prepare-prestige-row {
+    min-height: 12.5cqh;
+  }
+
+  .desktop-main-menu :is(.hb-standard-hunt-preparation, .hb-seasonal-hunt-preparation) .hb-prepare-final-actions {
+    position: static;
+    align-self: end;
+    margin-top: var(--hb-ui-space-2);
+  }
+
+  /* Plot chooser and inspector */
+  body.desktop-menu-active:not(.is-running) .hb-plot-dialog-layer {
+    background: color-mix(in srgb, var(--surface-page) 74%, transparent);
+  }
+
+  body.desktop-menu-active:not(.is-running) .hb-plot-build-dialog {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-panel);
+    box-shadow:
+      inset 1px 1px 0 color-mix(in srgb, var(--surface-panel) 76%, var(--border-frame)),
+      inset -1px -1px 0 color-mix(in srgb, var(--surface-panel) 72%, var(--surface-page));
+  }
+
+  body.desktop-menu-active:not(.is-running) :is(
+    .hb-market-dialog__panel,
+    #inventoryModal .utility-modal__panel,
+    #bountiesModal .utility-modal__panel,
+    #equipmentCraftReveal .equipment-craft-reveal__panel,
+    #destructiveConfirmModal .destructive-confirm-modal__panel
+  ) {
+    --hb-dialog-inner-frame-inset: 1px;
+  }
+
+  body.desktop-menu-active:not(.is-running) .hb-plot-build-dialog :is(
+    .hb-plot-build-dialog__header,
+    .hb-plot-build-dialog__footer
+  ) {
+    border-color: var(--border-separator);
+    background: var(--surface-panel);
+  }
+
+  body.desktop-menu-active:not(.is-running) .hb-plot-build-dialog__body {
+    background: var(--surface-page);
+  }
+
+  body.desktop-menu-active:not(.is-running) .hb-plot-build-dialog :is(
+    .hb-build-preview,
+    .hb-plot-inspector-card,
+    .hb-plot-inspector-summary
+  ) {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-card);
+  }
+
+  body.desktop-menu-active:not(.is-running) .hb-plot-build-dialog .hb-build-catalogue {
+    border: 1px solid var(--border-frame);
+    background: var(--hb-ui-parchment);
+  }
+
+  body.desktop-menu-active:not(.is-running) .hb-plot-build-dialog .hb-build-option {
+    border: 0;
+    background: transparent;
+    color: var(--hb-parchment-ink);
+  }
+
+  body.desktop-menu-active:not(.is-running) .hb-plot-build-dialog .hb-build-option.is-selected {
+    background: var(--hb-forest);
+    color: var(--hb-ui-ivory);
+  }
+
+  body.desktop-menu-active:not(.is-running) .hb-plot-build-dialog :is(dl > div, .hb-build-option + .hb-build-option) {
+    border-color: var(--border-separator);
+  }
+
+  body.desktop-menu-active:not(.is-running) .hb-plot-build-dialog :is(button, select) {
+    min-height: var(--hb-ui-touch-target);
+    border: 1px solid var(--border-interactive);
+    background: var(--surface-card);
+    color: var(--hb-ui-ivory);
+  }
+
+  /* Settlement fixtures and Supply Yard */
+  body.desktop-menu-active:not(.is-running) #settlementModal {
+    background: color-mix(in srgb, var(--surface-page) 74%, transparent);
+  }
+
+  body.desktop-menu-active:not(.is-running) #settlementModal .utility-modal__panel {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    align-content: stretch;
+    overflow: hidden;
+    border: 1px solid var(--border-frame);
+    background: var(--surface-panel);
+    box-shadow:
+      inset 1px 1px 0 color-mix(in srgb, var(--surface-panel) 76%, var(--border-frame)),
+      inset -1px -1px 0 color-mix(in srgb, var(--surface-panel) 72%, var(--surface-page));
+  }
+
+  body.desktop-menu-active:not(.is-running) #settlementModal :is(.stats-modal__head, .stats-modal__footer) {
+    border-color: var(--border-separator);
+    background: var(--surface-panel);
+  }
+
+  body.desktop-menu-active:not(.is-running) #settlementModal .stats-modal__body {
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: var(--surface-page);
+  }
+
+  body.desktop-menu-active:not(.is-running) #settlementModal :is(
+    .civic-fixture,
+    .storehouse-status,
+    .storehouse-resource,
+    .storehouse-capacity,
+    .storehouse-upgrade
+  ) {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-card);
+  }
+
+  body.desktop-menu-active:not(.is-running) #settlementModal :is(
+    .civic-fixture__stats > div,
+    .storehouse-resource > div,
+    .storehouse-capacity > div,
+    .storehouse-upgrade > div
+  ) {
+    border-color: var(--border-separator);
+  }
+
+  body.desktop-menu-active:not(.is-running) #settlementModal :is(button, select) {
+    min-height: var(--hb-ui-touch-target);
+    border: 1px solid var(--border-interactive);
+    background: var(--surface-card);
+    color: var(--hb-ui-ivory);
+    box-shadow:
+      inset 1px 1px 0 color-mix(in srgb, var(--surface-card) 76%, var(--border-frame)),
+      inset -1px -1px 0 color-mix(in srgb, var(--surface-card) 72%, var(--surface-page));
+  }
+
+  body.desktop-menu-active:not(.is-running) #settlementModal :is(
+    .civic-fixture strong,
+    .storehouse-resource strong,
+    .storehouse-upgrade strong,
+    meter + span
+  ) {
+    font-family: var(--hb-menu-font-value);
+    font-weight: 700;
+  }
+
+  /* Character Stats */
+  body.desktop-menu-active:not(.is-running) #statsModal {
+    background: color-mix(in srgb, var(--surface-page) 74%, transparent);
+  }
+
+  body.desktop-menu-active:not(.is-running) #statsModal .stats-modal__panel {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-panel);
+    box-shadow:
+      inset 1px 1px 0 color-mix(in srgb, var(--surface-panel) 76%, var(--border-frame)),
+      inset -1px -1px 0 color-mix(in srgb, var(--surface-panel) 72%, var(--surface-page));
+  }
+
+  body.desktop-menu-active:not(.is-running) #statsModal :is(.stats-modal__head, .stats-modal__footer) {
+    border-color: var(--border-separator);
+    background: var(--surface-panel);
+  }
+
+  body.desktop-menu-active:not(.is-running) #statsModal .stats-modal__body {
+    background: var(--surface-page);
+  }
+
+  body.desktop-menu-active:not(.is-running) #statsModal .character-stat {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-card);
+  }
+
+  body.desktop-menu-active:not(.is-running) #statsModal .character-stat strong {
+    font-family: var(--hb-menu-font-value);
+    font-weight: 700;
+  }
+
+  body.desktop-menu-active:not(.is-running) #statsModal button {
+    min-height: var(--hb-ui-touch-target);
+    border: 1px solid var(--border-interactive);
+    background: var(--surface-card);
+    color: var(--hb-ui-ivory);
+  }
+
+  /* Inventory */
+  body.desktop-menu-active:not(.is-running) #inventoryModal {
+    background: color-mix(in srgb, var(--surface-page) 74%, transparent);
+  }
+
+  body.desktop-menu-active:not(.is-running) #inventoryModal .utility-modal__panel {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-panel);
+    box-shadow:
+      inset 1px 1px 0 color-mix(in srgb, var(--surface-panel) 76%, var(--border-frame)),
+      inset -1px -1px 0 color-mix(in srgb, var(--surface-panel) 72%, var(--surface-page));
+  }
+
+  body.desktop-menu-active:not(.is-running) #inventoryModal :is(.stats-modal__head, .stats-modal__footer) {
+    border-color: var(--border-separator);
+    background: var(--surface-panel);
+  }
+
+  body.desktop-menu-active:not(.is-running) #inventoryModal .stats-modal__body {
+    background: var(--surface-page);
+  }
+
+  body.desktop-menu-active:not(.is-running) #inventoryModal .inventory-card {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-card);
+  }
+
+  body.desktop-menu-active:not(.is-running) #inventoryModal :is(
+    .inventory-card__storage,
+    .inventory-card meter
+  ) {
+    border-color: var(--border-separator);
+  }
+
+  body.desktop-menu-active:not(.is-running) #inventoryModal :is(.inventory-card > b, .inventory-card__storage strong) {
+    font-family: var(--hb-menu-font-value);
+    font-weight: 700;
+  }
+
+  body.desktop-menu-active:not(.is-running) #inventoryModal button {
+    min-height: var(--hb-ui-touch-target);
+    border: 1px solid var(--border-interactive);
+    background: var(--surface-card);
+    color: var(--hb-ui-ivory);
+  }
+
+  /* Season Centre */
+  body.desktop-menu-active:not(.is-running) #seasonCentreModal {
+    background: color-mix(in srgb, var(--surface-page) 74%, transparent);
+  }
+
+  body.desktop-menu-active:not(.is-running) #seasonCentreModal .season-centre__panel {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-panel);
+    box-shadow:
+      inset 1px 1px 0 color-mix(in srgb, var(--surface-panel) 76%, var(--border-frame)),
+      inset -1px -1px 0 color-mix(in srgb, var(--surface-panel) 72%, var(--surface-page));
+  }
+
+  body.desktop-menu-active:not(.is-running) #seasonCentreModal :is(.season-centre__header, .season-centre__footer) {
+    border-color: var(--border-separator);
+    background: var(--surface-panel);
+  }
+
+  body.desktop-menu-active:not(.is-running) #seasonCentreModal .season-centre__body {
+    background: var(--surface-page);
+  }
+
+  body.desktop-menu-active:not(.is-running) #seasonCentreModal :is(
+    .season-centre__intro,
+    .season-centre__metric,
+    .season-centre__surface,
+    .season-centre__active-ticket,
+    .season-centre__journey li,
+    .season-centre__timeline li,
+    .season-centre__leaderboard,
+    .season-centre__callout,
+    .season-centre__seal
+  ) {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-card);
+  }
+
+  body.desktop-menu-active:not(.is-running) #seasonCentreModal :is(
+    .season-centre__leaderboard-row + .season-centre__leaderboard-row,
+    .season-centre__seal-values > div + div,
+    .season-centre__active-values > div + div
+  ) {
+    border-color: var(--border-separator);
+  }
+
+  body.desktop-menu-active:not(.is-running) #seasonCentreModal :is(button, .season-centre__brand-mark) {
+    border: 1px solid var(--border-interactive);
+    background: var(--surface-card);
+    color: var(--hb-ui-ivory);
+  }
+
+  body.desktop-menu-active:not(.is-running) #seasonCentreModal button {
+    min-height: var(--hb-ui-touch-target);
+  }
+
+  body.desktop-menu-active:not(.is-running) #seasonCentreModal :is(button:disabled, button:not([aria-current="page"]):not(:hover)) {
+    border-color: var(--border-separator);
+  }
+
+  body.desktop-menu-active:not(.is-running) #seasonCentreModal :is(
+    .season-centre__metric strong,
+    .season-centre__disclosure strong,
+    .season-centre__leaderboard-meta strong,
+    .season-centre__seal-values dd,
+    .season-centre__active-values dd
+  ) {
+    font-family: var(--hb-menu-font-value);
+    font-weight: 700;
+  }
+
+  /* Gacha reveal chrome; authored notice art remains unchanged. */
+  body.desktop-menu-active:not(.is-running) #gachaReveal {
+    background: color-mix(in srgb, var(--surface-page) 92%, transparent);
+  }
+
+  body.desktop-menu-active:not(.is-running) #gachaReveal .gacha-reveal__stage {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-panel);
+    box-shadow:
+      inset 1px 1px 0 color-mix(in srgb, var(--surface-panel) 76%, var(--border-frame)),
+      inset -1px -1px 0 color-mix(in srgb, var(--surface-panel) 72%, var(--surface-page));
+  }
+
+  body.desktop-menu-active:not(.is-running) #gachaReveal :is(.gacha-reveal__head, .gacha-reveal__footer) {
+    border-color: var(--border-separator);
+    background: var(--surface-panel);
+  }
+
+  body.desktop-menu-active:not(.is-running) #gachaReveal :is(.gacha-reveal__single, .gacha-reveal__grid) {
+    background: var(--surface-page);
+  }
+
+  body.desktop-menu-active:not(.is-running) #gachaReveal .gacha-reveal__detail-panel {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-card);
+  }
+
+  body.desktop-menu-active:not(.is-running) #gachaReveal :is(
+    .gacha-reveal-result__meta > div,
+    .gacha-reveal__detail-stats li,
+    .gacha-reveal__detail-effect
+  ) {
+    border-color: var(--border-separator);
+  }
+
+  body.desktop-menu-active:not(.is-running) #gachaReveal button:not(.gacha-reveal__poster) {
+    min-height: var(--hb-ui-touch-target);
+    border: 1px solid var(--border-interactive);
+    background: var(--surface-card);
+    color: var(--hb-ui-ivory);
+  }
+
+  /* Crafted equipment result */
+  body.desktop-menu-active:not(.is-running) #equipmentCraftReveal {
+    background: color-mix(in srgb, var(--surface-page) 92%, transparent);
+  }
+
+  body.desktop-menu-active:not(.is-running) #equipmentCraftReveal .equipment-craft-reveal__panel {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-panel);
+    padding: var(--hb-ui-space-4);
+    box-shadow:
+      inset 1px 1px 0 color-mix(in srgb, var(--surface-panel) 76%, var(--border-frame)),
+      inset -1px -1px 0 color-mix(in srgb, var(--surface-panel) 72%, var(--surface-page));
+  }
+
+  body.desktop-menu-active:not(.is-running) #equipmentCraftReveal :is(
+    .equipment-craft-reveal__affixes > div,
+    .equipment-craft-reveal__effect
+  ) {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-card);
+  }
+
+  body.desktop-menu-active:not(.is-running) #equipmentCraftReveal .equipment-craft-reveal__panel > button {
+    min-height: var(--hb-ui-touch-target);
+    border: 1px solid var(--border-interactive);
+    background: var(--surface-card);
+    color: var(--hb-ui-ivory);
+  }
+
+  body.desktop-menu-active:not(.is-running) #equipmentCraftReveal .equipment-craft-reveal__affixes strong {
+    font-family: var(--hb-menu-font-value);
+    font-weight: 700;
+  }
+
+  /* Storehouse capacity warning */
+  body.desktop-menu-active:not(.is-running) #storehouseRiskModal {
+    background: color-mix(in srgb, var(--surface-page) 82%, transparent);
+  }
+
+  body.desktop-menu-active:not(.is-running) #storehouseRiskModal .storehouse-risk__panel {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-panel);
+    box-shadow:
+      inset 1px 1px 0 color-mix(in srgb, var(--surface-panel) 76%, var(--border-frame)),
+      inset -1px -1px 0 color-mix(in srgb, var(--surface-panel) 72%, var(--surface-page));
+  }
+
+  body.desktop-menu-active:not(.is-running) #storehouseRiskModal .storehouse-risk__resource {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-card);
+  }
+
+  body.desktop-menu-active:not(.is-running) #storehouseRiskModal .storehouse-risk__resource[data-at-risk="true"] {
+    border-color: var(--hb-ui-danger);
+  }
+
+  body.desktop-menu-active:not(.is-running) #storehouseRiskModal button {
+    min-height: var(--hb-ui-touch-target);
+    border: 1px solid var(--border-interactive);
+    background: var(--surface-card);
+    color: var(--hb-ui-ivory);
+  }
+
+  body.desktop-menu-active:not(.is-running) #storehouseRiskModal .button--danger {
+    border-color: var(--hb-ui-danger);
+  }
+
+  body.desktop-menu-active:not(.is-running) #storehouseRiskModal .storehouse-risk__resource b {
+    font-family: var(--hb-menu-font-value);
+    font-weight: 700;
+  }
+
+  /* Destructive confirmation */
+  body.desktop-menu-active:not(.is-running) #destructiveConfirmModal {
+    background: color-mix(in srgb, var(--surface-page) 82%, transparent);
+  }
+
+  body.desktop-menu-active:not(.is-running) #destructiveConfirmModal .destructive-confirm-modal__panel {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-panel);
+    box-shadow:
+      inset 1px 1px 0 color-mix(in srgb, var(--surface-panel) 76%, var(--border-frame)),
+      inset -1px -1px 0 color-mix(in srgb, var(--surface-panel) 72%, var(--surface-page));
+  }
+
+  body.desktop-menu-active:not(.is-running) #destructiveConfirmModal button {
+    min-height: var(--hb-ui-touch-target);
+    border: 1px solid var(--border-interactive);
+    background: var(--surface-card);
+    color: var(--hb-ui-ivory);
+  }
+
+  body.desktop-menu-active:not(.is-running) #destructiveConfirmModal .button--danger {
+    border-color: var(--hb-ui-danger);
+  }
+
+  /* Save migration notice */
+  body.desktop-menu-active:not(.is-running) #alphaResetModal {
+    background: color-mix(in srgb, var(--surface-page) 82%, transparent);
+  }
+
+  body.desktop-menu-active:not(.is-running) #alphaResetModal .alpha-reset-modal__panel {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-panel);
+    box-shadow:
+      inset 1px 1px 0 color-mix(in srgb, var(--surface-panel) 76%, var(--border-frame)),
+      inset -1px -1px 0 color-mix(in srgb, var(--surface-panel) 72%, var(--surface-page));
+  }
+
+  body.desktop-menu-active:not(.is-running) #alphaResetModal button {
+    min-height: var(--hb-ui-touch-target);
+    border: 1px solid var(--border-interactive);
+    background: var(--surface-card);
+    color: var(--hb-ui-ivory);
+  }
+
+  /* Tutorial welcome */
+  body.desktop-menu-active:not(.is-running) #inductionModal {
+    background: color-mix(in srgb, var(--surface-page) 82%, transparent);
+  }
+
+  body.desktop-menu-active:not(.is-running) #inductionModal .induction-modal__panel {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-panel);
+    box-shadow:
+      inset 1px 1px 0 color-mix(in srgb, var(--surface-panel) 76%, var(--border-frame)),
+      inset -1px -1px 0 color-mix(in srgb, var(--surface-panel) 72%, var(--surface-page));
+  }
+
+  body.desktop-menu-active:not(.is-running) #inductionModal button {
+    min-height: var(--hb-ui-touch-target);
+    border: 1px solid var(--border-interactive);
+    background: var(--surface-card);
+    color: var(--hb-ui-ivory);
+  }
+
+  /* Three-step Run Setup fallback */
+  body.desktop-menu-active:not(.is-running) #runSetupModal {
+    background: color-mix(in srgb, var(--surface-page) 74%, transparent);
+  }
+
+  body.desktop-menu-active:not(.is-running) #runSetupModal .run-setup-modal__panel {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-panel);
+    box-shadow:
+      inset 1px 1px 0 color-mix(in srgb, var(--surface-panel) 76%, var(--border-frame)),
+      inset -1px -1px 0 color-mix(in srgb, var(--surface-panel) 72%, var(--surface-page));
+  }
+
+  body.desktop-menu-active:not(.is-running) #runSetupModal :is(.run-setup-modal__header, .run-setup-mobile-footer) {
+    border-color: var(--border-separator);
+    background: var(--surface-panel);
+  }
+
+  body.desktop-menu-active:not(.is-running) #runSetupModal .run-setup-modal__content {
+    background: var(--surface-page);
+  }
+
+  body.desktop-menu-active:not(.is-running) #runSetupModal :is(
+    .run-setup-stepper,
+    .prestige-picker,
+    .prestige-picker__details,
+    .playtest-settings,
+    .bow-picker,
+    .scouting-summary,
+    .equipment-setup,
+    .equipment-loadout-column,
+    .equipment-loadout-detail,
+    .selected-equipment-detail,
+    .run-owned-equipment,
+    .run-equipment-slot,
+    .run-owned-equipment__item,
+    .foundation-card
+  ) {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-card);
+  }
+
+  body.desktop-menu-active:not(.is-running) #runSetupModal :is(
+    .equipment-loadout-heading,
+    .run-equipment-filters,
+    .selected-equipment-affixes span
+  ) {
+    border-color: var(--border-separator);
+  }
+
+  body.desktop-menu-active:not(.is-running) #runSetupModal :is(button, select) {
+    min-height: var(--hb-ui-touch-target);
+    border: 1px solid var(--border-interactive);
+    background: var(--surface-card);
+    color: var(--hb-ui-ivory);
+  }
+
+  body.desktop-menu-active:not(.is-running) #runSetupModal :is(button:disabled, .run-setup-stepper button:not([aria-current="step"])) {
+    border-color: var(--border-separator);
+  }
+
+  body.desktop-menu-active:not(.is-running) #runSetupModal :is(
+    .prestige-picker strong,
+    .equipment-loadout-heading strong,
+    .selected-equipment-detail strong,
+    .foundation-card strong
+  ) {
+    font-family: var(--hb-menu-font-value);
+    font-weight: 700;
+  }
+
+  /* Transient village notice */
+  body.desktop-menu-active:not(.is-running) #gameNotice {
+    border: 1px solid var(--border-frame);
+    background: var(--surface-panel);
+    color: var(--hb-ui-ivory);
+    box-shadow:
+      inset 1px 1px 0 color-mix(in srgb, var(--surface-panel) 76%, var(--border-frame)),
+      inset -1px -1px 0 color-mix(in srgb, var(--surface-panel) 72%, var(--surface-page));
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 900px) and (max-width: 1100px) {
+  .desktop-main-menu .hb-plot__label {
+    bottom: 0;
+  }
+
+  .desktop-main-menu :is(.hb-standard-hunt-preparation, .hb-seasonal-hunt-preparation) .hb-prepare-dashboard {
+    grid-template-columns: 33% 31% 36%;
+  }
+
+  .desktop-main-menu .hb-season-leaderboard {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto auto;
+  }
+
+  .desktop-main-menu .hb-season-leaderboard__actions {
+    position: static;
+    grid-template-columns: 1fr;
+    align-self: end;
+    margin-top: var(--hb-ui-space-1);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 900px) and (max-width: 1280px) {
+  .desktop-main-menu :is(.hb-standard-hunt-preparation, .hb-seasonal-hunt-preparation) .hb-prepare-foundation-note,
+  .desktop-main-menu :is(.hb-standard-hunt-preparation, .hb-seasonal-hunt-preparation) .hb-prepare-final-actions {
+    margin-top: 0;
+  }
+
+  .desktop-main-menu .hb-season-ticket {
+    display: grid;
+    grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+  }
+
+  .desktop-main-menu .hb-season-ticket ol {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 var(--hb-ui-space-1);
+  }
+
+  .desktop-main-menu .hb-season-ticket__notes {
+    position: static;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-self: start;
+    gap: var(--hb-ui-space-1);
+    padding: var(--hb-ui-space-1) 0 0;
+    border-left: 0;
+    border-top: 1px solid var(--border-separator);
+  }
+
+  .desktop-main-menu .hb-season-ticket__notes p {
+    margin: 0;
+  }
+
+  .desktop-main-menu .hb-season-ticket > .hb-ledger-button {
+    position: static;
+    width: 100%;
+    align-self: end;
+    margin-top: var(--hb-ui-space-1);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 3400px) {
+  .hb-menu-system-overlay {
+    --hb-menu-rule-diamond: 12px;
+  }
+
+  body.desktop-menu-active:not(.is-running) #outfitterModal .outfitter-modal__panel {
+    width: min(100%, 1600px);
+    max-width: 1600px;
+  }
+
+  body.desktop-menu-active:not(.is-running) .hb-plot-build-dialog {
+    --hb-dialog-inner-frame-inset: 12px;
+    width: min(1900px, calc(100% - 120px));
+    height: min(1160px, calc(100% - 120px));
+    grid-template-rows: 168px minmax(0, 1fr) 136px;
+  }
+
+  body.desktop-menu-active:not(.is-running) .hb-plot-build-dialog__header {
+    grid-template-columns: minmax(600px, .92fr) minmax(600px, 1.08fr) 64px;
+    gap: 24px;
+    padding: 24px 32px 20px;
+  }
+
+  body.desktop-menu-active:not(.is-running) .hb-plot-dialog-close {
+    width: 64px;
+  }
+
+  body.desktop-menu-active:not(.is-running) .hb-plot-build-dialog__footer > div {
+    grid-template-columns: minmax(220px, .7fr) minmax(380px, 1.3fr);
+  }
+
+  body.desktop-menu-active:not(.is-running) .hb-plot-build-dialog .hb-build-catalogue > header {
+    padding: 20px 24px 16px;
+  }
+
+  body.desktop-menu-active:not(.is-running) .hb-plot-build-dialog .hb-build-catalogue__scroll {
+    padding: 8px 16px 16px;
+  }
+
+  body.desktop-menu-active:not(.is-running) .hb-plot-build-dialog .hb-build-option {
+    min-height: 96px;
+    gap: 16px;
+    padding: 12px 16px;
+  }
+
+  body.desktop-menu-active:not(.is-running) .hb-plot-build-dialog .hb-build-selection {
+    padding: 20px 32px 16px;
+  }
+
+  body.desktop-menu-active:not(.is-running) .hb-plot-build-dialog__footer {
+    gap: 24px;
+    padding: 16px 24px;
+  }
+}

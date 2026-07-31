@@ -1,0 +1,324 @@
+/* LOOTHOOD — account gate v1 · sign-in, loading, account choice
+   ------------------------------------------------------------------
+   The first thing a player sees. Until now the screen spoke the old
+   language: a rectangular panel with bracket corners, four identical
+   buttons with no hierarchy, a uniform dark scrim over beautiful forest
+   art, a flat loading bar.
+
+   We bring it into the Hunt language: rounded panels with a hairline
+   border, a directional scrim (the panel on the left stays readable, the
+   forest on the right breathes), one lime CTA, a loading bar shaped like
+   a pity bar.
+
+   Tokens and press primitives come from loothood-core-v1.css. */
+
+.hb-account-gate {
+  --bg: #080b0a;
+  --surface: #0f1613;
+  --surface2: #141d19;
+  --surface3: #1b2620;
+  --line: #28352f;
+  --line2: #1b2621;
+  --ivory: #eaf5ee;
+  --muted: #93ab9e;
+  --dim: #789082;
+  --lime: #b7f24a;
+  --lime-deep: #7fae2a;
+  --emerald: #2be28a;
+  --leg: #ffd24a;
+  --disp: 'Alagard', serif;
+  --body: 'PixelOperator', 'PixelOperator8', monospace;
+  --lh-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============ SCENE ============
+   The scrim was uniform and drowned the art entirely. We make it directional,
+   as on Hunt: dense on the left under the panel, transparent on the right over
+   the forest. */
+.hb-account-gate__scrim {
+  background:
+    linear-gradient(90deg,
+      rgba(8,11,10,.96) 0%,
+      rgba(8,11,10,.82) 26%,
+      rgba(8,11,10,.30) 58%,
+      rgba(8,11,10,.10) 78%,
+      transparent 100%),
+    linear-gradient(0deg, rgba(8,11,10,.88) 0%, rgba(8,11,10,.20) 42%, transparent 70%) !important;
+}
+
+/* Outer frame of the scene — thin, in the line colour, no carving. */
+.hb-account-gate__frame {
+  border: 1px solid var(--line) !important;
+  box-shadow: none !important;
+}
+
+/* ============ PANEL ============ */
+
+/* Bracket corners — the language of the old menu; they were dropped on Hunt. */
+.hb-account-corner { display: none !important; }
+
+.hb-account-panel {
+  border: 1px solid color-mix(in srgb, var(--lime) 20%, var(--line)) !important;
+  border-radius: 18px !important;
+  background:
+    linear-gradient(180deg, rgba(20,29,25,.90), rgba(12,18,15,.92)) !important;
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+  box-shadow: 0 28px 70px -34px #000, inset 0 1px 0 rgba(255,255,255,.03) !important;
+  padding: 24px 26px 22px !important;
+  /* Legacy positions the panel absolutely with a fixed top, and with taller
+     content it slid past the bottom edge of the window. We centre it. */
+  /* Legacy positioned every screen its own way, and the panel jumped left and
+     right when moving between sign-in, loading and registration.
+     We fix one position and one width for all states. */
+  top: 50% !important;
+  bottom: auto !important;
+  left: clamp(28px, 5.5vw, 104px) !important;
+  right: auto !important;
+  width: min(520px, 44vw) !important;
+  transform: translateY(-50%);
+  max-height: calc(100dvh - 64px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* The panel slides in once on load — the same curve as the Hunt key art. */
+.hb-account-panel {
+  animation: lh-gate-in 420ms var(--lh-ease-out) both;
+}
+@keyframes lh-gate-in {
+  from { opacity: 0; transform: translateY(calc(-50% + 10px)) scale(.985); }
+  to   { opacity: 1; transform: translateY(-50%); }
+}
+
+.hb-account-wordmark {
+  height: 27px;
+  width: auto;
+  image-rendering: pixelated;
+  margin-bottom: 11px;
+}
+
+/* Heading in ivory, like h1 on Hunt. Only the CTA glows lime. */
+.hb-account-screen h1,
+.hb-account-screen h2 {
+  margin: 0 0 4px !important;
+  font-family: var(--disp);
+  font-size: 26px;
+  line-height: 1.05;
+  letter-spacing: .4px;
+  color: var(--ivory) !important;
+  /* The heading has no shadow, deliberately. A black backing under a light
+     pixel font on a dark panel adds no depth: it sits exactly under the lower
+     edge of the glyph and reads as a second, misaligned outline. */
+  text-shadow: none;
+}
+
+/* The diamond rule — Hunt does not have it; replaced with a hairline. */
+.hb-account-rule {
+  display: block !important;
+  height: 1px !important;
+  margin: 12px 0 14px !important;
+  background: var(--line) !important;
+  border: none !important;
+}
+.hb-account-rule::before,
+.hb-account-rule::after { display: none !important; }
+
+/* ============ BUTTONS ============
+   There used to be four identical rectangles. The hierarchy is now this:
+   the primary path is filled lime, like Start Hunt; guest sign-in is a
+   visible alternative with a lime outline, because as a product principle
+   the player is let inside first and the wallet is a reward that comes
+   later; everything else is a quiet dark button. */
+
+.hb-account-button {
+  width: 100%;
+  min-height: 44px;
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 16px !important;
+  border-radius: 12px !important;
+  border: 1px solid var(--line) !important;
+  background: var(--surface2) !important;
+  color: var(--ivory) !important;
+  font-family: var(--disp);
+  font-size: 16.5px;
+  letter-spacing: .3px;
+  cursor: pointer;
+  transition: border-color 140ms var(--lh-ease-out),
+              background 140ms var(--lh-ease-out),
+              transform 120ms var(--lh-ease-out);
+}
+
+.hb-account-actions {
+  display: grid !important;
+  gap: 8px !important;
+}
+
+/* Primary path. */
+.hb-account-button.is-primary {
+  border: none !important;
+  color: #08120a !important;
+  background: linear-gradient(180deg, #c8f85e, var(--lime) 42%, var(--lime-deep)) !important;
+  box-shadow: 0 14px 30px -12px color-mix(in srgb, var(--lime) 70%, transparent),
+              inset 0 1px 0 rgba(255,255,255,.45) !important;
+  font-size: 17.5px;
+}
+
+/* Guest sign-in — not the quietest button but the second real one. */
+.hb-account-button.is-quiet {
+  border-color: color-mix(in srgb, var(--lime) 34%, var(--line)) !important;
+  background: color-mix(in srgb, var(--lime) 7%, var(--surface2)) !important;
+  color: var(--ivory) !important;
+  opacity: 1 !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hb-account-button:hover {
+    border-color: color-mix(in srgb, var(--lime) 45%, var(--line)) !important;
+    background: var(--surface3) !important;
+  }
+  .hb-account-button.is-primary:hover {
+    filter: brightness(1.05);
+    transform: translateY(-1px);
+    background: linear-gradient(180deg, #c8f85e, var(--lime) 42%, var(--lime-deep)) !important;
+  }
+  .hb-account-button.is-quiet:hover {
+    background: color-mix(in srgb, var(--lime) 13%, var(--surface2)) !important;
+  }
+}
+
+.hb-account-text-button {
+  margin-top: 11px;
+  padding: 5px 0;
+  border: none;
+  background: none;
+  color: var(--muted);
+  font-family: var(--body);
+  font-size: 13.5px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--line);
+  cursor: pointer;
+  transition: color 140ms var(--lh-ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .hb-account-text-button:hover { color: var(--ivory); }
+}
+
+.hb-account-back {
+  align-self: start;
+  margin-bottom: 12px;
+  padding: 7px 12px;
+  border-radius: 9px;
+  border: 1px solid var(--line);
+  background: var(--surface2);
+  color: var(--muted);
+  font-family: var(--body);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* ============ FORMS ============ */
+
+.hb-account-form input,
+.hb-account-password input {
+  width: 100%;
+  min-height: 46px;
+  padding: 11px 14px;
+  border-radius: 11px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ivory);
+  font-family: var(--body);
+  font-size: 15px;
+  transition: border-color 140ms var(--lh-ease-out);
+}
+.hb-account-form input::placeholder { color: var(--dim); }
+.hb-account-form input:focus {
+  outline: none;
+  border-color: color-mix(in srgb, var(--lime) 55%, var(--line));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--lime) 14%, transparent);
+}
+.hb-account-form label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-family: var(--body);
+  font-size: 11.5px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+.hb-account-field-error { color: var(--danger, #ff6b6b); font-size: 12.5px; }
+
+/* ============ LOADING ============
+   The flat bar is replaced with the same shape as the pity bars: a bordered
+   track, a gradient fill and a glow. The spinner is fast on purpose — fast
+   motion makes loading feel subjectively shorter. */
+
+.hb-account-progress {
+  height: 10px !important;
+  border-radius: 6px !important;
+  border: 1px solid var(--line2) !important;
+  background: var(--surface3) !important;
+  overflow: hidden;
+}
+.hb-account-progress > * ,
+.hb-account-progress::-webkit-progress-value {
+  border-radius: 6px !important;
+  background: linear-gradient(90deg, var(--emerald), var(--lime)) !important;
+  box-shadow: 0 0 12px -2px color-mix(in srgb, var(--lime) 70%, transparent) !important;
+  transition: width 260ms var(--lh-ease-out);
+}
+.hb-account-progress-meta {
+  margin-top: 9px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-family: var(--body);
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.hb-account-progress-meta strong { color: var(--lime); font-weight: 700; }
+
+/* ============ MUSIC TOGGLE ============ */
+
+.hb-account-music {
+  border: 1px solid var(--line) !important;
+  border-radius: 12px !important;
+  background: rgba(15,22,19,.86) !important;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  padding: 10px 14px !important;
+  color: var(--muted) !important;
+}
+.hb-account-music strong { color: var(--ivory); }
+
+@media (prefers-reduced-motion: reduce) {
+  .hb-account-panel { animation: none; }
+}
+
+
+/* ---- stray shadows from buttons -----------------------------------
+   styles.css has a rule on the bare button selector: a border, a gradient,
+   two inset shadows and a black text shadow. The gate reset the border and
+   the background on its own buttons but not the shadows, and they leaked
+   through: "Recover account" looked like a pressed button instead of a link,
+   and ordinary buttons had a dark edge sitting under their text. */
+
+.hb-account-back,
+.hb-account-text-button {
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+.hb-account-button {
+  text-shadow: none !important;
+}
+/* The primary button has dark text on lime: a shadow there does not emphasize
+   the shape, it just thickens glyphs that are already dark. The outer glow
+   stays. */
+.hb-account-button.is-primary {
+  text-shadow: none !important;
+}

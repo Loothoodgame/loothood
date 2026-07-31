@@ -1,0 +1,838 @@
+:root {
+  --hb-canvas-width: 1672px;
+  --hb-canvas-height: 941px;
+  --hb-combat-left: 10px;
+  --hb-combat-top: 10px;
+  --hb-combat-width: 1262px;
+  --hb-top-hud-height: 62px;
+  --hb-arena-left: 10px;
+  --hb-arena-top: 71px;
+  --hb-arena-width: 1262px;
+  --hb-arena-height: 846px;
+  --hb-side-left: 1272px;
+  --hb-side-top: 10px;
+  --hb-side-width: 391px;
+  --hb-side-height: 907px;
+  --hb-forest-black: var(--hb-ui-ink);
+  --hb-panel-black: var(--hb-ui-panel);
+  --hb-panel-green: var(--hb-ui-panel-green);
+  --hb-button-green: var(--hb-ui-forest);
+  --hb-frame-gold: var(--hb-ui-gold);
+  --hb-heading-gold: var(--hb-ui-gold-bright);
+  --hb-text-ivory: var(--hb-ui-ivory);
+  --hb-health-green: #2be28a;
+  --hb-boss-health: #ffab3d;
+  --hb-boss-armor: #88a7bc;
+  --hb-danger-red: var(--hb-ui-danger);
+  --hb-progress-red: var(--hb-ui-progress-danger);
+  --hb-font-display: var(--hb-ui-font-display);
+  --hb-layer-content: var(--hb-ui-layer-local-content);
+  --hb-layer-actor: var(--hb-ui-layer-local-actor);
+  --hb-layer-chrome: var(--hb-ui-layer-local-chrome);
+}
+
+* { box-sizing: border-box; }
+
+@media (hover: hover) and (pointer: fine) {
+body[data-view="run"] {
+  background: #000;
+}
+
+body[data-view="run"] .hb-fit-stage {
+  color: var(--hb-text-ivory);
+  font-family: var(--hb-font-display);
+}
+
+body[data-view="run"] .hb-fit-stage button { font-family: inherit; }
+
+body[data-view="run"] .hb-fit-stage {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--hb-canvas-width);
+  height: var(--hb-canvas-height);
+  overflow: hidden;
+  background: #000;
+  transform-origin: top left;
+  padding: 0;
+  gap: 0;
+}
+
+body[data-view="run"] .hb-top-hud,
+body[data-view="run"] .hb-side-panel {
+  background:
+    linear-gradient(rgba(3, 18, 11, .92), rgba(1, 14, 7, .97)),
+    url('../images/panel-texture-v1.png') 0 0 / 128px 128px repeat,
+    var(--hb-panel-black);
+}
+
+body[data-view="run"] .hb-top-hud {
+  position: absolute;
+  left: var(--hb-combat-left);
+  top: var(--hb-combat-top);
+  width: var(--hb-combat-width);
+  height: var(--hb-top-hud-height);
+  display: block;
+  overflow: visible;
+  border: 0;
+  padding: 0;
+}
+
+body[data-view="run"] .hb-top-hud::after,
+body[data-view="run"] .hb-arena::after,
+body[data-view="run"] .hb-side-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: var(--hb-layer-chrome);
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+}
+
+body[data-view="run"] .hb-top-hud::after {
+  background-image: url('../images/combat-top-frame-v1.png');
+  background-size: 1262px 62px;
+}
+
+/* Removes the source frame's internal right padding and joins it to the rail. */
+body[data-view="run"] .hb-top-hud::before {
+  content: '';
+  position: absolute;
+  left: 1222px;
+  top: 0;
+  z-index: calc(var(--hb-layer-chrome) + 1);
+  width: 40px;
+  height: 62px;
+  pointer-events: none;
+  background:
+    url('../images/combat-top-seam-v1.png') 0 0 / 40px 62px no-repeat,
+    linear-gradient(rgba(3, 18, 11, .92), rgba(1, 14, 7, .97)),
+    url('../images/panel-texture-v1.png') -70px 0 / 128px 128px repeat,
+    var(--hb-panel-black);
+}
+
+body[data-view="run"] .hb-player-hud {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 550px;
+  display: grid;
+  grid-template-columns: 72px 52px 291px 90px;
+  align-items: center;
+  column-gap: 10px;
+  padding-left: 8px;
+}
+
+body[data-view="run"] .hb-player-hud::after {
+  content: '';
+  position: absolute;
+  right: -3px;
+  top: 10px;
+  width: 1px;
+  height: 42px;
+  background: rgba(216, 152, 32, .65);
+  box-shadow: 2px 0 rgba(1, 14, 7, .95);
+}
+
+body[data-view="run"] .hb-player-hud__logo-wrap {
+  position: relative;
+  width: 72px;
+  height: 46px;
+  overflow: hidden;
+  border-right: 1px solid rgba(216, 152, 32, .38);
+}
+
+body[data-view="run"] .hb-player-hud__logo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 64px;
+  height: 64px;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  image-rendering: pixelated;
+}
+
+body[data-view="run"] .hb-player-hud__label {
+  color: var(--hb-text-ivory);
+  font-size: 23px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+body[data-view="run"] .hb-meter {
+  position: relative;
+  overflow: hidden;
+  border: 2px solid var(--hb-frame-gold);
+  background: #07130b;
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, .88);
+}
+
+body[data-view="run"] .hb-player-health {
+  width: 291px;
+  height: 19px;
+}
+
+body[data-view="run"] .hb-meter__fill {
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  bottom: 4px;
+  width: calc((100% - 8px) * var(--value, 1));
+  max-width: calc(100% - 8px);
+}
+
+body[data-view="run"] .hb-player-health .hb-meter__fill {
+  background:
+    linear-gradient(rgba(121, 189, 97, .08), rgba(121, 189, 97, .08)),
+    url('../images/health-fill-tile-v1.png') 0 0 / 32px 12px repeat-x,
+    var(--hb-health-green);
+}
+
+body[data-view="run"] .hb-player-hud__value {
+  color: var(--hb-text-ivory);
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+body[data-view="run"] .hb-boss-hud-slot {
+  position: absolute;
+  left: 560px;
+  right: 10px;
+  top: 8px;
+  bottom: 8px;
+}
+
+body[data-view="run"] .hb-boss-hud-slot.combat-boss-hud,
+body[data-view="run"] .hb-boss-hud-slot.combat-boss-hud[hidden] {
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+body[data-view="run"] .hb-boss-hud-slot.combat-boss-hud[hidden] {
+  visibility: hidden;
+}
+
+body[data-view="run"] .hb-boss-hud-slot--active {
+  right: 42px;
+  top: 10px;
+  bottom: 10px;
+  display: grid;
+  grid-template-columns: 78px minmax(0, 1fr);
+  grid-template-rows: 15px 13px 14px;
+  column-gap: 10px;
+  row-gap: 0;
+  align-items: center;
+  align-content: stretch;
+  justify-content: stretch;
+}
+
+body[data-view="run"] .hb-boss-hud-slot--active .combat-boss-copy,
+body[data-view="run"] .hb-boss-hud-slot--active .combat-boss-meters,
+body[data-view="run"] .hb-boss-hud-slot--active .combat-boss-meter-row {
+  display: contents;
+}
+
+body[data-view="run"] .hb-boss-hud-slot--active .combat-boss-meter-row[hidden] {
+  display: none;
+}
+
+body[data-view="run"] .hb-boss-hud__name {
+  grid-column: 1 / -1;
+  align-self: start;
+  color: var(--hb-text-ivory);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 15px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+body[data-view="run"] .hb-boss-hud__label {
+  color: var(--hb-heading-gold);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+}
+
+body[data-view="run"] .hb-boss-segments {
+  height: 10px;
+  display: grid;
+  gap: 5px;
+}
+
+body[data-view="run"] .hb-boss-segment {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--hb-frame-gold);
+  background: #07130b;
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, .88);
+}
+
+body[data-view="run"] .hb-boss-segment::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 2px;
+  bottom: 2px;
+  width: calc((100% - 4px) * var(--segment-value, 1));
+  max-width: calc(100% - 4px);
+}
+
+body[data-view="run"] .hb-boss-segments--health .hb-boss-segment::before {
+  background: var(--hb-boss-health);
+}
+
+body[data-view="run"] .hb-boss-segments--armor .hb-boss-segment::before {
+  background: var(--hb-boss-armor);
+}
+
+body[data-view="run"] .hb-arena {
+  position: absolute;
+  left: var(--hb-arena-left);
+  top: var(--hb-arena-top);
+  width: var(--hb-arena-width);
+  height: var(--hb-arena-height);
+  overflow: hidden;
+  background: #081109;
+  border: 0;
+  box-shadow: none;
+  min-height: 0;
+  max-height: none;
+  max-width: none;
+  padding: 0;
+}
+
+body[data-view="run"] .hb-arena::before { display: none; }
+
+body[data-view="run"] .hb-arena::after {
+  background-image: url('../images/combat-arena-frame-v1.png');
+  background-size: 1262px 846px;
+}
+
+body[data-view="run"] .hb-arena__art {
+  position: absolute;
+  z-index: var(--hb-layer-content);
+  /* 1254 x 836: the drawable content is exactly 3:2 inside the locked frame. */
+  inset: 5px 4px;
+  overflow: hidden;
+  background: transparent;
+}
+
+body[data-view="run"] .hb-reference-actor {
+  position: absolute;
+  z-index: var(--hb-layer-actor);
+  object-fit: contain;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 5px 2px rgba(0, 0, 0, .38));
+}
+
+body[data-view="run"] .hb-reference-actor--player {
+  left: 576px;
+  top: 600px;
+  width: 116px;
+}
+
+body[data-view="run"] .hb-reference-actor--soldier {
+  left: 342px;
+  top: 325px;
+  width: 86px;
+}
+
+body[data-view="run"] .hb-reference-actor--wolf {
+  left: 428px;
+  top: 408px;
+  width: 98px;
+}
+
+body[data-view="run"] .hb-side-panel {
+  position: absolute;
+  left: var(--hb-side-left);
+  top: var(--hb-side-top);
+  width: var(--hb-side-width);
+  height: var(--hb-side-height);
+  display: block;
+  overflow: hidden;
+  border: 0;
+  box-shadow: none;
+  max-height: none;
+  padding: 0;
+}
+
+body[data-view="run"] .hb-side-panel::after {
+  background-image: url('../images/combat-side-frame-aligned-v1.png');
+  background-size: 391px 907px;
+}
+
+body[data-view="run"] .hb-run-heading {
+  position: absolute;
+  left: 17px;
+  right: 17px;
+  top: 16px;
+  height: 174px;
+  border-bottom: 1px solid rgba(216, 152, 32, .52);
+  text-align: center;
+}
+
+body[data-view="run"] .hb-run-heading__title {
+  margin: 0;
+  color: var(--hb-heading-gold);
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+body[data-view="run"] .hb-run-heading__stage {
+  margin-top: 17px;
+  color: var(--hb-text-ivory);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+body[data-view="run"] .hb-run-heading__prestige {
+  margin-top: 10px;
+  color: var(--hb-heading-gold);
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+body[data-view="run"] .hb-stage-progress {
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  top: 113px;
+  height: 56px;
+}
+
+body[data-view="run"] .hb-stage-progress__nodes {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 8px;
+  height: 20px;
+  display: grid;
+  grid-template-columns: repeat(15, 1fr);
+  align-items: center;
+}
+
+body[data-view="run"] .hb-stage-progress__nodes::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 9px;
+  height: 2px;
+  background: rgba(216, 152, 32, .7);
+}
+
+body[data-view="run"] .hb-stage-node {
+  position: relative;
+  z-index: 1;
+  justify-self: center;
+  width: 13px;
+  height: 13px;
+  border: 1px solid var(--hb-frame-gold);
+  background: #102317;
+  box-shadow: inset 0 0 0 2px #03120b;
+}
+
+body[data-view="run"] .hb-stage-node[data-boss="true"] {
+  width: 17px;
+  height: 17px;
+  background: var(--hb-progress-red);
+}
+
+body[data-view="run"] .hb-stage-node[data-current="true"] {
+  background: var(--hb-text-ivory);
+  box-shadow: inset 0 0 0 2px #d5b65f;
+}
+
+body[data-view="run"] .hb-score {
+  position: absolute;
+  left: 17px;
+  right: 17px;
+  top: 203px;
+  height: 80px;
+  border-bottom: 1px solid rgba(216, 152, 32, .42);
+  text-align: left;
+}
+
+body[data-view="run"] .hb-score__label,
+body[data-view="run"] .hb-run-stat__label,
+body[data-view="run"] .hb-legendary__label {
+  color: var(--hb-heading-gold);
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+body[data-view="run"] .hb-score__label { font-size: 20px; letter-spacing: 1px; }
+body[data-view="run"] .hb-score__value {
+  display: block;
+  margin-top: 2px;
+  color: var(--hb-heading-gold);
+  font-size: 42px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+body[data-view="run"] .hb-run-stats {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  top: 302px;
+  display: grid;
+  gap: 15px;
+}
+
+body[data-view="run"] .hb-run-stat {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+}
+
+body[data-view="run"] .hb-run-stat__label { font-size: 16px; letter-spacing: .5px; }
+body[data-view="run"] .hb-run-stat__value {
+  color: var(--hb-text-ivory);
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: .5px;
+  white-space: nowrap;
+}
+
+body[data-view="run"] .hb-legendary {
+  position: absolute;
+  left: 12px;
+  right: 15px;
+  top: 437px;
+  height: 104px;
+  padding: 16px 13px 12px;
+  border: 1px solid var(--hb-frame-gold);
+  box-shadow: inset 0 0 0 4px var(--hb-panel-black), inset 0 0 0 5px rgba(216, 152, 32, .62);
+}
+
+body[data-view="run"] .hb-legendary__heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+body[data-view="run"] .hb-legendary__label { font-size: 17px; letter-spacing: 1px; }
+body[data-view="run"] .hb-legendary__value { font-size: 20px; font-weight: 600; letter-spacing: 1px; }
+body[data-view="run"] .hb-legendary__track { width: 100%; height: 25px; margin-top: 11px; }
+body[data-view="run"] .hb-legendary__track .hb-meter__fill {
+  background: url('../images/legendary-fill-tile-v1.png') 0 0 / 32px 14px repeat-x, #d4ad42;
+}
+
+body[data-view="run"] .hb-side-rule {
+  position: absolute;
+  left: 9px;
+  right: 9px;
+  top: 558px;
+  height: 1px;
+  background: rgba(216, 152, 32, .42);
+}
+
+body[data-view="run"] .hb-run-actions {
+  position: absolute;
+  left: 12px;
+  right: 15px;
+  bottom: 17px;
+  display: grid;
+  gap: 10px;
+}
+
+body[data-view="run"] .hb-run-actions__references {
+  display: grid;
+  grid-template-columns: 1fr 1.08fr 1.12fr;
+  gap: 10px;
+}
+
+body[data-view="run"] .hb-run-actions__run {
+  display: grid;
+  grid-template-columns: .96fr 1.04fr;
+  gap: 12px;
+}
+
+body[data-view="run"] .hb-action {
+  position: relative;
+  min-width: 0;
+  height: 48px;
+  border: 1px solid var(--hb-frame-gold);
+  background: rgba(19, 43, 19, .95);
+  color: var(--hb-text-ivory);
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
+body[data-view="run"] .hb-action::after {
+  content: '';
+  position: absolute;
+  inset: var(--hb-ui-action-inner-compact);
+  border: 1px solid rgba(216, 152, 32, .36);
+  pointer-events: none;
+}
+
+body[data-view="run"] .hb-run-actions__run .hb-action { height: 52px; font-size: 22px; }
+body[data-view="run"] .hb-action--leave { background: rgba(92, 30, 24, .96); }
+
+body[data-view="run"] .hb-action:hover,
+body[data-view="run"] .hb-action:focus-visible {
+  outline: 0;
+  filter: brightness(1.12);
+}
+
+body[data-view="run"] .hb-action:focus-visible {
+  box-shadow: 0 0 0 2px var(--hb-text-ivory), 0 0 0 4px #000;
+}
+
+/* Runtime adapter: preserve live IDs and controls inside the locked shell. */
+body[data-view="run"] .game-grid.hb-fit-stage {
+  align-content: initial;
+  align-items: initial;
+  grid-template-columns: none;
+  grid-template-rows: none;
+  height: var(--hb-canvas-height);
+  justify-content: initial;
+  width: var(--hb-canvas-width);
+}
+
+body[data-view="run"] .combat-hud.hb-top-hud {
+  left: var(--hb-combat-left);
+  top: var(--hb-combat-top);
+  width: var(--hb-combat-width);
+  height: var(--hb-top-hud-height);
+  margin: 0;
+}
+
+body[data-view="run"] .canvas-wrap.hb-arena {
+  aspect-ratio: auto;
+  box-sizing: border-box;
+  grid-column: auto;
+  grid-row: auto;
+  height: var(--hb-arena-height);
+  left: var(--hb-arena-left);
+  margin: 0;
+  top: var(--hb-arena-top);
+  width: var(--hb-arena-width);
+}
+
+body[data-view="run"] .combat-panel.hb-side-panel {
+  grid-column: auto;
+  grid-row: auto;
+  height: var(--hb-side-height);
+  left: var(--hb-side-left);
+  top: var(--hb-side-top);
+  width: var(--hb-side-width);
+}
+
+body[data-view="run"] .hb-player-hud.hud-stat {
+  min-height: 0;
+  padding-left: 8px;
+}
+
+body[data-view="run"] .hb-player-hud__logo-wrap {
+  display: block;
+  grid-column: 1;
+}
+
+body[data-view="run"] .hb-player-hud__label {
+  grid-column: 2;
+}
+
+body[data-view="run"] .hb-player-health {
+  appearance: none;
+  -webkit-appearance: none;
+  background: #07130b;
+  border: 2px solid var(--hb-frame-gold);
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, .88);
+  height: 19px;
+  overflow: hidden;
+  width: 291px;
+  grid-column: 3;
+}
+
+body[data-view="run"] .hb-player-hud__value {
+  grid-column: 4;
+}
+
+body[data-view="run"] .hb-player-health::-webkit-meter-bar,
+body[data-view="run"] .hb-legendary__track::-webkit-meter-bar {
+  background: #07130b;
+  border: 0;
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, .88);
+}
+
+body[data-view="run"] .hb-player-health::-webkit-meter-optimum-value {
+  background:
+    linear-gradient(rgba(121, 189, 97, .08), rgba(121, 189, 97, .08)),
+    url('../images/health-fill-tile-v1.png') 0 0 / 32px 12px repeat-x,
+    var(--hb-health-green);
+}
+
+body[data-view="run"] .hb-heart-store {
+  grid-column: auto;
+  left: 144px;
+  top: 23px;
+  width: 291px;
+}
+
+body[data-view="run"] .hb-arena__art#game {
+  box-sizing: border-box;
+  display: block;
+  height: 836px;
+  max-height: none;
+  max-width: none;
+  width: 1254px;
+}
+
+body[data-view="run"] .hb-arena > :not(#game) {
+  z-index: 21;
+}
+
+body[data-view="run"] .hb-run-heading.stage-card {
+  display: block;
+  min-height: 0;
+  padding: 0;
+}
+
+body[data-view="run"] .hb-run-heading__stage.combat-progress-card__heading {
+  align-items: baseline;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+body[data-view="run"] .hb-run-heading__stage span,
+body[data-view="run"] .hb-run-heading__stage strong {
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+}
+
+body[data-view="run"] .hb-run-heading__prestige.stat-line {
+  display: block;
+  min-height: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+
+body[data-view="run"] .hb-run-heading__prestige b {
+  color: inherit;
+  font: inherit;
+}
+
+body[data-view="run"] .hb-stage-progress.stage-track {
+  display: block;
+  margin: 0;
+}
+
+body[data-view="run"] .hb-stage-progress__nodes.stage-track__line {
+  gap: 0;
+}
+
+body[data-view="run"] .hb-stage-node.stage-track__dot {
+  height: 13px;
+}
+
+body[data-view="run"] .hb-stage-node[data-boss="true"] {
+  height: 17px;
+}
+
+body[data-view="run"] .combat-readouts {
+  display: contents;
+}
+
+body[data-view="run"] .hb-score.combat-readout,
+body[data-view="run"] .hb-run-stats .combat-readout,
+body[data-view="run"] .hb-legendary.combat-readout {
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  min-height: 0;
+  padding: 0;
+}
+
+body[data-view="run"] .hb-score__label.combat-readout__label,
+body[data-view="run"] .hb-score__value {
+  justify-self: auto;
+}
+
+body[data-view="run"] .hb-run-stat .combat-readout__row,
+body[data-view="run"] .hb-run-stat.combat-readout--gold {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+body[data-view="run"] .hb-run-stat .combat-readout__row b,
+body[data-view="run"] .hb-run-stat > b {
+  justify-self: end;
+}
+
+body[data-view="run"] .hb-run-stat meter {
+  display: none;
+}
+
+body[data-view="run"] .hb-legendary.combat-readout {
+  display: block;
+}
+
+body[data-view="run"] .hb-legendary__track {
+  appearance: none;
+  -webkit-appearance: none;
+  display: block;
+}
+
+body[data-view="run"] .hb-legendary__track::-webkit-meter-optimum-value {
+  background: url('../images/legendary-fill-tile-v1.png') 0 0 / 32px 14px repeat-x, #d4ad42;
+}
+
+body[data-view="run"] .hb-run-actions.combat-actions {
+  margin: 0;
+}
+
+body[data-view="run"] .hb-run-actions__references.combat-sheet-actions,
+body[data-view="run"] .hb-run-actions__run.combat-run-actions {
+  border: 0;
+  grid-area: auto;
+  margin: 0;
+  padding: 0;
+}
+
+body[data-view="run"] .hb-run-actions .hb-action {
+  background: rgba(19, 43, 19, .95);
+  border: var(--hb-ui-action-border-compact) solid var(--hb-frame-gold);
+  border-radius: 0;
+  box-shadow: none;
+  color: var(--hb-text-ivory);
+  margin: 0;
+  padding: 0;
+}
+
+body[data-view="run"] .hb-run-actions .hb-action--leave {
+  background: rgba(92, 30, 24, .96);
+}
+
+body[data-view="run"] .touch-controls {
+  display: none;
+}
+}

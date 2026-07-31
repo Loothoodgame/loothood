@@ -1,0 +1,270 @@
+/* LOOTHOOD — Loot Pulls v1 · "Loot showcase"
+   ------------------------------------------------------------------
+   The gacha screen is the emotional peak and the monetization point. Until now
+   it read like a settings page: zero images, a third of the screen empty, pity
+   drawn as a thin line with a diamond, rarity colours unused.
+
+   What we do:
+     1. items get icons (5 slots, images/item-*-v1.png)
+     2. spotlight cards are coloured by rarity
+     3. pity moves to the component from Hunt — bars with a rarity gradient
+     4. tabs, buttons and panels are brought into the Hunt language: radii, surfaces
+
+   Scoped to .hb-app. Loaded after loothood-patch-v1.css. */
+
+.hb-app {
+  --lh-icon-bowstring: url("../images/item-bowstring-v1.png?v=2");
+  --lh-icon-helm: url("../images/item-helmet-v1.png?v=2");
+  --lh-icon-chest: url("../images/item-chest-v1.png?v=2");
+  --lh-icon-boots: url("../images/item-boots-v1.png?v=2");
+  --lh-icon-legs: url("../images/item-legs-v1.png?v=2");
+}
+
+/* ============ HEADING AND TABS ============ */
+
+.hb-app .hb-main[data-screen="equipment-pulls"] > h1,
+.hb-app .hb-main[data-screen="equipment-pulls"] h1 {
+  margin-bottom: 14px;
+}
+
+/* The Standard / Limited tabs — a segmented switch rather than two boxes. */
+.hb-app .hb-gacha-tabs,
+.hb-app [role="tablist"] {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+.hb-app [role="tablist"] > button {
+  padding: 9px 20px;
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--disp);
+  font-size: 17px;
+  letter-spacing: .4px;
+  cursor: pointer;
+  transition: background var(--lh-dur-hover) var(--lh-ease-out),
+              color var(--lh-dur-hover) var(--lh-ease-out);
+}
+.hb-app [role="tablist"] > button[aria-selected="true"] {
+  color: #08120a;
+  background: linear-gradient(180deg, #c8f85e, var(--lime) 45%, var(--lime-deep));
+  box-shadow: 0 8px 18px -12px color-mix(in srgb, var(--lime) 70%, transparent);
+}
+
+/* ============ SPOTLIGHT CARDS ============
+   Markup: <article class="hb-gacha-spotlight" data-legendary-effect-id="BOOTS-…">
+   The slot is encoded in the id prefix, so the icon is chosen from it. */
+
+.hb-app .hb-gacha-spotlight {
+  --lh-rarity: var(--leg);
+  --lh-item: none;
+  position: relative;
+  display: grid !important;
+  grid-template-columns: 84px minmax(0, 1fr);
+  /* The fourth row is empty and flexible, and it is not here for decoration.
+     The icon is stretched across grid-row: 1 / -1, i.e. to the LAST grid line.
+     With three rows and align-content: start that line ran where the text
+     ended rather than along the bottom of the card. "Echoeye Hood" has a
+     one-line description against three lines for its neighbours — the line
+     ended up higher, and the item hung above the others even though the cards
+     are the same height.
+     The flexible row takes all the remaining height, so the last line always
+     meets the bottom of the card and the three items stand on the same shelf
+     regardless of description length. */
+  grid-template-rows: auto auto auto 1fr;
+  align-content: stretch;
+  gap: 2px 16px;
+  padding: 16px 18px !important;
+  border: 1px solid color-mix(in srgb, var(--lh-rarity) 34%, var(--line)) !important;
+  border-radius: 13px;
+  background:
+    radial-gradient(120% 90% at 12% 0%, color-mix(in srgb, var(--lh-rarity) 12%, transparent), transparent 62%),
+    linear-gradient(180deg, rgba(24,34,26,.92), rgba(14,20,16,.92)) !important;
+  overflow: hidden;
+  transition: transform var(--lh-dur-hover) var(--lh-ease-out),
+              border-color var(--lh-dur-hover) var(--lh-ease-out);
+}
+
+/* Item icon — on the left, spanning the full height of the card. */
+.hb-app .hb-gacha-spotlight::before {
+  content: "";
+  grid-row: 1 / -1;
+  grid-column: 1;
+  /* Centred, the items sat at different heights. The cause is not the layout:
+     every image is cropped tight to the object, so narrow greaves fill the whole
+     height of the cell while a wide cloak hits the width limit and comes out
+     smaller vertically. Centring spreads them apart vertically all the more the
+     greater the difference in proportions. We put them on a shared bottom line:
+     three items in a row then read as objects on a shelf rather than as things
+     hanging in mid-air at random. */
+  align-self: end;
+  margin-bottom: 10px;
+  /* 84 and no more. I tried 112 to bring the item closer to its original
+     192-pixel grid — and the text in the card compressed to one word per line,
+     with "Blood Accountant" breaking in the middle of a word. The card is narrow
+     and its room is split between the picture and the explanation; the
+     explanation matters more. */
+  width: 84px;
+  height: 84px;
+  background-image: var(--lh-item);
+  background-size: contain;
+  /* Pinned to the bottom edge of the box rather than centred. Aligning the box
+     itself is not enough: the image inside it was centred, and an item with a
+     large margin at the bottom hung above its neighbour. Now the bottom of every
+     item is on one line, and the fact that one is taller than another does not
+     matter — what matters is where they start from. */
+  background-position: bottom center;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 6px 14px color-mix(in srgb, var(--lh-rarity) 45%, transparent));
+}
+
+/* The slot is determined by the id prefix of the legendary. */
+.hb-app .hb-gacha-spotlight[data-legendary-effect-id^="BOWSTRING"] { --lh-item: var(--lh-icon-bowstring); }
+.hb-app .hb-gacha-spotlight[data-legendary-effect-id^="HELM"]      { --lh-item: var(--lh-icon-helm); }
+.hb-app .hb-gacha-spotlight[data-legendary-effect-id^="CHEST"]     { --lh-item: var(--lh-icon-chest); }
+.hb-app .hb-gacha-spotlight[data-legendary-effect-id^="BOOTS"]     { --lh-item: var(--lh-icon-boots); }
+.hb-app .hb-gacha-spotlight[data-legendary-effect-id^="LEGS"]      { --lh-item: var(--lh-icon-legs); }
+
+.hb-app .hb-gacha-spotlight > span {
+  grid-column: 2;
+  font-family: var(--body);
+  font-size: 10.5px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--lh-rarity);
+}
+.hb-app .hb-gacha-spotlight > h3 {
+  grid-column: 2;
+  margin: 1px 0 4px;
+  font-family: var(--disp);
+  font-size: 21px;
+  line-height: 1.06;
+  letter-spacing: .3px;
+  color: var(--ivory);
+}
+.hb-app .hb-gacha-spotlight > p {
+  grid-column: 2;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hb-app .hb-gacha-spotlight:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--lh-rarity) 60%, var(--line)) !important;
+  }
+}
+
+/* ============ PITY ============
+   We reuse the bar language from the Hunt screen: track + rarity gradient fill
+   + glow. The thin line with a diamond did not read at all. */
+
+.hb-app .hb-gacha-pity {
+  --lh-rarity: var(--epic);
+  padding: 14px 16px !important;
+  border: 1px solid color-mix(in srgb, var(--lh-rarity) 26%, var(--line)) !important;
+  border-radius: 12px;
+  background: var(--surface2) !important;
+}
+.hb-app .hb-gacha-pity:last-of-type { --lh-rarity: var(--leg); }
+
+.hb-app .hb-gacha-pity > span:first-child {
+  color: var(--lh-rarity);
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+.hb-app .hb-gacha-pity progress,
+.hb-app .hb-gacha-pity .hb-pity-track {
+  width: 100%;
+  height: 9px;
+  border-radius: 5px;
+  border: 1px solid var(--line2);
+  background: var(--surface3);
+  overflow: hidden;
+  appearance: none;
+}
+.hb-app .hb-gacha-pity progress::-webkit-progress-bar {
+  background: var(--surface3);
+}
+.hb-app .hb-gacha-pity progress::-webkit-progress-value {
+  border-radius: 5px;
+  background: linear-gradient(90deg,
+    color-mix(in srgb, var(--lh-rarity) 55%, #000), var(--lh-rarity));
+  box-shadow: 0 0 10px -2px var(--lh-rarity);
+}
+.hb-app .hb-gacha-pity progress::-moz-progress-bar {
+  border-radius: 5px;
+  background: linear-gradient(90deg,
+    color-mix(in srgb, var(--lh-rarity) 55%, #000), var(--lh-rarity));
+}
+
+/* ============ PANELS AND BALANCES ============ */
+
+.hb-app .hb-gacha-standard,
+.hb-app .hb-equipment-panel {
+  border: 1px solid var(--line) !important;
+  border-radius: var(--r);
+  background: var(--surface) !important;
+}
+
+/* The right column headings were gold — on Hunt they are ivory. */
+.hb-app .hb-main[data-screen="equipment-pulls"] h2 {
+  color: var(--ivory);
+  font-family: var(--disp);
+}
+
+/* Balance rows — like the bounty rows on Hunt: a thin line, the value on the right. */
+.hb-app .hb-equipment-panel li,
+.hb-app .hb-equipment-panel dl > div {
+  border-top: 1px solid var(--line2);
+  padding: 11px 0;
+}
+
+/* ============ POOL LIST ============
+   The pool card was built with no image: fifty identical rectangles from which
+   there is no telling what actually drops. Its own image arrives inline through
+   --lh-item; here we only reserve the space for it and provide a per-slot
+   fallback.
+
+   There must be no .hb-app prefix here: the pool dialog is moved out into a
+   .hb-gacha-pool-dialog overlay outside the app, and a rule with that prefix
+   does not reach it. */
+
+.hb-gacha-pool-dialog .hb-gacha-pool-item {
+  --lh-rarity: var(--leg, #d9a441);
+  --lh-item: none;
+  position: relative;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 2px 14px;
+  align-items: start;
+}
+.hb-gacha-pool-dialog .hb-gacha-pool-item::before {
+  content: "";
+  grid-row: 1 / -1;
+  grid-column: 1;
+  /* the same shared bottom line as in the spotlight */
+  align-self: end;
+  margin-bottom: 8px;
+  width: 64px;
+  height: 64px;
+  background-image: var(--lh-item);
+  background-size: contain;
+  background-position: bottom center;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 5px 12px color-mix(in srgb, var(--lh-rarity) 42%, transparent));
+}
+.hb-gacha-pool-dialog .hb-gacha-pool-item[data-legendary-effect-id^="BOWSTRING"] { --lh-item: var(--lh-icon-bowstring); }
+.hb-gacha-pool-dialog .hb-gacha-pool-item[data-legendary-effect-id^="HELM"]      { --lh-item: var(--lh-icon-helm); }
+.hb-gacha-pool-dialog .hb-gacha-pool-item[data-legendary-effect-id^="CHEST"]     { --lh-item: var(--lh-icon-chest); }
+.hb-gacha-pool-dialog .hb-gacha-pool-item[data-legendary-effect-id^="BOOTS"]     { --lh-item: var(--lh-icon-boots); }
+.hb-gacha-pool-dialog .hb-gacha-pool-item[data-legendary-effect-id^="LEGS"]      { --lh-item: var(--lh-icon-legs); }
+/* the text moves into the second column */
+.hb-gacha-pool-dialog .hb-gacha-pool-item > :is(span, h3, strong, p, button) { grid-column: 2; }

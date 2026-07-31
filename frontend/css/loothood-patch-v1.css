@@ -1,0 +1,599 @@
+/* LOOTHOOD — patch v1 · surgical fixes on screens not yet reworked
+   ------------------------------------------------------------------
+   A temporary file. As screens move over to our style, the corresponding
+   blocks are deleted from here. Loaded after loothood-core-v1.css. */
+
+/* ============ 1 · INVISIBLE TEXT ON LIME BUTTONS ============
+   The legacy rules `.hb-ledger-button span` and `.hb-featured__footer button
+   span` in main-menu-foundation-v1.css paint the nested span in
+   --hb-gold-bright, which in our theme resolves to lime. On a lime button that
+   means lime on lime — the label disappears. That is exactly how "Draw 10"
+   vanished: the span itself had color rgb(183,242,74) over a gradient made of
+   the same lime. The same rules carry float:right, which slid the label to the
+   right. In the hunt file this was fixed for one button; here — for all. */
+
+.hb-app .hb-ledger-button.is-primary span,
+.hb-app .hb-gacha-draw-ten span,
+.hb-app .hb-gacha-draw-ten small,
+.hb-app .hb-hunt-primary span,
+.hb-app .hb-featured__footer > button span {
+  color: inherit !important;
+  float: none !important;
+  margin-right: 0 !important;
+}
+
+/* The "Draw 10" button: two centred lines rather than one line with a slipped label. */
+.hb-app .hb-gacha-draw-ten {
+  display: grid !important;
+  place-items: center;
+  gap: 2px;
+  line-height: 1.15;
+}
+.hb-app .hb-gacha-draw-ten small {
+  opacity: .78;
+  font-size: .72em;
+}
+
+/* ============ 2 · PARCHMENT PANEL IN VILLAGE ============
+   .hb-settlement-bonuses is the only thing in the entire game made of "paper":
+   a #cfe3d6 background, while the values on it are painted in brand lime
+   #b7f24a. Lime on light mint gives a contrast of about 1.6:1 — impossible to
+   read. We return the panel to the shared dark palette: then lime works as it
+   does everywhere else, and the panel stops standing out from the screen. */
+
+.hb-app .hb-settlement-bonuses {
+  color: var(--ivory) !important;
+  background: var(--surface) !important;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+}
+.hb-app .hb-settlement-bonuses::after {
+  border-color: var(--line) !important;
+}
+.hb-app .hb-settlement-bonuses header h2,
+.hb-app .hb-settlement-bonuses dt {
+  color: var(--ivory);
+}
+.hb-app .hb-settlement-bonuses header p {
+  color: var(--muted);
+}
+.hb-app .hb-settlement-bonuses dd {
+  color: var(--lime);
+}
+.hb-app .hb-settlement-bonuses dl div,
+.hb-app .hb-settlement-bonuses dl div:last-child {
+  border-color: var(--line2);
+}
+
+/* ============ 3 · RESOURCE TOOLTIPS ============
+   The six chips in the header showed only a number: the player sees "0" and
+   knows neither what it is, nor where it comes from, nor what it is spent on.
+   The meaning of the resources was extracted from the code: village-services.js
+   requires bossTrophies from building rank 3 onwards and sheriffsCrests only at
+   rank 5, wood and ore trickle in passively from the Lumber and Quarry
+   Operation, and tickets are spent in Loot Pulls.
+
+   The tooltip is pure CSS, no JS: the text is bound to the aria-label the
+   markup already sets. A 400ms delay so it does not pop out when the cursor
+   merely passes by; a 160ms appearance with ease-out growing from the top edge
+   — that is, from the chip itself. Disabled on touch devices. */
+
+@media (hover: hover) and (pointer: fine) {
+  .hb-app .hb-topbar,
+  .hb-app .hb-resources { overflow: visible; }
+
+  .hb-app .hb-resource { position: relative; }
+
+  .hb-app .hb-resource::after {
+    content: attr(aria-label);
+    position: absolute;
+    top: calc(100% + 9px);
+    right: 0;
+    z-index: 80;
+    width: max-content;
+    max-width: 250px;
+    padding: 9px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: var(--surface3);
+    box-shadow: 0 14px 30px -14px #000;
+    color: var(--muted);
+    font-family: var(--body);
+    font-size: 12.5px;
+    line-height: 1.45;
+    letter-spacing: .1px;
+    text-align: left;
+    white-space: pre-line;
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(.97) translateY(-3px);
+    transform-origin: top right;
+    transition: opacity 160ms var(--lh-ease-out),
+                transform 160ms var(--lh-ease-out);
+  }
+
+  .hb-app .hb-resource:hover::after {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    transition-delay: 400ms;
+  }
+
+  /* Tooltip text: the name plus where it comes from and what it is spent on. */
+  .hb-app .hb-resource[aria-label^="Wood"]::after {
+    content: "Wood\A Drips in from the Lumber Operation. Spent on village buildings and plots.";
+  }
+  .hb-app .hb-resource[aria-label^="Ore"]::after {
+    content: "Ore\A Drips in from the Quarry Operation. Spent on higher building ranks.";
+  }
+  .hb-app .hb-resource[aria-label^="Boss Trophies"]::after {
+    content: "Boss Trophies\A Dropped by the bosses on stages 5, 10 and 15. Needed from building rank 3 up.";
+  }
+  .hb-app .hb-resource[aria-label^="Sheriff"]::after {
+    content: "Sheriff's Crests\A The rarest camp currency. Only rank 5 upgrades ask for them.";
+  }
+  .hb-app .hb-resource[aria-label^="Standard Tickets"]::after {
+    content: "Standard Tickets\A Spend on Standard pulls in Loot Pulls. Earned from Weekly Bounties.";
+  }
+  .hb-app .hb-resource[aria-label^="Limited Tickets"]::after {
+    content: "Limited Tickets\A Spend on the Limited banner. The scarcest pull currency.";
+  }
+
+  /* The first line of the tooltip is the name, and it should be lighter. */
+  .hb-app .hb-resource::after { color: var(--muted); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hb-app .hb-resource::after { transition-duration: .01ms; }
+}
+
+/* ============ 4 · TUTORIAL DIALOG ============
+   The tutorial was the only way into the game: until it was completed,
+   starting a run was replaced by a welcome dialog, and that dialog had
+   exactly one button — "Begin Tutorial". It could only be dismissed with
+   Escape, and then it came back on the next visit. We added a second action,
+   "Skip tutorial", which marks the tutorial as completed for good; it can be
+   replayed from the Tutorial Guide.
+   What follows is the styling of the pair of buttons. */
+
+.induction-modal__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+.induction-modal__actions #inductionModalAction {
+  order: 2;
+  min-height: 46px;
+  padding: 12px 24px !important;
+  border: none !important;
+  border-radius: 12px !important;
+  color: #08120a !important;
+  background: linear-gradient(180deg, #c8f85e, #b7f24a 42%, #7fae2a) !important;
+  box-shadow: 0 14px 30px -12px rgba(183, 242, 74, .7),
+              inset 0 1px 0 rgba(255,255,255,.45) !important;
+  font-family: 'Alagard', serif;
+  font-size: 18px;
+  letter-spacing: .4px;
+  cursor: pointer;
+}
+/* Skip is a quiet button on the left: available, but it does not compete with the primary one. */
+.induction-modal__skip {
+  order: 1;
+  min-height: 46px;
+  padding: 12px 18px;
+  border: 1px solid #28352f;
+  border-radius: 12px;
+  background: transparent;
+  color: #93ab9e;
+  font-family: 'PixelOperator', monospace;
+  font-size: 13.5px;
+  letter-spacing: .2px;
+  cursor: pointer;
+  transition: color 140ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 140ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+@media (hover: hover) and (pointer: fine) {
+  .induction-modal__skip:hover {
+    color: #eaf5ee;
+    border-color: #3a4b42;
+  }
+}
+
+/* ===================================================================
+   SPRITES: bounty board, left navigation, top bar buttons
+   The files were generated with Z-Image-Turbo; the tool is tools/sprites/.
+   Two different attachment methods, and that is not accidental:
+   coloured objects are applied as backgrounds and carry their own colouring,
+   while monochrome glyphs are applied as masks and coloured from CSS — that
+   way one file covers both the normal and the active state of an item, and
+   the colour stays in the palette rather than in the PNG.
+   =================================================================== */
+
+/* ---- three states of a bounty row -------------------------------- */
+/* Every row used to carry the same mark, and completion had to be inferred
+   from the counter. The marks are coloured, so we drop the mask. */
+.hb-app .hb-bounty-list .hb-icon-slot[data-bounty-state]{
+  width:17px; height:17px;
+  -webkit-mask:none !important; mask:none !important;
+  background-color:transparent;
+  background-repeat:no-repeat; background-position:center; background-size:contain;
+  image-rendering:pixelated;
+  transition:transform .18s ease-out;
+}
+.hb-app .hb-bounty-list .hb-icon-slot[data-bounty-state="open"]{
+  background-image:url("../images/bounty-dot-open-v1.png"); opacity:.75;
+}
+.hb-app .hb-bounty-list .hb-icon-slot[data-bounty-state="progress"]{
+  background-image:url("../images/bounty-dot-progress-v1.png");
+}
+.hb-app .hb-bounty-list .hb-icon-slot[data-bounty-state="done"]{
+  background-image:url("../images/bounty-dot-done-v1.png");
+  filter:drop-shadow(0 0 3px color-mix(in srgb,var(--lime) 55%,transparent));
+}
+/* a completed row dims its own text: the eye should catch on the ones that are
+   still open rather than re-counting what is already done */
+.hb-app .hb-bounty-list>div:has(.hb-icon-slot[data-bounty-state="done"]) dt{color:var(--muted);}
+.hb-app .hb-bounty-list>div:has(.hb-icon-slot[data-bounty-state="done"]) dd{color:var(--lime);}
+
+/* ---- left navigation -----------------------------------------------
+   The icons used to be masks coloured from --c: a mask takes only the
+   silhouette and throws away the object's own colour — painted sprites would
+   have looked like flat fills, exactly like the previous glyphs. Now they are
+   images.
+   -------------------------------------------------------------------- */
+.hb-app .hb-nav-item[data-shell-destination] .hb-nav-ic svg{display:none;}
+.hb-app .hb-nav-item[data-shell-destination] .hb-nav-ic::before{
+  content:""; display:block; width:30px; height:30px;
+  background:var(--nav-sprite) center/contain no-repeat;
+  image-rendering:pixelated;
+}
+.hb-app .hb-nav-item[data-shell-destination="hunt"]        .hb-nav-ic{--nav-sprite:url("../images/nav-hunt-v1.png?v=3");}
+.hb-app .hb-nav-item[data-shell-destination="settlement"]  .hb-nav-ic{--nav-sprite:url("../images/nav-village-v1.png?v=3");}
+.hb-app .hb-nav-item[data-shell-destination="plots"]       .hb-nav-ic{--nav-sprite:url("../images/nav-plots-v1.png?v=3");}
+.hb-app .hb-nav-item[data-shell-destination="bounties"]    .hb-nav-ic{--nav-sprite:url("../images/nav-bounties-v1.png?v=3");}
+.hb-app .hb-nav-item[data-shell-destination="gacha"]       .hb-nav-ic{--nav-sprite:url("../images/nav-pulls-v1.png?v=3");}
+.hb-app .hb-nav-item[data-shell-destination="outfitter"]   .hb-nav-ic{--nav-sprite:url("../images/nav-loadout-v1.png?v=3");}
+.hb-app .hb-nav-item[data-shell-destination="marketplace"] .hb-nav-ic{--nav-sprite:url("../images/nav-market-v1.png?v=3");}
+.hb-app .hb-nav-item[data-shell-destination="guide"]       .hb-nav-ic{--nav-sprite:url("../images/nav-guide-v1.png?v=3");}
+/* The same book, recoloured blue: Docs and Guide are kin, and one object in
+   different colours shows that more precisely than two different objects. */
+.hb-app .hb-nav-item[data-shell-destination="docs"]        .hb-nav-ic{--nav-sprite:url("../images/nav-docs-v1.png?v=1");}
+
+/* ---- account and sound buttons ------------------------------------- */
+/* Both buttons use generated sprites through a mask. Sound used to be drawn on
+   a grid in the markup: the old horn collapsed into a wedge at 23 pixels and
+   sound that was on looked as if it was off. The new sprite holds both the bell
+   and the mouthpiece at that size, so it has returned to the shared technique. */
+.hb-app .hb-add svg,
+.hb-app .hb-audio-toggle svg{display:none !important;}
+/* ::before on .hb-add in loothood-hunt-v1.css is taken by the separator dash
+   (position:absolute; left:-9px). The glyph must explicitly reclaim flow and
+   centring, otherwise it inherits the absolute positioning and drifts out of the
+   button. */
+.hb-app .hb-add::before,
+.hb-app .hb-audio-toggle::before{
+  content:""; display:block; position:static !important;
+  left:auto; top:auto; transform:none !important;
+  width:22px; height:22px;
+  /* IMAGE, NOT MASK.
+     There used to be a mask here, coloured with currentColor: only a silhouette
+     was left of the drawing, and the black outline the drawing exists for
+     disappeared. A single-colour silhouette on a dark panel reads worse than a
+     drawing with an outline. */
+  background:var(--btn-sprite) center/contain no-repeat;
+  transition:filter .12s ease, opacity .12s ease;
+}
+.hb-app .hb-add{--btn-sprite:url("../images/ui-account-v1.png");}
+.hb-app .hb-audio-toggle{--btn-sprite:url("../images/ui-sound-v1.png"); position:relative;}
+/* SOUND OFF IS GREY, NOT STRUCK THROUGH.
+   A diagonal slash used to be drawn over the horn: the mask was single-colour,
+   and there was nothing to distinguish on from off by colour. Now the drawing
+   is coloured, and desaturating it says the same thing without an extra line. */
+.hb-app .hb-audio-toggle[aria-pressed="false"]::before{
+  filter:grayscale(1) brightness(.8);
+  opacity:.55;
+}
+/* the separator dash moves to ::after (in hunt it is suppressed — restore it) */
+.hb-app .hb-add::after{
+  content:"" !important; display:block !important; position:absolute;
+  left:-9px; top:50%; transform:translateY(-50%);
+  width:1px; height:22px; background:var(--line); border:none;
+}
+/* important: in loothood-hunt-v1.css ::after on these buttons is suppressed by
+   content:none !important — without !important here that rule wins regardless of
+   specificity, and the separator dash simply never appears */
+
+/* ---- more area for the icons --------------------------------------
+   The sprites were drawn by the model at 1024 and lost detail at 19 pixels:
+   the chest read as a blob. Instead of redrawing them we give them room — the
+   plate and the glyph itself grow, and the silhouette and inner lines get
+   pixels they can actually appear on. */
+.hb-app .hb-nav-ic{width:38px; height:38px; border-radius:10px;}
+.hb-app .hb-nav-item[data-shell-destination] .hb-nav-ic::before{width:30px; height:30px;}
+.hb-app .hb-nav-item{gap:12px;}
+
+/* top bar: a resource must be recognizable by colour at a glance,
+   and at 18 pixels all six looked like identical rectangles */
+.hb-app .hb-resources{gap:7px; min-width:0;}
+.hb-app .hb-resource{height:38px; padding:0 10px; gap:7px;}
+.hb-app .hb-resource__icon{width:24px; height:24px;}
+/* We keep the buttons at 38: at 40 the resource row stopped fitting and pushed
+   them past the right edge of the window. */
+.hb-app .hb-add,.hb-app .hb-audio-toggle{width:38px !important; height:38px !important;}
+.hb-app .hb-add::before{width:23px; height:23px;}
+
+/* The model drew the ordinary ticket mirrored relative to the limited one: the
+   tear-off edge on the left against the right. Side by side in a row that reads
+   as two different objects rather than one thing in two grades. We flip it
+   instead of running generation again. */
+.hb-app .hb-resource--ticket .hb-resource__icon{transform:scaleX(-1);}
+
+/* ---- Supply Yard warning: resource icons ------------------------
+   Product rule: wherever a resource is named in words, its icon stands next to
+   it. The dialog sections already carry data-resource — we attach the icon with
+   no JS. */
+.storehouse-risk__resource strong::before{
+  content:""; display:inline-block; width:20px; height:20px;
+  margin-right:7px; vertical-align:-4px;
+  background:center/contain no-repeat; image-rendering:pixelated;
+}
+.storehouse-risk__resource[data-resource="wood" i] strong::before{background-image:url("../images/resource-wood-v3.png");}
+.storehouse-risk__resource[data-resource="ore" i]  strong::before{background-image:url("../images/resource-ore-v3.png");}
+
+/* ---- Confirm dialog for destructive actions (Leave Run and others) ------ */
+.destructive-confirm-modal{background:rgba(4,7,6,.66) !important;backdrop-filter:blur(3px);}
+.destructive-confirm-modal__panel{
+  background:#0d1411 !important;background-image:none !important;
+  border:1px solid #28352f !important;border-radius:16px !important;
+  box-shadow:0 34px 90px -34px #000 !important;padding:24px !important;
+}
+.destructive-confirm-modal__panel::before,
+.destructive-confirm-modal__panel::after{display:none !important;content:none !important;}
+.destructive-confirm-modal__eyebrow{
+  color:#63776b !important;font-size:11px !important;letter-spacing:.9px !important;
+  text-transform:uppercase !important;margin:0 0 4px !important;
+}
+.destructive-confirm-modal h2{
+  font-family:"Alagard",serif !important;font-size:24px !important;
+  color:#eaf5ee !important;text-shadow:none !important;margin:0 !important;text-align:left !important;
+}
+.destructive-confirm-modal .hb-diamond-rule{display:none !important;}
+.destructive-confirm-modal__panel > p:not(.destructive-confirm-modal__eyebrow){
+  color:#93ab9e !important;font-size:13.5px !important;
+}
+.destructive-confirm-modal__actions{gap:9px !important;}
+.destructive-confirm-modal__actions button{
+  min-height:46px !important;border-radius:11px !important;
+  background:#141d19 !important;background-image:none !important;
+  border:1px solid #28352f !important;color:#eaf5ee !important;
+  font-size:14px !important;font-weight:600 !important;
+  box-shadow:none !important;text-shadow:none !important;
+}
+.destructive-confirm-modal__actions button::before,
+.destructive-confirm-modal__actions button::after{display:none !important;content:none !important;}
+.destructive-confirm-modal__actions button:hover{
+  background:#1b2620 !important;border-color:rgba(183,242,74,.45) !important;
+}
+.destructive-confirm-modal__actions .button--danger{
+  background:rgba(255,107,107,.12) !important;
+  border-color:rgba(255,107,107,.5) !important;color:#ff6b6b !important;
+}
+.destructive-confirm-modal__actions .button--danger:hover{background:#ff6b6b !important;color:#160a0a !important;}
+
+/* ---- Season Centre: tabs -------------------------------------
+   Legacy sets the strip to width:91% — on desktop that is less than the sum of
+   the three tabs, and LEADERBOARD spills past the edge of the pill. The strip
+   should be sized exactly to its content. */
+.hb-app .hb-season-tabs{width:max-content !important; max-width:100%;}
+
+/* The version marker is mandatory: the file name does not change on
+   regeneration, and the browser keeps the previous image. Alexander re-picked
+   the Village background and was still seeing the old one for exactly this
+   reason. Bump it every time a background is replaced.  */
+/* ---- tab backgrounds -------------------------------------------------
+   Every screen has its own data-screen, so the background is attached with one
+   line per screen. A vertical scrim lies on top: without it the text and cards
+   drown in the picture, and on the Hunt screen we already got burned — a
+   gradient over bright fills produced banding, so the scrim here sits on a
+   pseudo-element underneath the content rather than over it. */
+.hb-app [data-screen="settlement"],
+.hb-app [data-screen="equipment-pulls"],
+.hb-app [data-screen="outfitter"],
+.hb-app [data-screen="bounties"],
+.hb-app [data-screen="marketplace"]{
+  position:relative; isolation:isolate;
+  background-repeat:no-repeat; background-position:center top; background-size:cover;
+}
+/* Village gets the settlement as a header image through heroImage — as a tab
+   background it would have been covered by that header anyway, and so it was. */
+.hb-app [data-screen="equipment-pulls"]{background-image:url("../images/bg-gacha-v1.png?v=2");}
+.hb-app [data-screen="outfitter"]{background-image:url("../images/bg-outfitter-v1.png?v=2");}
+.hb-app [data-screen="bounties"]{background-image:url("../images/bg-bounties-v1.png?v=2");}
+.hb-app [data-screen="marketplace"]{background-image:url("../images/bg-marketplace-v1.png?v=2");}
+
+.hb-app [data-screen="settlement"]::before,
+.hb-app [data-screen="equipment-pulls"]::before,
+.hb-app [data-screen="outfitter"]::before,
+.hb-app [data-screen="bounties"]::before,
+.hb-app [data-screen="marketplace"]::before{
+  content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
+  background:
+    linear-gradient(90deg, rgba(8,11,10,.88) 0%, rgba(8,11,10,.55) 42%, rgba(8,11,10,.12) 100%),
+    linear-gradient(180deg, rgba(8,11,10,.20) 0%, rgba(8,11,10,.04) 45%, rgba(8,11,10,.55) 100%);
+}
+
+/* ---- preloading the state sprites -------------------------------
+   The button disappeared for a moment under the cursor. The reason: on hover
+   border-image-source switches to the hover sprite, and that sprite is not
+   loaded before the first hover — the button's background is disabled through
+   background:none, so while the file is in flight only the text is left of it.
+   The URL must match the one in the CSS exactly, version marker included (?r11):
+   otherwise the browser treats it as a different file and downloads it again.
+   The files are 220 bytes each; all 34 of them together weigh less than a single
+   icon.
+   The element must actually be rendered: with display:none background images
+   are not requested at all. */
+.hb-btn9-preload{
+  position:fixed; left:-9999px; top:0; width:1px; height:1px;
+  opacity:0; pointer-events:none; z-index:-1;
+  background-image:
+    url("../images/btn9s-neutral-hover-v1.png?r11"),
+    url("../images/btn9s-neutral-pressed-v1.png?r11"),
+    url("../images/btn9-amber-hover-v1.png?r11"),
+    url("../images/btn9-amber-pressed-v1.png?r11"),
+    url("../images/btn9-ambersolid-hover-v1.png?r11"),
+    url("../images/btn9-ambersolid-pressed-v1.png?r11"),
+    url("../images/btn9-cyan-hover-v1.png?r11"),
+    url("../images/btn9-cyan-pressed-v1.png?r11"),
+    url("../images/btn9-cyansolid-hover-v1.png?r11"),
+    url("../images/btn9-cyansolid-pressed-v1.png?r11"),
+    url("../images/btn9-emerald-hover-v1.png?r11"),
+    url("../images/btn9-emerald-pressed-v1.png?r11"),
+    url("../images/btn9-emeraldsolid-hover-v1.png?r11"),
+    url("../images/btn9-emeraldsolid-pressed-v1.png?r11"),
+    url("../images/btn9-gold-hover-v1.png?r11"),
+    url("../images/btn9-gold-pressed-v1.png?r11"),
+    url("../images/btn9-goldsolid-hover-v1.png?r11"),
+    url("../images/btn9-goldsolid-pressed-v1.png?r11"),
+    url("../images/btn9-lime-hover-v1.png?r11"),
+    url("../images/btn9-lime-pressed-v1.png?r11"),
+    url("../images/btn9-limesolid-hover-v1.png?r11"),
+    url("../images/btn9-limesolid-pressed-v1.png?r11"),
+    url("../images/btn9-neutral-hover-v1.png?r11"),
+    url("../images/btn9-neutral-pressed-v1.png?r11"),
+    url("../images/btn9-red-hover-v1.png?r11"),
+    url("../images/btn9-red-pressed-v1.png?r11"),
+    url("../images/btn9-redsolid-hover-v1.png?r11"),
+    url("../images/btn9-redsolid-pressed-v1.png?r11"),
+    url("../images/btn9-sage-hover-v1.png?r11"),
+    url("../images/btn9-sage-pressed-v1.png?r11"),
+    url("../images/btn9-sagesolid-hover-v1.png?r11"),
+    url("../images/btn9-sagesolid-pressed-v1.png?r11"),
+    url("../images/btn9-violet-hover-v1.png?r11"),
+    url("../images/btn9-violet-pressed-v1.png?r11"),
+    url("../images/btn9-violetsolid-hover-v1.png?r11"),
+    url("../images/btn9-violetsolid-pressed-v1.png?r11");
+}
+
+/* ---- briefing dialog during combat -------------------------------
+   The combat steps of the tutorial are shown in the same briefing dialog as the
+   menu ones, and that dialog lays an rgba(1,8,4,.82) backdrop over the entire
+   screen. On the "move around the arena" step the player saw an arena with a
+   brightness of 15 out of 255 and a right-hand panel at 9 — in other words, they
+   were being asked to learn on an almost black screen. During a run the backdrop
+   is weakened: the text card is opaque and stays readable on its own, and there
+   is no reason to darken everything underneath it. */
+body.is-running .induction-modal {
+  background: rgba(1, 8, 4, .40) !important;
+  backdrop-filter: none !important;
+}
+
+/* Navigation footer and status panel.
+   ------------------------------------------------------------------
+   The navigation column is taller than its content, and its bottom sat empty.
+   The links are pinned to the very bottom through margin-top:auto rather than
+   with a margin picked by eye: the number of menu items will change again, and a
+   computed margin would fall apart with the very first new section. */
+.hb-app .hb-sidebar { display: flex; flex-direction: column; }
+.hb-app .hb-sidebar-foot {
+  margin-top: auto;
+  padding: 14px 12px 12px;
+  border-top: 1px solid rgba(255, 255, 255, .07);
+  display: grid;
+  gap: 8px;
+}
+
+.hb-app .hb-side-links { display: flex; gap: 8px; }
+
+.hb-app .hb-side-link {
+  flex: 1 1 0;
+  border-radius: 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px 4px;
+  border: 1px solid rgba(255, 255, 255, .1);
+  color: var(--muted, #8ea89b);
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.hb-app .hb-side-link svg { width: 13px; height: 13px; fill: currentColor; }
+.hb-app .hb-side-link:hover { color: var(--ivory, #eaf5ee); border-color: rgba(255, 255, 255, .24); }
+/* The placeholder does not pretend to be a link: no pointer cursor, no highlight. */
+.hb-app .hb-side-link.is-soon { opacity: .38; cursor: default; }
+.hb-app .hb-side-link.is-soon:hover { color: var(--muted, #8ea89b); border-color: rgba(255, 255, 255, .1); }
+
+.hb-app .hb-side-status {
+  border-radius: 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid rgba(255, 255, 255, .1);
+  background: transparent;
+  color: var(--muted, #8ea89b);
+  font: inherit;
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.hb-app .hb-side-status:hover { color: var(--ivory, #eaf5ee); border-color: rgba(255, 255, 255, .24); }
+.hb-app .hb-side-status__dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #4a5a52;
+}
+.hb-app .hb-side-status__dot[data-state="up"] { background: #7ee27e; }
+.hb-app .hb-side-status__dot[data-state="degraded"] { background: #f0c04a; }
+.hb-app .hb-side-status__dot[data-state="down"] { background: #ff6b5e; }
+
+/* The panel. Not centred on the screen: it belongs to the button it was opened
+   from, and popping out of that button it reads as an answer rather than as a
+   separate event. */
+.hb-status-panel {
+  position: fixed;
+  left: 16px;
+  bottom: 78px;
+  /* Above the sign-in screen: that one sits at 10000 and would cover the answer
+     to "is the server up" at exactly the moment the server is down. */
+  z-index: 10001;
+  width: min(360px, calc(100vw - 32px));
+  padding: 14px 16px 16px;
+  background: rgba(6, 14, 9, .98);
+  border: 1px solid rgba(216, 152, 32, .34);
+  border-radius: 14px;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, .6);
+  color: var(--ivory, #eaf5ee);
+  font-family: var(--body, "Pixel Operator", monospace);
+}
+.hb-status-panel header { display: flex; align-items: center; justify-content: space-between; }
+.hb-status-panel h2 { margin: 0; font-size: 14px; letter-spacing: .06em; text-transform: uppercase; }
+.hb-status-panel header button {
+  border: 0; background: transparent; color: var(--muted, #8ea89b);
+  font-size: 20px; line-height: 1; cursor: pointer;
+}
+.hb-status-lede { margin: 6px 0 12px; font-size: 12px; color: var(--muted, #8ea89b); }
+.hb-status-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 9px; }
+.hb-status-list li {
+  display: grid;
+  grid-template-columns: 9px minmax(72px, auto) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+}
+.hb-status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--c, #4a5a52); }
+.hb-status-name { letter-spacing: .04em; }
+/* The detail is truncated rather than wrapped: otherwise the line "block 812345
+   · 4s ago" tears the whole list grid apart on a narrow panel. */
+.hb-status-detail {
+  color: var(--muted, #8ea89b);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.hb-status-ms { color: rgba(142, 168, 155, .6); font-size: 11px; }
+.hb-status-wait { color: var(--muted, #8ea89b); }

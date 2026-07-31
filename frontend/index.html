@@ -1,0 +1,1359 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#081007">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LOOTHOOD">
+  <!-- API origin. Empty means the current domain, which is the correct value
+       in production: Vercel rewrites /api/* to Railway on its side, so to the
+       browser every request is same-origin. Fill this in only for local work. -->
+  <meta name="loothood-api-origin" content="">
+  <title>LOOTHOOD Alpha</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/ui-foundation-v1.css">
+  <link rel="stylesheet" href="css/main-menu-foundation-v1.css">
+  <link rel="stylesheet" href="css/main-menu-typography-v1.css">
+  <link rel="stylesheet" href="css/main-menu-restyle-v2.css">
+  <link rel="stylesheet" href="css/main-menu-thematic-border-v1.css">
+  <link rel="stylesheet" href="css/main-menu-system-rollout-v1.css">
+  <link rel="stylesheet" href="css/main-menu-equipment-v1.css">
+  <link rel="stylesheet" href="css/main-menu-mobile-transpose-v3.css">
+  <link rel="stylesheet" href="css/main-menu-mobile-runtime-adapter-v1.css">
+  <link rel="stylesheet" href="css/main-menu-marketplace-v1.css">
+  <link rel="stylesheet" href="css/loothood-hunt-v1.css?v=r13">
+  <link rel="stylesheet" href="css/loothood-core-v1.css?v=r13">
+  <link rel="stylesheet" href="css/loothood-patch-v1.css?v=r25">
+  <link rel="stylesheet" href="css/loothood-pulls-v1.css?v=r5">
+  <link rel="stylesheet" href="css/loothood-gate-v1.css?v=r13">
+  <link rel="stylesheet" href="css/loothood-loadout-v1.css?v=r13">
+  <link rel="stylesheet" href="css/loothood-bounties-v1.css?v=r15">
+  <link rel="stylesheet" href="css/loothood-guide-v1.css?v=r5">
+  <link rel="stylesheet" href="css/loothood-docs-v1.css?v=r2">
+  <link rel="stylesheet" href="css/loothood-life-v1.css?v=r6">
+  <link rel="stylesheet" href="css/loothood-plots-v1.css?v=r13">
+  <link rel="stylesheet" href="css/loothood-village-v1.css?v=r13">
+  <link rel="stylesheet" href="css/loothood-market-v1.css?v=r13">
+  <link rel="stylesheet" href="css/loothood-account-v1.css?v=r13">
+  <link rel="stylesheet" href="css/loothood-type-v1.css?v=r16">
+  <link rel="stylesheet" href="css/combat-foundation-v1.css">
+  <link rel="stylesheet" href="css/desktop-pause-family-v1.css?v=r2">
+  <link rel="stylesheet" href="css/in-run-reward-choice-v1.css?v=r2">
+  <link rel="stylesheet" href="css/run-outcome-family-v1.css">
+  <link rel="stylesheet" href="css/mobile-in-run-pc-parity-v1.css">
+  <link rel="stylesheet" href="css/gacha-reveal.css">
+  <link rel="stylesheet" href="css/account-gate-v1.css">
+  <link rel="stylesheet" href="css/account-settings-v1.css">
+  <link rel="stylesheet" href="css/tutorial-guidance-v1.css?v=r2">
+  <link rel="stylesheet" href="css/mobile-ui-reliability-v1.css">
+  <link rel="stylesheet" href="css/loothood-consistency-v1.css?v=r7">
+  <link rel="stylesheet" href="css/loothood-combat-v1.css?v=r18">
+</head>
+<body class="account-pending">
+  <section id="accountGate" class="hb-account-gate" data-account-state="booting" aria-label="LOOTHOOD account access">
+    <img class="hb-account-gate__art" src="images/bg-login-v1.png?v=2" alt="">
+    <!-- Fireflies on the login screen. The key art in the menu already had
+         them while the entrance stayed motionless — even though this is the
+         screen a person sees first, and longest, while loading runs. -->
+    <span class="hb-fireflies hb-fireflies--gate" aria-hidden="true"
+      ><i class="hb-firefly"></i><i class="hb-firefly"></i><i class="hb-firefly"></i
+      ><i class="hb-firefly"></i><i class="hb-firefly"></i><i class="hb-firefly"></i
+      ><i class="hb-firefly"></i><i class="hb-firefly"></i><i class="hb-firefly"></i
+    ></span>
+    <!-- Gate lanterns and the campfire. The previous entrance was an animated
+         GIF; replacing it with a still PNG left the screen dead. The light
+         positions were measured against the rendered frame, not eyeballed. -->
+    <span class="hb-account-gate__glow" aria-hidden="true"><i></i><i></i><i></i></span>
+    <div class="hb-account-gate__scrim" aria-hidden="true"></div>
+    <div class="hb-account-gate__frame" aria-hidden="true"></div>
+
+    <div class="hb-account-panel">
+      <span class="hb-account-corner hb-account-corner--tl" aria-hidden="true"></span>
+      <span class="hb-account-corner hb-account-corner--tr" aria-hidden="true"></span>
+      <span class="hb-account-corner hb-account-corner--bl" aria-hidden="true"></span>
+      <span class="hb-account-corner hb-account-corner--br" aria-hidden="true"></span>
+
+      <article class="hb-account-screen" data-account-screen="entry" tabindex="-1" aria-labelledby="accountEntryTitle" hidden="">
+        <img class="hb-account-wordmark" src="images/loothood-wordmark-primary.png" alt="LOOTHOOD">
+        <h1 id="accountEntryTitle">Return to the forest</h1>
+        <span class="hb-account-rule" aria-hidden="true"></span>
+        <div class="hb-account-actions">
+          <button class="hb-account-button is-primary" type="button" data-account-go="username">Login with username</button>
+          <button class="hb-account-button" id="accountWalletLogin" type="button">Login with wallet</button>
+          <button class="hb-account-button" type="button" data-account-go="create">Create an account</button>
+          <button class="hb-account-button is-quiet" type="button" data-account-go="guest">Continue as guest</button>
+        </div>
+        <button class="hb-account-text-button" type="button" data-account-go="recover">Recover account</button>
+        <p class="hb-account-status" data-account-status="" role="status" aria-live="polite" hidden=""></p>
+      </article>
+
+      <article class="hb-account-screen" data-account-screen="username" tabindex="-1" aria-labelledby="accountUsernameTitle" hidden="">
+        <button class="hb-account-back" type="button" data-account-go="entry">← Back</button>
+        <h2 id="accountUsernameTitle">Login with username</h2>
+        <span class="hb-account-rule" aria-hidden="true"></span>
+        <form class="hb-account-form" id="accountUsernameForm" novalidate="">
+          <label>Username
+            <input type="text" name="username" autocomplete="username" maxlength="24" required="" placeholder="Your private username">
+          </label>
+          <label>Password
+            <span class="hb-account-password"><input type="password" name="password" autocomplete="current-password" maxlength="128" required="" placeholder="Your password"><button type="button" data-account-password-toggle="">Show</button></span>
+          </label>
+          <p class="hb-account-field-error" data-account-form-error="" role="alert" hidden=""></p>
+          <button class="hb-account-button is-primary" type="submit">Enter LOOTHOOD</button>
+        </form>
+        <button class="hb-account-text-button" type="button" data-account-go="recover">Recover account</button>
+      </article>
+
+      <article class="hb-account-screen" data-account-screen="guest" tabindex="-1" aria-labelledby="accountGuestTitle" hidden="">
+        <button class="hb-account-back" type="button" data-account-go="entry">← Back</button>
+        <p class="hb-account-step">Guest account</p>
+        <h2 id="accountGuestTitle">Continue as guest?</h2>
+        <span class="hb-account-rule" aria-hidden="true"></span>
+        <div class="hb-account-warning"><strong>Protected equipment is unavailable</strong><p>You can play ordinary LOOTHOOD content, but Gacha, equipment value, Marketplace and Season actions remain locked.</p></div>
+        <p class="hb-account-copy">This is a durable cloud profile. You can add username login or a wallet later without losing progress.</p>
+        <div class="hb-account-actions">
+          <button class="hb-account-button is-primary" type="button" data-account-go="create">Create an account instead</button>
+          <button class="hb-account-button is-quiet" id="accountContinueGuest" type="button">Continue as guest</button>
+        </div>
+        <p class="hb-account-field-error" data-account-form-error="" role="alert" hidden=""></p>
+      </article>
+
+      <article class="hb-account-screen" data-account-screen="create" tabindex="-1" aria-labelledby="accountCreateTitle" hidden="">
+        <button class="hb-account-back" type="button" data-account-go="entry">← Back</button>
+        <h2 id="accountCreateTitle">Create your account</h2>
+        <span class="hb-account-rule" aria-hidden="true"></span>
+        <p class="hb-account-copy">Your private login username is separate from the generated name shown on leaderboards.</p>
+        <form class="hb-account-form" id="accountCreateForm" novalidate="">
+          <label>Username
+            <input type="text" name="username" autocomplete="username" maxlength="24" required="" placeholder="Choose a private login name">
+          </label>
+          <label>Password
+            <span class="hb-account-password"><input type="password" name="password" autocomplete="new-password" minlength="12" maxlength="128" required="" placeholder="12–128 characters"><button type="button" data-account-password-toggle="">Show</button></span>
+          </label>
+          <label>Confirm password
+            <span class="hb-account-password"><input type="password" name="passwordConfirmation" autocomplete="new-password" minlength="12" maxlength="128" required="" placeholder="Repeat your password"><button type="button" data-account-password-toggle="">Show</button></span>
+          </label>
+          <p class="hb-account-field-error" data-account-form-error="" role="alert" hidden=""></p>
+          <button class="hb-account-button is-primary" type="submit">Create and play</button>
+        </form>
+        <p class="hb-account-note">You can begin ordinary play immediately. Back up the account with a Recovery Key before using protected value actions.</p>
+      </article>
+
+      <article class="hb-account-screen" data-account-screen="recover" tabindex="-1" aria-labelledby="accountRecoverTitle" hidden="">
+        <button class="hb-account-back" type="button" data-account-go="entry">← Back</button>
+        <h2 id="accountRecoverTitle">Recover your account</h2>
+        <span class="hb-account-rule" aria-hidden="true"></span>
+        <p class="hb-account-copy">Enter the complete LOOTHOOD Recovery Key you previously backed up. This cannot access a wallet or move funds.</p>
+        <form class="hb-account-form" id="accountRecoverForm" novalidate="">
+          <label>Recovery Key
+            <input type="text" name="recoveryKey" autocomplete="off" spellcheck="false" required="" placeholder="HB1-…">
+          </label>
+          <label>New password
+            <span class="hb-account-password"><input type="password" name="newPassword" autocomplete="new-password" minlength="12" maxlength="128" required="" placeholder="12–128 characters"><button type="button" data-account-password-toggle="">Show</button></span>
+          </label>
+          <label>Confirm new password
+            <span class="hb-account-password"><input type="password" name="newPasswordConfirmation" autocomplete="new-password" minlength="12" maxlength="128" required="" placeholder="Repeat your new password"><button type="button" data-account-password-toggle="">Show</button></span>
+          </label>
+          <p class="hb-account-field-error" data-account-form-error="" role="alert" hidden=""></p>
+          <button class="hb-account-button is-primary" type="submit">Recover and continue</button>
+        </form>
+      </article>
+
+      <article class="hb-account-screen" data-account-screen="wallets" tabindex="-1" aria-labelledby="accountWalletsTitle" hidden="">
+        <button class="hb-account-back" type="button" data-account-go="entry">← Back</button>
+        <p class="hb-account-step">Browser wallets</p>
+        <h2 id="accountWalletsTitle">Choose a wallet</h2>
+        <span class="hb-account-rule" aria-hidden="true"></span>
+        <p class="hb-account-copy">Choose which installed wallet should sign the gas-free LOOTHOOD login message.</p>
+        <div class="hb-account-actions" id="accountWalletChoices"></div>
+        <p class="hb-account-field-error" data-account-form-error="" role="alert" hidden=""></p>
+      </article>
+
+      <article class="hb-account-screen" data-account-screen="wallet-confirm" tabindex="-1" aria-labelledby="accountWalletConfirmTitle" hidden="">
+        <button class="hb-account-back" type="button" id="accountCancelWalletCreation">← Cancel</button>
+        <p class="hb-account-step">New wallet</p>
+        <h2 id="accountWalletConfirmTitle">Create a LOOTHOOD account?</h2>
+        <span class="hb-account-rule" aria-hidden="true"></span>
+        <p class="hb-account-copy">No account currently uses <strong id="accountPendingWallet">this wallet</strong>. Create a new cloud profile with a generated player name?</p>
+        <div class="hb-account-warning"><strong>No transaction or approval</strong><p>This creates only a LOOTHOOD account. It cannot spend tokens, move funds, or control the wallet.</p></div>
+        <button class="hb-account-button is-primary" id="accountConfirmWalletCreation" type="button">Create wallet account</button>
+        <p class="hb-account-field-error" data-account-form-error="" role="alert" hidden=""></p>
+      </article>
+
+      <article class="hb-account-screen hb-account-screen--loading" data-account-screen="loading" tabindex="-1" aria-labelledby="accountLoadingTitle">
+        <img class="hb-account-wordmark" src="images/loothood-wordmark-primary.png" alt="LOOTHOOD">
+        <h2 id="accountLoadingTitle">Preparing the forest</h2>
+        <span class="hb-account-rule" aria-hidden="true"></span>
+        <div class="hb-account-progress" role="progressbar" aria-label="Loading account" aria-valuemin="0" aria-valuemax="100" aria-valuenow="30"><span></span></div>
+        <div class="hb-account-progress-meta"><span data-account-loading-copy="">Checking secure session</span><strong data-account-loading-value="">30%</strong></div>
+      </article>
+
+      <article class="hb-account-screen" data-account-screen="maintenance" tabindex="-1" aria-labelledby="accountMaintenanceTitle" hidden="">
+        <p class="hb-account-step">Service status</p>
+        <h2 id="accountMaintenanceTitle">Forest maintenance</h2>
+        <span class="hb-account-rule" aria-hidden="true"></span>
+        <div class="hb-account-warning"><strong>LOOTHOOD is temporarily unavailable</strong><p id="accountMaintenanceMessage">Account and cloud services could not be reached.</p></div>
+        <p class="hb-account-copy">Progress cannot safely load or save without the authoritative service. No offline profile will be created.</p>
+        <button class="hb-account-button is-primary" id="accountRetryBoot" type="button">Try again</button>
+      </article>
+
+      <div class="hb-account-scroll-cue" aria-hidden="true">↓ More</div>
+    </div>
+
+    <button class="hb-account-music" id="accountLoginMusicToggle" type="button" aria-pressed="true" aria-label="Mute music">
+      <span aria-hidden="true">♫</span><span><small></small><strong></strong></span><b>Music on</b>
+    </button>
+  </section>
+  <div id="combatSafeAreaProbe" class="combat-safe-area-probe" aria-hidden="true"></div>
+  <main id="appBackground" class="app-shell" data-overlay-background="app">
+    <section id="desktopMainMenu" class="desktop-main-menu" aria-label="Hunt menu" hidden=""></section>
+    <section class="play-surface" aria-label="LOOTHOOD game alpha">
+      <div class="topbar">
+        <div>
+          <h1>LOOTHOOD</h1>
+          <p>Robinhood Chain archer run · Alpha</p>
+        </div>
+        <div id="mobileSettingsPanel" class="topbar__actions">
+          <label class="arena-fit-setting">
+            <span>Arena Fit</span>
+            <select id="mobileArenaFit" aria-label="Mobile arena fit">
+              <option value="fill">Fill Screen</option>
+              <option value="preserve">Preserve 3:2</option>
+            </select>
+          </label>
+          <button id="musicToggle" class="music-toggle" type="button" aria-pressed="true" title="Mute the Forest soundtrack">
+            <span aria-hidden="true">♫</span>
+            Music: On
+          </button>
+          <div class="chain-pill version-pill">Alpha <strong id="gameVersion">v0.0.1</strong></div>
+          <div class="chain-pill">Robinhood Chain 4663</div>
+          <button id="closeMobileSettings" class="mobile-settings-close" type="button" aria-label="Close mobile settings">Done</button>
+        </div>
+      </div>
+
+      <div id="gameNotice" class="game-notice hb-menu-system-overlay" hidden="" aria-live="polite"></div>
+
+      <section class="mobile-village-home village-only" aria-label="Village home">
+        <div class="mobile-village-hero">
+          <span>Forest settlement</span>
+          <h2>Choose your next move</h2>
+          <strong id="mobileVillageLandSummary">6 / 25 plots</strong>
+        </div>
+        <div class="mobile-run-actions">
+          <button id="mobileStartRun" type="button">Prepare Forest Run</button>
+          <button id="mobileStartPlaytest" class="button--secondary" type="button">Playtest Stage</button>
+        </div>
+        <div class="mobile-home-menu">
+          <button type="button" data-open-gacha=""><span>Equipment draws</span><strong>Gacha</strong></button>
+          <button type="button" data-open-outfitter=""><span>Loadout</span><strong>Outfitter</strong></button>
+          <button type="button" data-open-bounties=""><span>Objectives</span><strong>Bounties</strong></button>
+          <button type="button" data-open-settlement=""><span>Fixtures</span><strong>Settlement</strong></button>
+          <button type="button" data-open-tutorial-guide=""><span>Help</span><strong>Tutorial Guide</strong></button>
+          <button id="mobileHomeMore" type="button"><span>Options</span><strong>More</strong></button>
+        </div>
+      </section>
+
+      <div class="village-layout village-only">
+        <section class="village-board" aria-label="Village building plots">
+          <div class="village-board__bar">
+            <div>
+              <h2>Village Plots</h2>
+              <p>Start with 6 unlocked plots, choose your first specialist buildings, and expand toward 25 plots with gold.</p>
+            </div>
+            <div class="village-board__actions">
+              <button id="startPlaytest" class="button--secondary" type="button">Playtest Stage</button>
+              <button id="startRun" type="button">Prepare Forest Run</button>
+            </div>
+          </div>
+          <div id="builderPackBanner" class="builder-pack-banner" hidden="" role="status" aria-live="polite">
+            <div>
+              <small>Open Builder Pack</small>
+              <strong id="builderPackTitle">Choose 1 core stat building.</strong>
+              <span id="builderPackDescription">Its first two levels are free. Damage is recommended.</span>
+            </div>
+            <button id="openBuilderPack" type="button">Choose an Empty Plot</button>
+          </div>
+          <div id="buildings" class="building-list village-plots"></div>
+        </section>
+
+        <aside class="village-sidebar" aria-label="Village menu">
+          <div class="village-quick-menu">
+            <div class="village-quick-menu__head">
+              <div>
+                <small>Village planning</small>
+                <h2>Quick Menu</h2>
+              </div>
+              <strong id="villageLandSummary">6 / 25 plots</strong>
+            </div>
+            <div class="village-quick-menu__actions">
+              <button class="season-centre-launcher" type="button" data-open-authoritative-season-centre="">
+                <span>Competition</span>
+                <strong>Season Centre</strong>
+                <small>Entry Ticket, prize and verified leaderboard</small>
+              </button>
+              <button type="button" data-open-stats="">
+                <span>Character</span>
+                <strong>Stats</strong>
+                <small>Power and limits</small>
+              </button>
+              <button type="button" data-open-inventory="">
+                <span>Resources</span>
+                <strong>Inventory</strong>
+                <small>Balances and storage</small>
+              </button>
+              <button type="button" data-open-outfitter="">
+                <span>Loadout</span>
+                <strong>Outfitter</strong>
+                <small id="outfitterQuickSummary">0 / 5 slots equipped</small>
+              </button>
+              <button type="button" data-open-gacha="">
+                <span>Equipment draws</span>
+                <strong>Gacha</strong>
+                <small>Tickets, pity and draw history</small>
+              </button>
+              <button type="button" data-open-bounties="">
+                <span>Objectives</span>
+                <strong>Bounties</strong>
+                <small id="bountyBoardSummary">Locked</small>
+              </button>
+              <button type="button" data-open-settlement="">
+                <span>Fixtures</span>
+                <strong>Settlement</strong>
+                <small>Land, operations, bounties and bows</small>
+              </button>
+              <button type="button" data-open-tutorial-guide="">
+                <span>Help</span>
+                <strong>Tutorial Guide</strong>
+                <small>Mechanics and feature unlocks</small>
+              </button>
+              <button class="mobile-only-menu-action" type="button" data-open-account-settings="">
+                <span>Profile</span>
+                <strong>Account & Settings</strong>
+                <small>Wallet, Mailbox, support and preferences</small>
+              </button>
+              <button id="mobileOpenSettings" class="mobile-only-menu-action" type="button" aria-controls="mobileSettingsPanel">
+                <span>Audio</span>
+                <strong>Soundtrack</strong>
+                <small>Music and preview controls</small>
+              </button>
+            </div>
+          </div>
+
+          <div class="section save-data-controls">
+            <h2>Save Data</h2>
+            <p>Delete this browser's LOOTHOOD progress and restart from a fresh Forest settlement.</p>
+            <button id="deleteSaveData" class="button--danger" type="button">Delete Save Data</button>
+            <small id="deleteSaveStatus" aria-live="polite">This cannot be undone.</small>
+          </div>
+        </aside>
+      </div>
+
+      <nav class="mobile-bottom-nav village-only" aria-label="Village navigation">
+        <button type="button" data-mobile-screen="home" aria-current="page"><span aria-hidden="true">⌂</span>Home</button>
+        <button type="button" data-mobile-screen="plots"><span aria-hidden="true">▦</span>Plots</button>
+        <button type="button" data-mobile-sheet="stats" data-open-stats=""><span aria-hidden="true">♥</span>Stats</button>
+        <button type="button" data-mobile-sheet="inventory" data-open-inventory=""><span aria-hidden="true">◆</span>Items</button>
+        <button type="button" data-mobile-screen="more"><span aria-hidden="true">•••</span>More</button>
+      </nav>
+
+      <div class="game-grid combat-layout run-only hb-fit-stage" aria-label="LOOTHOOD forest combat">
+        <header class="combat-hud hb-top-hud" aria-label="Run status">
+          <div class="hud-stat hud-stat--health hb-player-hud" aria-label="Player health">
+            <div class="hb-player-hud__logo-wrap">
+              <img class="hb-player-hud__logo" src="images/loothood-mark-primary.png" alt="LOOTHOOD">
+            </div>
+            <span class="hb-player-hud__label">HP</span>
+            <meter id="hpMeter" class="hb-meter hb-player-health" min="0" max="100" value="100" aria-label="Player health"></meter>
+            <i id="borrowedHeartBar" class="hud-heart-store hb-heart-store" hidden="" aria-hidden="true"></i>
+            <b id="hpText" class="hb-player-hud__value">100 / 100</b>
+          </div>
+          <div class="hud-stat hud-stat--stage">
+            <span>Stage</span>
+            <b id="roomText">0 / 15</b>
+          </div>
+          <div id="combatBossHud" class="combat-boss-hud hb-boss-hud-slot" hidden="" aria-label="Boss status">
+            <div class="combat-boss-copy">
+              <strong id="bossHudName" class="hb-boss-hud__name">Forest Boss</strong>
+            </div>
+            <div class="combat-boss-meters">
+              <div id="bossHealthRow" class="combat-boss-meter-row combat-boss-meter-row--health">
+                <span class="hb-boss-hud__label">Health</span>
+                <div id="bossHealthMeter" class="combat-boss-meter combat-boss-meter--health hb-boss-segments hb-boss-segments--health" role="meter" aria-label="Boss health"></div>
+              </div>
+              <div id="bossArmorRow" class="combat-boss-meter-row combat-boss-meter-row--armor">
+                <span class="hb-boss-hud__label">Armor</span>
+                <div id="bossArmorMeter" class="combat-boss-meter combat-boss-meter--armor hb-boss-segments hb-boss-segments--armor" role="meter" aria-label="Boss armor"></div>
+              </div>
+            </div>
+          </div>
+          <div class="hud-stat hud-stat--streak">
+            <span>Streak</span>
+            <meter id="streakMeter" min="0" max="100" value="0"></meter>
+            <b id="streakText">0</b>
+          </div>
+          <div class="hud-stat hud-stat--gold">
+            <span>Run Gold</span>
+            <b id="runGoldText">0</b>
+          </div>
+          <div class="hud-stat hud-stat--legendary">
+            <span>Legendary</span>
+            <meter id="legendaryMeter" min="0" max="250" value="0"></meter>
+            <b id="legendaryText">0 / 250</b>
+          </div>
+        </header>
+        <div class="canvas-wrap hb-arena" aria-label="Forest combat arena">
+          <canvas id="game" class="hb-arena__art" width="960" height="640" aria-label="LOOTHOOD combat arena"></canvas>
+          <span id="orientationNoticeAnchor" hidden=""></span>
+          <div id="orientationNotice" class="orientation-notice" role="status" aria-live="polite" tabindex="-1">
+            <strong>Rotate to landscape</strong>
+            <span>The run is safely paused while the phone is upright.</span>
+          </div>
+          <div id="optionalRewardHud" class="optional-reward-hud" hidden="" aria-live="polite">
+            <span id="splinterVolleyHud" class="optional-reward-hud__item optional-reward-hud__item--splinter" hidden=""></span>
+            <span id="heartsGraceHud" class="optional-reward-hud__item optional-reward-hud__item--heart" hidden=""></span>
+          </div>
+          <div id="roundClearFx" class="round-clear-fx" hidden="" aria-live="polite">
+            <div class="round-clear-fx__line"></div>
+            <span id="roundClearEyebrow">Stage 1</span>
+            <strong id="roundClearTitle">Clear</strong>
+            <div class="round-clear-fx__rewards">
+              <span><b id="roundClearScore">0</b> Score</span>
+              <span><b id="roundClearGold">0</b> Gold</span>
+            </div>
+            <div id="storehouseLossCallout" class="storehouse-loss-callout" hidden="" role="status" aria-live="polite"></div>
+          </div>
+          <div id="overlay" class="overlay">
+            <strong>Forest Run Ready</strong>
+            <span>Move with keys or the touch stick. Stop moving to shoot.</span>
+          </div>
+          <span id="pauseOverlayAnchor" hidden=""></span>
+          <div id="pauseOverlay" class="pause-overlay" hidden="" role="dialog" aria-modal="true" aria-labelledby="pauseOverlayTitle" aria-describedby="pauseOverlayDescription" data-overlay-kind="primary" data-overlay-id="pause">
+            <div class="hb-pause">
+              <header class="hb-pause__header">
+                <strong id="pauseOverlayTitle" class="hb-pause__title"><span class="hb-pause__desktop-title">Paused</span><span class="hb-pause__mobile-title">Run Paused</span></strong>
+                <span id="pauseOverlayDescription" class="hb-pause__description">Stage time and combat are frozen.</span>
+              </header>
+              <div class="pause-overlay__actions hb-pause__actions" data-overlay-scroll-owner="">
+                <button id="resumeRun" class="hb-pause__button hb-pause__button--wide" type="button">Resume Run</button>
+                <button id="pauseStats" class="hb-pause__button" type="button" data-open-stats="">Character Stats</button>
+                <button id="pauseInventory" class="hb-pause__button" type="button" data-open-inventory="">Gear</button>
+                <button id="pauseRunBuild" class="hb-pause__button" type="button" data-open-run-build="">Run Build</button>
+                <button id="pauseSettings" class="hb-pause__button hb-pause__settings" type="button">Settings</button>
+                <button id="leaveRunFromPause" class="hb-pause__button hb-pause__button--wide hb-pause__button--leave button--danger" type="button">Leave Run</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="touch-controls" role="group" aria-label="Touch combat controls">
+          <div id="movementPad" class="movement-pad" role="application" aria-label="Drag to move. Centre or release to stop and shoot." data-centered="false" data-planted="false">
+            <div id="movementKnob" class="movement-pad__knob" aria-hidden="true"></div>
+          </div>
+          <span id="touchControlHint" class="touch-controls__hint" aria-live="polite">Centre or release to shoot</span>
+          <button id="mobileStop" class="touch-controls__stop" type="button" aria-label="Hold to stop moving" aria-pressed="false">STOP</button>
+          <button id="mobilePauseRun" class="touch-controls__pause" type="button" aria-label="Pause run">II</button>
+        </div>
+
+        <aside class="panel combat-panel hb-side-panel" aria-label="Run information">
+          <div class="stage-card combat-progress-card hb-run-heading" aria-label="Current stage progress">
+            <h1 id="combatRunTitle" class="combat-progress-card__title hb-run-heading__title">Forest Run</h1>
+            <div class="combat-progress-card__heading hb-run-heading__stage">
+              <span>Stage</span>
+              <strong id="combatStageProgressText">0 / 15</strong>
+            </div>
+            <div id="combatPrestigeRow" class="stat-line hb-run-heading__prestige">
+              <b id="prestigeText">Prestige 0</b>
+            </div>
+            <span id="stageCardEyebrow" hidden="">Forest Run</span>
+            <strong id="stageCardTitle" hidden="">Sherwood Road</strong>
+            <small id="stageCardDesc" hidden="">Fifteen stages, boss rounds at 5, 10, and 15.</small>
+            <div id="stageTrack" class="stage-track hb-stage-progress" aria-hidden="true"></div>
+          </div>
+
+          <div class="combat-readouts" aria-label="Run resources">
+            <div class="combat-readout combat-readout--score hb-score">
+              <span class="combat-readout__label hb-score__label">Score</span>
+              <b id="combatScoreText" class="hb-score__value">0</b>
+            </div>
+            <div class="hb-run-stats" aria-label="Current run values">
+              <div class="combat-readout combat-readout--streak hb-run-stat">
+                <div class="combat-readout__row"><span class="hb-run-stat__label">Streak</span><b id="combatStreakText" class="hb-run-stat__value">0</b></div>
+                <meter id="combatStreakMeter" min="0" max="100" value="0" aria-label="Streak time remaining"></meter>
+              </div>
+              <div class="combat-readout combat-readout--gold hb-run-stat">
+                <span class="hb-run-stat__label">Room Gold</span>
+                <b id="combatRunGoldText" class="hb-run-stat__value">0</b>
+              </div>
+              <div class="combat-readout combat-readout--time">
+                <div class="hb-run-stat combat-readout__row"><span class="hb-run-stat__label">Stage Time</span><b id="combatStageTimerText" class="hb-run-stat__value">00:00</b></div>
+                <div class="hb-run-stat combat-readout__row"><span class="hb-run-stat__label">Time Multiplier</span><b id="combatTimeMultiplierText" class="hb-run-stat__value">1.25x</b></div>
+              </div>
+            </div>
+            <div class="combat-readout combat-readout--legendary hb-legendary">
+              <div class="hb-legendary__heading"><span class="hb-legendary__label">Legendary</span><b id="combatLegendaryText" class="hb-legendary__value">0 / 250</b></div>
+              <meter id="combatLegendaryMeter" class="hb-meter hb-legendary__track" min="0" max="250" value="0" aria-label="Legendary meter"></meter>
+            </div>
+          </div>
+
+          <div class="combat-build-source" hidden="" aria-hidden="true">
+            <b id="bowText">Ash Shortbow</b>
+            <b id="upgradeText">None</b>
+            <b id="foundationText">None</b>
+            <b id="statusText">Unbound</b>
+          </div>
+
+          <div class="hb-side-rule" aria-hidden="true"></div>
+
+          <nav class="combat-actions hb-run-actions" aria-label="Run actions">
+            <div class="combat-sheet-actions hb-run-actions__references">
+              <button type="button" class="button--secondary hb-action" data-open-stats="">Stats</button>
+              <button type="button" class="button--secondary hb-action" data-open-inventory="">Gear</button>
+              <button type="button" class="button--secondary hb-action" data-open-run-build="">Run Build</button>
+            </div>
+
+            <div class="combat-run-actions hb-run-actions__run">
+              <button id="pauseRun" class="button--secondary hb-action" type="button" aria-pressed="false">Pause</button>
+              <button id="endRun" class="hb-action hb-action--leave" type="button">Leave Run</button>
+            </div>
+          </nav>
+
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <div id="desktopOverlayRoot" class="desktop-overlay-root" data-active="false"></div>
+
+  <div id="standardGachaPoolDialog" class="hb-market-dialog hb-gacha-pool-dialog hb-menu-system-overlay" hidden="" role="dialog" aria-modal="true" aria-labelledby="standardGachaPoolTitle" tabindex="-1" data-overlay-kind="primary" data-overlay-id="gacha-pool">
+    <div class="hb-market-dialog__panel hb-gacha-pool-dialog__panel">
+      <header>
+        <div>
+          <p>Standard Equipment</p>
+          <h2 id="standardGachaPoolTitle">Legendary Pool</h2>
+          <span class="hb-diamond-rule hb-diamond-rule--panel" aria-hidden="true"></span>
+        </div>
+        <button id="closeStandardGachaPool" type="button" aria-label="Close Legendary pool">X</button>
+      </header>
+      <p class="hb-gacha-pool-dialog__disclosure">Legendary slots are equally weighted.</p>
+      <div id="standardGachaPoolList" class="hb-gacha-pool-dialog__list" data-overlay-scroll-owner="" data-scroll-affordance="scrollbar" tabindex="0" aria-label="Standard Legendary equipment pool"></div>
+      <footer><button id="backStandardGachaPool" type="button">Back to Equipment Pulls</button></footer>
+    </div>
+  </div>
+
+  <div id="marketplaceCheckoutDialog" class="hb-market-dialog hb-menu-system-overlay" hidden="" role="dialog" aria-modal="true" aria-labelledby="marketplaceCheckoutTitle" tabindex="-1" data-overlay-kind="confirmation" data-overlay-id="marketplace-checkout">
+    <div class="hb-market-dialog__panel">
+      <header>
+        <div>
+          <p>Marketplace Checkout</p>
+          <h2 id="marketplaceCheckoutTitle">Review Purchase</h2>
+          <span class="hb-diamond-rule hb-diamond-rule--panel" aria-hidden="true"></span>
+        </div>
+        <button id="closeMarketplaceCheckout" type="button" aria-label="Close Marketplace checkout">X</button>
+      </header>
+      <div class="hb-market-dialog__body" data-overlay-scroll-owner="" data-scroll-affordance="scrollbar">
+        <section class="hb-market-dialog__item">
+          <span id="marketplaceCheckoutMeta"></span>
+          <h3 id="marketplaceCheckoutItem"></h3>
+          <dl>
+            <div><dt>Fixed price</dt><dd id="marketplaceCheckoutUsd" class="hb-value"></dd></div>
+            <div><dt>Fresh quote</dt><dd id="marketplaceCheckoutHb" class="hb-value"></dd></div>
+            <div><dt>Quote source</dt><dd>5-minute TWAP</dd></div>
+            <div><dt>Quote expiry</dt><dd id="marketplaceCheckoutExpiry" class="hb-value"></dd></div>
+          </dl>
+        </section>
+        <section>
+          <h3>Payment Split</h3>
+          <dl class="hb-market-dialog__split">
+            <div><dt>Seller · 90%</dt><dd id="marketplaceCheckoutSellerPayout" class="hb-value"></dd></div>
+            <div><dt>Burn · 5%</dt><dd id="marketplaceCheckoutBurn" class="hb-value"></dd></div>
+            <div><dt>Development treasury · 5%</dt><dd id="marketplaceCheckoutTreasury" class="hb-value"></dd></div>
+          </dl>
+          <p>Seller: <strong id="marketplaceCheckoutSeller"></strong></p>
+          <p>Paying wallet: <strong id="marketplaceCheckoutWallet"></strong></p>
+        </section>
+        <fieldset class="hb-market-recipient">
+          <legend>Deliver To</legend>
+          <div>
+            <button id="marketplaceRecipientSelf" type="button" aria-pressed="true">My Account</button>
+            <button id="marketplaceRecipientOther" type="button" aria-pressed="false">Another Account</button>
+          </div>
+          <label id="marketplaceRecipientField" hidden="">Exact in-game account<input id="marketplaceRecipientInput" type="text" autocomplete="off" maxlength="32"><button id="resolveMarketplaceRecipient" type="button">Resolve Account</button></label>
+          <p id="marketplaceRecipientStatus" role="status">Current account · Preview identity</p>
+        </fieldset>
+        <div id="marketplaceDriftWarning" class="hb-market-warning" hidden="" role="alert"></div>
+        <div id="marketplaceBalanceWarning" class="hb-market-warning" hidden="" role="alert"></div>
+        <label class="hb-market-terms"><input id="marketplaceCheckoutTerms" type="checkbox">I confirm the exact recipient and understand delivery is immediate and irreversible.</label>
+        <p class="hb-market-authority-note"><strong>On-chain settlement</strong> The five-minute pool quote is signed for this exact payer, recipient and listing.</p>
+      </div>
+      <footer>
+        <button id="marketplaceGetHb" type="button" disabled="">Get $HB</button>
+        <button id="backMarketplaceCheckout" type="button">Back to Marketplace</button>
+        <button id="confirmMarketplacePurchase" type="button" disabled="">Confirm Purchase</button>
+      </footer>
+    </div>
+  </div>
+
+  <div id="marketplaceCancelDialog" class="hb-market-dialog hb-menu-system-overlay" hidden="" role="dialog" aria-modal="true" aria-labelledby="marketplaceCancelTitle" tabindex="-1" data-overlay-kind="confirmation" data-overlay-id="marketplace-cancel">
+    <div class="hb-market-dialog__panel hb-market-dialog__panel--compact">
+      <header>
+        <div><p>My Listings</p><h2 id="marketplaceCancelTitle">Cancel Listing</h2><span class="hb-diamond-rule hb-diamond-rule--panel" aria-hidden="true"></span></div>
+        <button id="closeMarketplaceCancel" type="button" aria-label="Close cancellation review">X</button>
+      </header>
+      <div class="hb-market-dialog__body">
+        <p id="marketplaceCancelDescription"></p>
+        <p>Cancellation has no Marketplace fee; your wallet pays network gas. The item returns to Outfitter after confirmation and remains excluded from sale totals.</p>
+        <p class="hb-market-authority-note"><strong>On-chain cancellation</strong> Only the wallet that created the listing may cancel it.</p>
+      </div>
+      <footer><button id="backMarketplaceCancel" type="button">Keep Listing</button><button id="confirmMarketplaceCancel" type="button" disabled="">Cancel Listing</button></footer>
+    </div>
+  </div>
+
+  <div id="statsModal" class="stats-modal hb-menu-system-overlay" hidden="" role="dialog" aria-modal="true" aria-labelledby="statsModalTitle" data-overlay-kind="primary" data-overlay-id="stats">
+    <div class="stats-modal__panel stats-modal__panel--contained hb-sheet">
+      <div class="stats-modal__head">
+        <div>
+          <p>Character build</p>
+          <h2 id="statsModalTitle">Character Stats</h2>
+          <span class="hb-diamond-rule hb-diamond-rule--panel" aria-hidden="true"></span>
+          <span id="statsModalSummary">Bow base, permanent village power, current run bonuses, and ceilings.</span>
+        </div>
+        <button id="closeStatsModal" class="stats-modal__close" type="button" aria-label="Close character stats">X</button>
+      </div>
+      <div id="statsModalBody" class="stats-modal__body" data-overlay-scroll-owner="">
+        <div id="statsModalContent" class="stats-grid hb-sheet__main" aria-label="Character combat stats"></div>
+      </div>
+      <div class="stats-modal__footer">
+        <button id="closeStatsModalFooter" class="button--secondary hb-sheet__back" type="button">Back</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="inventoryModal" class="stats-modal utility-modal hb-menu-system-overlay" hidden="" role="dialog" aria-modal="true" aria-labelledby="inventoryModalTitle" data-overlay-kind="primary" data-overlay-id="inventory">
+    <div class="stats-modal__panel stats-modal__panel--contained utility-modal__panel hb-sheet">
+      <div class="stats-modal__head">
+        <div>
+          <p id="inventoryModalEyebrow">Resources</p>
+          <h2 id="inventoryModalTitle">Inventory</h2>
+          <span class="hb-diamond-rule hb-diamond-rule--panel" aria-hidden="true"></span>
+          <span id="inventoryModalSummary">Available balances and Supply Yard limits.</span>
+        </div>
+        <button id="closeInventoryModal" class="stats-modal__close" type="button" aria-label="Close inventory">X</button>
+      </div>
+      <div id="inventoryModalBody" class="stats-modal__body" data-overlay-scroll-owner="">
+        <div id="inventory" class="inventory-list inventory-list--sheet hb-sheet__main" aria-label="Village inventory"></div>
+      </div>
+      <div class="stats-modal__footer utility-modal__footer">
+        <button id="viewStorehouseFromInventory" type="button">View Supply Yard</button>
+        <button id="closeInventoryModalFooter" class="button--secondary hb-sheet__back" type="button">Back</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="outfitterModal" class="stats-modal utility-modal hb-menu-system-overlay" hidden="" role="dialog" aria-modal="true" aria-labelledby="outfitterModalTitle" data-overlay-kind="primary" data-overlay-id="outfitter">
+    <div class="stats-modal__panel stats-modal__panel--contained utility-modal__panel outfitter-modal__panel">
+      <div class="stats-modal__head">
+        <div>
+          <p>Permanent run loadout</p>
+          <h2 id="outfitterModalTitle">Outfitter</h2>
+          <span class="hb-diamond-rule hb-diamond-rule--panel" aria-hidden="true"></span>
+          <span id="outfitterModalSummary">Equip verified gear, revise its rolls, or craft from Scrap.</span>
+        </div>
+        <button id="closeOutfitterModal" class="stats-modal__close" type="button" aria-label="Close Outfitter">X</button>
+      </div>
+      <div id="outfitterModalBody" class="stats-modal__body stats-modal__body--stack" data-overlay-scroll-owner="">
+        <div id="equipmentSlots" class="equipment-slots" aria-label="Equipped items"></div>
+        <section id="equipmentRevisionBench" class="equipment-revision-bench" aria-labelledby="equipmentRevisionTitle">
+          <div class="outfitter-inventory__head">
+            <div>
+              <p>Deterministic item revisions</p>
+              <strong id="equipmentRevisionTitle">Temper & Reforge</strong>
+            </div>
+            <span>Reroll payment pending</span>
+          </div>
+          <div id="equipmentRevisionBody" class="equipment-revision-bench__body">
+            <p>Select Revise on an owned item to open its stat rolls here.</p>
+          </div>
+          <p id="equipmentRevisionStatus" class="equipment-revision-bench__status" aria-live="polite"></p>
+        </section>
+        <section class="scrap-forge" aria-labelledby="scrapForgeTitle">
+          <div class="outfitter-inventory__head">
+            <div>
+              <p>Account-bound crafting</p>
+              <strong id="scrapForgeTitle">Scrap Forge</strong>
+            </div>
+            <span id="scrapForgeBalance">0 Scrap</span>
+          </div>
+          <div class="scrap-forge__controls">
+            <label>Rarity
+              <select id="scrapForgeRarity">
+                <option value="uncommon">Uncommon</option>
+                <option value="rare">Rare</option>
+                <option value="epic">Epic</option>
+                <option value="legendary">Legendary</option>
+              </select>
+            </label>
+            <label>Recipe
+              <select id="scrapForgeMode">
+                <option value="random">Random slot</option>
+                <option value="exact">Exact slot</option>
+              </select>
+            </label>
+            <label>Slot
+              <select id="scrapForgeSlot"></select>
+            </label>
+          </div>
+          <div class="scrap-forge__action">
+            <div>
+              <strong id="scrapForgeCost">5 Scrap</strong>
+              <span>Creates one verified account-bound item. No owned item is destroyed.</span>
+            </div>
+            <button id="scrapForgeCraft" type="button">Review Craft</button>
+          </div>
+          <p id="scrapForgeResult" class="scrap-forge__result" aria-live="polite"></p>
+        </section>
+        <div class="outfitter-inventory__head">
+          <strong>Owned Equipment</strong>
+          <span>Gacha and Scrap items keep their issuance provenance; Test Crate items remain temporary.</span>
+        </div>
+        <div id="equipmentInventory" class="equipment-inventory" aria-label="Owned equipment"></div>
+        <details class="outfitter-test-tools">
+          <summary>Alpha Test Tools</summary>
+          <div class="outfitter-test-tools__body">
+        <section class="equipment-playtest-crate" aria-labelledby="equipmentPlaytestCrateTitle">
+          <div>
+            <p>Local Alpha testing</p>
+            <strong id="equipmentPlaytestCrateTitle">Playtest Gear Crate</strong>
+            <span id="equipmentPlaytestStatus">Test Equipment remains temporary and grants no progression, rewards, or economy entitlement.</span>
+          </div>
+          <div class="equipment-playtest-crate__controls">
+            <label>Slot
+              <select id="equipmentPlaytestSlot">
+                <option value="">Random Slot</option>
+              </select>
+            </label>
+            <label>Rarity
+              <select id="equipmentPlaytestRarity">
+                <option value="">Random Rarity</option>
+              </select>
+            </label>
+            <label id="equipmentPlaytestEffectLabel">Legendary effect
+              <select id="equipmentPlaytestEffect">
+                <option value="">Random Effect</option>
+              </select>
+            </label>
+          </div>
+          <div class="equipment-playtest-crate__actions">
+            <button id="buyPlaytestEquipment" type="button">Roll Test Item</button>
+            <button id="rerollPlaytestEquipment" class="button--secondary" type="button">Roll Again</button>
+            <button id="rollTenPlaytestEquipment" class="button--secondary" type="button">Roll 10</button>
+            <button id="rollHundredPlaytestEquipment" class="button--secondary" type="button">Roll 100</button>
+            <button id="resetPlaytestEquipment" class="button--secondary" type="button">Reset Test Gear</button>
+          </div>
+          <div id="equipmentPlaytestResults" class="equipment-playtest-results" aria-live="polite"></div>
+        </section>
+        <section class="equipment-test-catalogue" aria-labelledby="equipmentTestCatalogueTitle">
+          <div class="outfitter-inventory__head">
+            <strong id="equipmentTestCatalogueTitle">Test Catalogue</strong>
+            <span>All enabled V5.2 Legendaries. Effect selection never changes ordinary stat RNG.</span>
+          </div>
+          <div id="equipmentCatalogueTabs" class="equipment-catalogue-tabs" role="tablist" aria-label="Equipment slot"></div>
+          <div id="equipmentTestCatalogue" class="equipment-test-catalogue__grid"></div>
+        </section>
+          </div>
+        </details>
+      </div>
+      <div class="stats-modal__footer">
+        <button id="closeOutfitterModalFooter" class="button--secondary utility-modal__back" type="button">Back</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="equipmentCraftReveal" class="equipment-craft-reveal hb-menu-system-overlay" hidden="" role="dialog" aria-modal="true" aria-labelledby="equipmentCraftRevealTitle" aria-describedby="equipmentCraftRevealSummary" data-overlay-kind="confirmation" data-overlay-id="equipment-craft-result">
+    <div class="equipment-craft-reveal__panel" data-overlay-scroll-owner="">
+      <p id="equipmentCraftRevealEyebrow" class="equipment-craft-reveal__eyebrow">Equipment · Rarity</p>
+      <div id="equipmentCraftRevealSeal" class="equipment-craft-reveal__seal" aria-hidden="true"></div>
+      <div class="equipment-craft-reveal__copy">
+        <span id="equipmentCraftRevealRarity"></span>
+        <h2 id="equipmentCraftRevealTitle">Equipment Crafted</h2>
+        <span class="hb-diamond-rule hb-diamond-rule--panel" aria-hidden="true"></span>
+        <p id="equipmentCraftRevealSummary">Your crafted item is ready.</p>
+        <div id="equipmentCraftRevealAffixes" class="equipment-craft-reveal__affixes"></div>
+        <section id="equipmentCraftRevealEffect" class="equipment-craft-reveal__effect" hidden=""></section>
+      </div>
+      <button id="equipmentCraftRevealContinue" type="button">Continue</button>
+    </div>
+  </div>
+
+  <div id="gachaModal" class="stats-modal utility-modal hb-menu-system-overlay" hidden="" role="dialog" aria-modal="true" aria-labelledby="gachaModalTitle" data-overlay-kind="primary" data-overlay-id="gacha">
+    <div class="stats-modal__panel stats-modal__panel--contained utility-modal__panel gacha-modal__panel">
+      <div class="stats-modal__head">
+        <div>
+          <p>Equipment draws</p>
+          <h2 id="gachaModalTitle">Gacha</h2>
+          <span class="hb-diamond-rule hb-diamond-rule--panel" aria-hidden="true"></span>
+          <span>Standard and Limited draws both create verified tradeable equipment.</span>
+        </div>
+        <button id="closeGachaModal" class="stats-modal__close" type="button" aria-label="Close Gacha">X</button>
+      </div>
+      <div id="gachaModalBody" class="stats-modal__body stats-modal__body--stack" data-overlay-scroll-owner="">
+        <div id="gachaBalances" class="gacha-balances" aria-label="Gacha balances"></div>
+        <div id="gachaTierTabs" class="gacha-tier-tabs" role="tablist" aria-label="Gacha tier">
+          <button type="button" role="tab" data-gacha-tier="standard" aria-selected="true">Standard</button>
+          <button type="button" role="tab" data-gacha-tier="premium" aria-selected="false">Limited</button>
+        </div>
+        <section class="gacha-draw-surface" aria-labelledby="gachaTierTitle">
+          <div class="gacha-draw-surface__copy">
+            <p id="gachaTierEyebrow">Evergreen tradeable pool</p>
+            <h3 id="gachaTierTitle">Standard Draw</h3>
+            <span id="gachaTierDescription">Epic and Legendary hits create verified account-bound equipment.</span>
+          </div>
+          <dl id="gachaOdds" class="gacha-odds"></dl>
+          <div id="gachaPity" class="gacha-pity"></div>
+          <div class="gacha-draw-actions">
+            <button type="button" data-gacha-draw-count="1">Draw 1</button>
+            <button type="button" data-gacha-draw-count="10">Draw 10</button>
+          </div>
+          <div class="gacha-purchase-preview">
+            <span id="gachaPurchasePrice">Standard Tickets are earned; Limited Tickets are purchased separately.</span>
+            <button type="button" disabled="">Settlement unavailable</button>
+          </div>
+          <p id="gachaStatus" class="gacha-status" aria-live="polite"></p>
+          <button id="recoverGachaDraw" class="button--secondary" type="button" hidden="">Resume Draw</button>
+        </section>
+        <section class="gacha-history" aria-labelledby="gachaHistoryTitle">
+          <div class="outfitter-inventory__head">
+            <strong id="gachaHistoryTitle">Recent Results</strong>
+            <span>Newest first</span>
+          </div>
+          <div id="gachaHistory"></div>
+        </section>
+      </div>
+      <div class="stats-modal__footer">
+        <button id="closeGachaModalFooter" class="button--secondary utility-modal__back" type="button">Back</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="gachaReveal" class="gacha-reveal hb-menu-system-overlay" hidden="" role="dialog" aria-modal="true" aria-labelledby="gachaRevealTitle" tabindex="-1">
+    <div class="gacha-reveal__stage" data-gacha-reveal-stage="">
+      <header class="gacha-reveal__head">
+        <div>
+          <p>Equipment draw</p>
+          <h2 id="gachaRevealTitle" data-gacha-reveal-title="">Sheriff's Notice</h2>
+          <span class="hb-diamond-rule hb-diamond-rule--panel" aria-hidden="true"></span>
+        </div>
+        <div class="gacha-reveal__head-actions">
+          <span data-gacha-reveal-summary=""></span>
+          <button class="button--secondary" type="button" data-gacha-reveal-all="" hidden="">Reveal all</button>
+          <button type="button" data-gacha-reveal-ten-continue="" hidden="">Continue</button>
+        </div>
+      </header>
+      <section class="gacha-reveal__single" data-gacha-reveal-single="" aria-label="Single draw reveal">
+        <div class="gacha-reveal__poster-wrap">
+          <button class="gacha-reveal__poster" type="button" data-gacha-reveal-single-poster="" disabled=""></button>
+          <span class="gacha-reveal__arrow" data-gacha-reveal-arrow="" hidden="" aria-hidden="true"></span>
+          <span class="gacha-reveal__impact" data-gacha-reveal-impact="" hidden="" aria-hidden="true"></span>
+        </div>
+        <div class="gacha-reveal__result" data-gacha-reveal-single-result="" hidden=""></div>
+      </section>
+      <section class="gacha-reveal__grid" data-gacha-reveal-grid="" hidden="" aria-label="Ten draw results"></section>
+      <div class="gacha-reveal__focus" data-gacha-reveal-focus="" hidden="" aria-live="polite">
+        <span class="gacha-reveal__cinematic-dim" data-gacha-reveal-cinematic-dim="" aria-hidden="true"></span>
+        <span class="gacha-reveal__cinematic-aura" data-gacha-reveal-cinematic-aura="" aria-hidden="true"></span>
+        <span class="gacha-reveal__cinematic-path" data-gacha-reveal-cinematic-path="" aria-hidden="true"></span>
+        <span class="gacha-reveal__cinematic-leaves" data-gacha-reveal-cinematic-leaves="" aria-hidden="true"></span>
+        <div class="gacha-reveal__cinematic-poster-wrap">
+          <button class="gacha-reveal__poster gacha-reveal__poster--focus" type="button" data-gacha-reveal-focus-poster="" disabled=""></button>
+          <span class="gacha-reveal__cinematic-arrow" data-gacha-reveal-focus-arrow="" hidden="" aria-hidden="true"></span>
+          <span class="gacha-reveal__cinematic-impact" data-gacha-reveal-focus-impact="" hidden="" aria-hidden="true"></span>
+        </div>
+        <div class="gacha-reveal__result gacha-reveal__legendary-hold" data-gacha-reveal-focus-result="" hidden=""></div>
+      </div>
+      <section class="gacha-reveal__detail" data-gacha-reveal-detail="" hidden="" role="dialog" aria-modal="true" aria-labelledby="gachaRevealDetailTitle">
+        <div class="gacha-reveal__detail-panel">
+          <span class="gacha-reveal__detail-art" data-gacha-reveal-detail-art="" aria-hidden="true"></span>
+          <div class="gacha-reveal__detail-copy">
+            <span class="gacha-reveal__detail-rarity" data-gacha-reveal-detail-rarity=""></span>
+            <h3 id="gachaRevealDetailTitle" data-gacha-reveal-detail-title=""></h3>
+            <div class="gacha-reveal__detail-body" data-gacha-reveal-detail-body="">
+              <dl class="gacha-reveal-result__meta" data-gacha-reveal-detail-meta=""></dl>
+              <ul class="gacha-reveal__detail-stats" data-gacha-reveal-detail-stats=""></ul>
+              <section class="gacha-reveal__detail-effect" data-gacha-reveal-detail-effect="" hidden=""></section>
+            </div>
+            <button type="button" data-gacha-reveal-detail-close="">Back to Results</button>
+          </div>
+        </div>
+      </section>
+      <footer class="gacha-reveal__footer">
+        <span class="gacha-reveal__status" data-gacha-reveal-status="" aria-live="polite"></span>
+        <span class="gacha-reveal__instruction" data-gacha-reveal-instruction="" hidden="">Click revealed equipment for full stats</span>
+        <button type="button" data-gacha-reveal-continue="" hidden="">Continue</button>
+      </footer>
+    </div>
+  </div>
+
+  <div id="bountiesModal" class="stats-modal utility-modal hb-menu-system-overlay" hidden="" role="dialog" aria-modal="true" aria-labelledby="bountiesModalTitle" data-overlay-kind="primary" data-overlay-id="bounties">
+    <div class="stats-modal__panel utility-modal__panel" data-overlay-scroll-owner="">
+      <div class="stats-modal__head">
+        <div>
+          <p>Normal Hunt objectives</p>
+          <h2 id="bountiesModalTitle">Bounty Board</h2>
+          <span class="hb-diamond-rule hb-diamond-rule--panel" aria-hidden="true"></span>
+          <span>Weekly Standard Ticket rewards and three staggered twelve-hour Gold objectives.</span>
+        </div>
+        <button id="closeBountiesModal" class="stats-modal__close" type="button" aria-label="Close bounties">X</button>
+      </div>
+      <section class="bounty-section" aria-labelledby="weeklyBountiesTitle">
+        <div class="bounty-section__head">
+          <div>
+            <p>Standard Ticket rewards</p>
+            <h3 id="weeklyBountiesTitle">Weekly Bounties</h3>
+          </div>
+          <span id="weeklyBountySummary">Resets Monday 00:00 UTC</span>
+        </div>
+        <div id="bountyBalances" class="bounty-balances" aria-label="Bounty reward balances"></div>
+        <div id="weeklyBounties" class="bounty-list bounty-list--weekly"></div>
+      </section>
+      <section class="bounty-section" aria-labelledby="rollingBountiesTitle">
+        <div class="bounty-section__head">
+          <div>
+            <p>Twelve-hour objectives</p>
+            <h3 id="rollingBountiesTitle">Rolling Bounties</h3>
+          </div>
+        </div>
+        <div id="bounties" class="bounty-list bounty-list--sheet"></div>
+      </section>
+      <button id="closeBountiesModalFooter" class="button--secondary utility-modal__back" type="button">Back</button>
+    </div>
+  </div>
+
+  <div id="settlementModal" class="stats-modal utility-modal hb-menu-system-overlay" hidden="" role="dialog" aria-modal="true" aria-labelledby="settlementModalTitle" data-overlay-kind="primary" data-overlay-id="settlement">
+    <div class="stats-modal__panel stats-modal__panel--contained utility-modal__panel">
+      <div class="stats-modal__head">
+        <div>
+          <p id="settlementModalEyebrow">Fixed civic fixtures</p>
+          <h2 id="settlementModalTitle" tabindex="-1">Settlement Core</h2>
+          <span class="hb-diamond-rule hb-diamond-rule--panel" aria-hidden="true"></span>
+          <span id="settlementModalSummary">Land, rolling bounties, operations and bows.</span>
+        </div>
+        <button id="closeSettlementModal" class="stats-modal__close" type="button" aria-label="Close settlement core">X</button>
+      </div>
+      <div id="settlementModalBody" class="stats-modal__body" data-overlay-scroll-owner="">
+        <div id="settlementFixtureView">
+          <div id="civicFixtures" class="civic-fixtures civic-fixtures--sheet"></div>
+        </div>
+        <div id="storehouseView" class="storehouse-view" hidden="">
+          <span id="storehouseStatus" class="storehouse-status">Room available</span>
+          <div id="storehouseResources" class="storehouse-resources" aria-label="Supply Yard resource limits"></div>
+          <section id="storehouseCapacity" class="storehouse-capacity" aria-label="Lumber and Quarry operation ranks"></section>
+          <p>Production continues in the village, during Hunts and while you are away.</p>
+        </div>
+      </div>
+      <div class="stats-modal__footer">
+        <button id="closeSettlementModalFooter" class="button--secondary utility-modal__back" type="button">Back</button>
+        <button id="backToSettlement" class="button--secondary utility-modal__back" type="button" hidden="">Back to Settlement</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="storehouseRiskModal" class="storehouse-risk hb-menu-system-overlay" hidden="" role="alertdialog" aria-modal="true" aria-labelledby="storehouseRiskTitle" aria-describedby="storehouseRiskDescription" data-overlay-kind="confirmation" data-overlay-id="storehouse-risk">
+    <div class="storehouse-risk__panel" data-overlay-scroll-owner="">
+      <button id="closeStorehouseRisk" class="storehouse-risk__close" type="button" aria-label="Close Supply Yard capacity warning">X</button>
+      <p>Supply Yard capacity</p>
+      <h2 id="storehouseRiskTitle">Some run resources may be lost</h2>
+      <span class="hb-diamond-rule hb-diamond-rule--panel" aria-hidden="true"></span>
+      <p id="storehouseRiskDescription">This Hunt can award Wood and Ore from your Operations. Production during the Hunt may use more space.</p>
+      <div id="storehouseRiskValues" class="storehouse-risk__values"></div>
+      <strong>If a Supply Yard bin fills, extra Wood or Ore from stage clears is destroyed.</strong>
+      <div class="storehouse-risk__actions">
+        <button id="reviewStorehouseRisk" type="button">Review village</button>
+        <button id="acceptStorehouseRisk" class="button--danger" type="button">Hunt anyway</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="runBuildModal" class="stats-modal utility-modal" hidden="" role="dialog" aria-modal="true" aria-labelledby="runBuildModalTitle" data-overlay-kind="primary" data-overlay-id="run-build">
+    <div class="stats-modal__panel utility-modal__panel hb-sheet">
+      <div class="stats-modal__head">
+        <div>
+          <p>Current hunt</p>
+          <h2 id="runBuildModalTitle">Run Build</h2>
+          <span>Foundation, temporary stat picks, techniques, evolutions, and relics collected this run.</span>
+        </div>
+        <button id="closeRunBuildModal" class="stats-modal__close" type="button" aria-label="Close run build">X</button>
+      </div>
+      <div id="runUpgrades" class="upgrade-list upgrade-list--sheet hb-sheet__main" data-overlay-scroll-owner=""></div>
+      <button id="closeRunBuildModalFooter" class="button--secondary utility-modal__back hb-sheet__back" type="button">Back</button>
+    </div>
+  </div>
+
+  <div id="desktopSettingsModal" class="stats-modal utility-modal" hidden="" role="dialog" aria-modal="true" aria-labelledby="desktopSettingsTitle" data-overlay-kind="primary" data-overlay-id="settings">
+    <div class="stats-modal__panel utility-modal__panel hb-sheet">
+      <div class="stats-modal__head">
+        <div><h2 id="desktopSettingsTitle">Settings</h2></div>
+        <button id="closeDesktopSettings" class="stats-modal__close" type="button" aria-label="Close settings">X</button>
+      </div>
+      <div class="hb-settings-main">
+        <div class="hb-settings-panel" data-overlay-scroll-owner="">
+          <div class="hb-settings-content">
+            <h3 class="hb-settings-section-title">Audio</h3>
+            <div class="hb-settings-volume-heading">
+              <label for="desktopMasterVolume">Master Volume</label>
+              <output id="desktopMasterVolumeValue" class="hb-settings-volume-value" for="desktopMasterVolume">100%</output>
+            </div>
+            <input id="desktopMasterVolume" class="hb-settings-volume" type="range" min="0" max="100" step="1" value="100">
+            <button id="desktopMuteAudio" class="hb-settings-mute" type="button" aria-pressed="false">Mute Audio</button>
+          </div>
+        </div>
+      </div>
+      <button id="closeDesktopSettingsFooter" class="button--secondary utility-modal__back hb-sheet__back" type="button">Back to Pause</button>
+    </div>
+  </div>
+
+  <div id="installRecommendation" class="alpha-reset-modal install-recommendation" hidden="" role="dialog" aria-modal="true" aria-labelledby="installRecommendationTitle" aria-describedby="installRecommendationDescription installRecommendationInstructions">
+    <div class="alpha-reset-modal__panel install-recommendation__panel">
+      <button id="closeInstallRecommendation" class="install-recommendation__close" type="button" aria-label="Continue in browser">X</button>
+      <p class="alpha-reset-modal__eyebrow">Full-screen mobile play</p>
+      <h2 id="installRecommendationTitle">Add LOOTHOOD to your Home Screen</h2>
+      <p id="installRecommendationDescription">For the cleanest landscape combat view, play LOOTHOOD as a mobile web app.</p>
+      <p id="installRecommendationInstructions">Use your browser's Share menu, choose Add to Home Screen and, if shown, keep Open as Web App enabled.</p>
+      <div class="install-recommendation__actions">
+        <button id="installLoothood" type="button" hidden="">Install LOOTHOOD</button>
+        <button id="continueInBrowser" class="button--secondary" type="button">Continue in Browser</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="runSetupModal" class="run-setup-modal hb-menu-system-overlay" hidden="" role="dialog" aria-modal="true" aria-labelledby="runSetupTitle" aria-describedby="runSetupDescription" data-overlay-kind="primary" data-overlay-id="run-setup">
+    <div class="run-setup-modal__panel">
+      <div class="run-setup-modal__header">
+        <div>
+          <p id="runSetupEyebrow">Prepare the hunt</p>
+          <h2 id="runSetupTitle">Choose Your Foundation</h2>
+          <span class="hb-diamond-rule hb-diamond-rule--panel" aria-hidden="true"></span>
+          <span id="runSetupDescription">Pick one evergreen advantage before Stage 1.</span>
+        </div>
+        <button id="closeRunSetup" class="run-setup-modal__close" type="button" aria-label="Close run setup">X</button>
+      </div>
+
+      <div class="run-setup-modal__content" data-overlay-scroll-owner="">
+        <div class="run-setup-stepper" role="navigation" aria-label="Run setup progress">
+          <button id="runSetupStepHunt" type="button" data-run-setup-step="1" aria-current="step"><span>1</span>Hunt</button>
+          <button id="runSetupStepLoadout" type="button" data-run-setup-step="2"><span>2</span>Loadout</button>
+          <button id="runSetupStepFoundation" type="button" data-run-setup-step="3"><span>3</span>Foundation</button>
+        </div>
+
+        <div class="run-setup-step" data-step="1" aria-labelledby="runSetupStepHunt" data-run-setup-scroll-owner="">
+          <div class="prestige-picker">
+          <div class="prestige-picker__copy">
+            <strong>Forest Prestige</strong>
+            <span id="prestigeSummary">P0 Standard Hunt</span>
+          </div>
+          <div id="prestigeChoices" class="prestige-picker__choices" aria-label="Forest prestige tier"></div>
+          <div id="prestigeDetails" class="prestige-picker__details"></div>
+        </div>
+
+          <div id="playtestSettings" class="playtest-settings" hidden="">
+          <label for="playtestStage">
+            <span>Target stage</span>
+            <select id="playtestStage">
+              <option value="1">Stage 1</option>
+              <option value="2">Stage 2</option>
+              <option value="3">Stage 3</option>
+              <option value="4">Stage 4</option>
+              <option value="5">Stage 5 - Seed miniboss</option>
+              <option value="6">Stage 6</option>
+              <option value="7">Stage 7</option>
+              <option value="8">Stage 8</option>
+              <option value="9">Stage 9</option>
+              <option value="10">Stage 10 - Seed miniboss</option>
+              <option value="11">Stage 11</option>
+              <option value="12">Stage 12</option>
+              <option value="13">Stage 13</option>
+              <option value="14">Stage 14</option>
+              <option value="15" selected="">Stage 15 - Combined Brute</option>
+            </select>
+          </label>
+          <label id="playtestBossSeedSetting" for="playtestBossSeed" hidden="">
+            <span>Boss seed</span>
+            <select id="playtestBossSeed"></select>
+          </label>
+          <label id="playtestBossPairSetting" for="playtestBossPair" hidden="">
+            <span>Brute seed pair</span>
+            <select id="playtestBossPair"></select>
+          </label>
+          <div>
+            <strong id="playtestLoadout">14 randomized upgrade picks</strong>
+            <small>No rewards, bounty progress, resources, or Prestige unlocks.</small>
+          </div>
+          </div>
+        </div>
+
+        <div class="run-setup-step" data-step="2" aria-labelledby="runSetupStepLoadout" data-run-setup-scroll-owner="">
+          <div class="bow-picker">
+          <div>
+            <strong>Bow Loadout</strong>
+            <span>Normal Hunts currently use the Ash Shortbow. New sidegrade commissions are coming later.</span>
+          </div>
+          <div id="bowChoices" class="bow-choices" aria-label="Unlocked bows"></div>
+          <div id="scoutingSummary" class="scouting-summary"></div>
+        </div>
+
+          <div id="equipmentSetup" class="equipment-setup">
+          <div class="equipment-setup__head">
+            <div>
+              <strong>Equipment Loadout</strong>
+              <span id="equipmentSetupSummary">Choose verified equipment for this run.</span>
+            </div>
+            <span id="equipmentSetupVerifier">Locked</span>
+          </div>
+          <div class="equipment-loadout-layout">
+            <section class="equipment-loadout-column" aria-labelledby="equipmentLoadoutHeading">
+              <div class="equipment-loadout-heading">
+                <strong id="equipmentLoadoutHeading">Your Loadout</strong>
+                <span id="equipmentLoadoutCount">0 Equipped</span>
+              </div>
+              <div id="runEquipmentSlots" class="run-equipment-slots" aria-label="Run equipment loadout"></div>
+            </section>
+            <section class="equipment-loadout-detail" aria-label="Selected equipment details">
+              <article id="selectedEquipmentDetail" class="selected-equipment-detail"></article>
+              <section class="run-owned-equipment" aria-labelledby="runOwnedEquipmentHeading">
+                <div class="equipment-loadout-heading">
+                  <strong id="runOwnedEquipmentHeading">Owned Equipment</strong>
+                  <span id="runEquipmentResultCount">0 shown</span>
+                </div>
+                <div class="run-equipment-filters">
+                  <label for="runEquipmentSlotFilter">Slot
+                    <select id="runEquipmentSlotFilter"></select>
+                  </label>
+                  <label for="runEquipmentRarityFilter">Rarity
+                    <select id="runEquipmentRarityFilter"></select>
+                  </label>
+                  <button id="runEquipmentFavouritesFilter" class="equipment-favourites-filter" type="button" aria-pressed="false">★ Favourites</button>
+                </div>
+                <div id="runOwnedEquipmentList" class="run-owned-equipment__list" aria-live="polite"></div>
+              </section>
+            </section>
+          </div>
+          </div>
+        </div>
+
+        <div class="run-setup-step" data-step="3" aria-labelledby="runSetupStepFoundation" data-run-setup-scroll-owner="">
+          <div id="foundationChoices" class="foundation-choices" role="group" aria-label="Foundation choices"></div>
+        </div>
+      </div>
+
+      <div class="run-setup-mobile-footer">
+        <button id="runSetupBack" class="button--secondary" type="button">Back</button>
+        <span id="runSetupStepLabel" aria-live="polite">Step 1 of 3</span>
+        <button id="runSetupNext" type="button">Next</button>
+        <button id="confirmRunSetup" class="run-setup-modal__confirm" type="button" disabled="">Begin Forest Run</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="upgradeModal" class="upgrade-modal hb-reward-modal" hidden="" role="dialog" aria-modal="true" aria-labelledby="upgradeModalTitle" aria-describedby="upgradeSummary" data-overlay-kind="primary" data-overlay-id="reward">
+    <div class="upgrade-modal__panel hb-reward" data-overlay-scroll-owner="">
+      <div class="upgrade-modal__header hb-reward__header">
+        <div class="upgrade-modal__crest" aria-hidden="true"><span></span></div>
+        <div>
+          <p class="upgrade-modal__eyebrow">Stage clear</p>
+          <h2 id="upgradeModalTitle" class="hb-reward__title">Choose an Upgrade</h2>
+          <p id="upgradeSummary" class="upgrade-modal__summary">Rewards secured</p>
+          <div id="upgradeStageMetrics" class="upgrade-modal__metrics hb-reward__meta" aria-label="Stage rewards">
+            <span>Score <b id="upgradeStageScore">+0</b></span>
+            <span>Gold <b id="upgradeStageGold">+0</b></span>
+          </div>
+        </div>
+      </div>
+      <div id="roomBreakdown" class="reward-breakdown"></div>
+      <div id="upgradeChoices" class="upgrade-choices hb-reward__cards" role="group" aria-label="Upgrade choices"></div>
+    </div>
+  </div>
+
+  <div id="partialUpgradeModal" class="partial-upgrade-modal hb-confirmation-layer" hidden="" role="alertdialog" aria-modal="true" aria-labelledby="partialUpgradeTitle" aria-describedby="partialUpgradeDescription" data-overlay-kind="confirmation" data-overlay-id="partial-upgrade">
+    <div class="partial-upgrade-modal__panel hb-confirmation" data-overlay-scroll-owner="">
+      <p class="partial-upgrade-modal__eyebrow">Active stat ceiling</p>
+      <h2 id="partialUpgradeTitle" class="hb-confirmation__title">Partial Gain</h2>
+      <div class="hb-confirmation__rule" aria-hidden="true"></div>
+      <p id="partialUpgradeDescription">Only part of the listed gain can currently be applied.</p>
+      <dl class="partial-upgrade-modal__values">
+        <div><dt>Listed gain</dt><dd id="partialUpgradeListed">-</dd></div>
+        <div><dt>Applied gain</dt><dd id="partialUpgradeRealized">-</dd></div>
+      </dl>
+      <div class="partial-upgrade-modal__actions hb-confirmation__actions">
+        <button id="partialUpgradeBack" class="button--secondary hb-confirmation__button" type="button">Back</button>
+        <button id="partialUpgradeTake" class="hb-confirmation__button hb-confirmation__button--take" type="button">Take Anyway</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="alphaResetModal" class="alpha-reset-modal hb-menu-system-overlay" hidden="" role="alertdialog" aria-modal="true" aria-labelledby="alphaResetTitle" aria-describedby="alphaResetDescription alphaResetSettings" data-overlay-kind="confirmation" data-overlay-id="alpha-reset">
+    <div class="alpha-reset-modal__panel" data-overlay-scroll-owner="">
+      <p class="alpha-reset-modal__eyebrow">Save update</p>
+      <h2 id="alphaResetTitle">Alpha progression reset</h2>
+      <span class="hb-diamond-rule hb-diamond-rule--panel" aria-hidden="true"></span>
+      <p id="alphaResetDescription">LOOTHOOD's progression system has changed. This older Alpha save could not be safely carried forward, so your game progress has been reset.</p>
+      <p id="alphaResetSettings">Your volume, controls and accessibility settings were kept.</p>
+      <button id="alphaResetContinue" type="button">Continue</button>
+    </div>
+  </div>
+
+  <div id="inductionModal" class="alpha-reset-modal induction-modal hb-menu-system-overlay" hidden="" role="dialog" aria-modal="true" aria-labelledby="inductionModalTitle" aria-describedby="inductionModalDescription" data-overlay-kind="confirmation" data-overlay-id="induction">
+    <div class="alpha-reset-modal__panel induction-modal__panel" data-overlay-scroll-owner="">
+      <p id="inductionModalEyebrow" class="alpha-reset-modal__eyebrow">LOOTHOOD Tutorial</p>
+      <h2 id="inductionModalTitle">Welcome to the LOOTHOOD Tutorial.</h2>
+      <span class="hb-diamond-rule hb-diamond-rule--panel" aria-hidden="true"></span>
+      <p id="inductionModalDescription">These five stages will teach you the game mechanics. Complete them, then fight the boss.</p>
+      <div class="induction-modal__actions">
+        <button id="inductionModalAction" type="button">Begin Tutorial</button>
+        <button id="inductionModalSkip" class="induction-modal__skip" type="button" hidden>Skip tutorial</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="tutorialGuideModal" class="stats-modal utility-modal tutorial-guide-modal hb-menu-system-overlay" hidden="" role="dialog" aria-modal="true" aria-labelledby="tutorialGuideTitle" data-overlay-kind="primary" data-overlay-id="tutorial-guide">
+    <div class="stats-modal__panel stats-modal__panel--contained utility-modal__panel">
+      <div class="stats-modal__head">
+        <div>
+          <p>Reference</p>
+          <h2 id="tutorialGuideTitle">Tutorial Guide</h2>
+          <span class="hb-diamond-rule hb-diamond-rule--panel" aria-hidden="true"></span>
+          <span>Short explanations for mechanics and later feature unlocks.</span>
+        </div>
+        <button id="closeTutorialGuide" class="stats-modal__close" type="button" aria-label="Close tutorial guide">X</button>
+      </div>
+      <div id="tutorialGuideBody" class="stats-modal__body tutorial-guide__body" data-overlay-scroll-owner=""></div>
+      <div class="stats-modal__footer tutorial-guide__footer">
+        <button id="replayTutorial" type="button">Replay Tutorial</button>
+        <button id="closeTutorialGuideFooter" class="button--secondary" type="button">Back</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="tutorialSpotlight" class="tutorial-spotlight" hidden="" role="dialog" aria-modal="true" aria-labelledby="tutorialSpotlightTitle" aria-describedby="tutorialSpotlightText">
+    <div class="tutorial-spotlight__scrim" data-spotlight-scrim="top"></div>
+    <div class="tutorial-spotlight__scrim" data-spotlight-scrim="right"></div>
+    <div class="tutorial-spotlight__scrim" data-spotlight-scrim="bottom"></div>
+    <div class="tutorial-spotlight__scrim" data-spotlight-scrim="left"></div>
+    <div class="tutorial-spotlight__window" data-spotlight-window="" aria-hidden="true"></div>
+    <section class="tutorial-spotlight__card" data-spotlight-card="">
+      <p class="tutorial-spotlight__progress" data-spotlight-progress="">1 / 1</p>
+      <h2 id="tutorialSpotlightTitle" data-spotlight-title="">Screen Tip</h2>
+      <p id="tutorialSpotlightText" data-spotlight-text=""></p>
+      <footer>
+        <button type="button" data-spotlight-skip="">Skip</button>
+        <button type="button" data-spotlight-back="">Back</button>
+        <button type="button" class="is-primary" data-spotlight-next="">Next</button>
+      </footer>
+    </section>
+  </div>
+
+  <div id="destructiveConfirmModal" class="destructive-confirm-modal hb-menu-system-overlay" hidden="" role="alertdialog" aria-modal="true" aria-labelledby="destructiveConfirmTitle" aria-describedby="destructiveConfirmDescription" data-overlay-kind="confirmation" data-overlay-id="destructive">
+    <div class="destructive-confirm-modal__panel" data-overlay-scroll-owner="">
+      <p class="destructive-confirm-modal__eyebrow">Confirm destructive action</p>
+      <h2 id="destructiveConfirmTitle">Confirm action</h2>
+      <span class="hb-diamond-rule hb-diamond-rule--panel" aria-hidden="true"></span>
+      <p id="destructiveConfirmDescription">This cannot be undone.</p>
+      <div class="destructive-confirm-modal__actions">
+        <button id="cancelDestructiveConfirm" class="button--secondary" type="button">Cancel</button>
+        <button id="acceptDestructiveConfirm" class="button--danger" type="button">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="runSummaryModal" class="run-summary-modal" hidden="" role="dialog" aria-modal="true" aria-labelledby="runSummaryTitle" aria-describedby="runSummaryNote" data-overlay-kind="primary" data-overlay-id="run-summary">
+    <div class="run-summary-modal__panel run-summary-modal__panel--mobile">
+      <div class="run-summary-modal__content" data-overlay-scroll-owner="">
+        <p class="run-summary-modal__eyebrow">Run summary</p>
+        <h2 id="runSummaryMobileTitle">Run Ended</h2>
+        <div id="runSummaryMobileStats" class="summary-grid"></div>
+        <p id="runSummaryMobileNote" class="run-summary-modal__note"></p>
+      </div>
+      <div class="run-summary-modal__footer">
+        <button id="closeRunSummaryMobile" type="button">Back to Village</button>
+      </div>
+    </div>
+    <div class="run-outcome-stage">
+      <section class="hb-outcome" data-run-outcome="abandon">
+        <header class="hb-outcome__header">
+          <h2 id="runSummaryTitle" class="hb-outcome__title">Run Abandoned</h2>
+          <p id="runSummaryProgress" class="hb-outcome__progress">0 / 15 Stages Cleared</p>
+          <p id="runSummaryNote" class="hb-outcome__kicker">Stage 1 Reached</p>
+        </header>
+        <div id="runSummaryStats" class="hb-outcome__columns"></div>
+        <button id="closeRunSummary" class="hb-outcome__back" type="button">Back to Village</button>
+      </section>
+    </div>
+  </div>
+
+  <script src="js/music-score.js"></script>
+  <script src="js/boss-seeds.js"></script>
+  <script src="js/boss-balance.js"></script>
+  <script src="js/forest-balance.js"></script>
+  <script src="js/production-audio-manifest.js"></script>
+  <script src="js/boss-victory-timeline.js"></script>
+  <script src="js/sampled-music.js"></script>
+  <script src="js/music.js"></script>
+  <script src="js/version.js"></script>
+  <script src="js/safe-update.js"></script>
+  <script src="js/metaprogression.js"></script>
+  <script src="js/village-economy.js"></script>
+  <script src="js/village-services.js"></script>
+  <script src="js/equipment-legendary-v5.js"></script>
+  <script src="js/equipment-release.js"></script>
+  <script src="js/equipment.js"></script>
+  <script src="js/equipment-workbench.js"></script>
+  <script src="js/gacha-system.js"></script>
+  <script src="js/equipment-pulls.js"></script>
+  <script src="js/equipment-management.js"></script>
+  <script src="js/equipment-filters.js"></script>
+  <script src="js/equipment-reroll-payment.js"></script>
+  <script src="js/gacha-reveal.js"></script>
+  <script src="js/equipment-loadout.js"></script>
+  <script src="js/equipment-effects.js"></script>
+  <script src="js/combat-callouts.js"></script>
+  <script src="js/combat-effects.js"></script>
+  <script src="js/status-evolutions.js"></script>
+  <script src="js/critical-stats.js"></script>
+  <script src="js/run-relics.js"></script>
+  <script src="js/continuous-reinforcement.js"></script>
+  <script src="js/blood-hunt.js"></script>
+  <script src="js/competitive-build-rules.js"></script>
+  <script src="js/competitive-hunters-knot-rules.js"></script>
+  <script src="js/competitive-iron-oath-rules.js"></script>
+  <script src="js/competitive-blood-hunt-rules.js"></script>
+  <script src="js/competitive-deep-root-rules.js"></script>
+  <script src="js/competitive-phase-three-rules.js"></script>
+  <script src="js/competitive-run-core.js"></script>
+  <script src="js/competitive-run-session.js"></script>
+  <script src="js/competitive-verifier-client.js"></script>
+  <script src="js/competitive-combat-projection.js"></script>
+  <script src="js/competitive-game-bridge.js"></script>
+  <script src="js/save-cutover.js"></script>
+  <script src="js/mobile-input.js"></script>
+  <script src="js/desktop-overlay.js"></script>
+  <script src="js/induction.js"></script>
+  <script src="js/tutorial-guidance-v1.js"></script>
+  <script src="js/reward-choice-readability.js"></script>
+  <script src="js/upgrade-presentation.js"></script>
+  <script src="js/combat-foundation-v1.js?v=r2"></script>
+  <script src="js/run-outcome-v1.js"></script>
+  <script src="js/marketplace-services.js"></script>
+  <script src="js/account-client.js"></script>
+  <script src="js/account-settings-api.js"></script>
+  <script src="js/chain-transaction-client.js"></script>
+  <script src="js/cloud-save-client.js"></script>
+  <script src="js/value-ledger-client.js"></script>
+  <script src="js/guide-content-v1.js?v=r3"></script>
+  <script src="js/docs-content-v1.js?v=r1"></script>
+  <script src="js/main-menu-foundation-v1.js?v=r10"></script>
+  <script src="js/status-panel-v1.js?v=r2"></script>
+  <script src="js/game.js?v=r4"></script>
+  <script src="js/account-settings-v1.js"></script>
+  <script src="js/account-gate-v1.js"></script>
+
+
+  <div class="hb-btn9-preload" aria-hidden="true"></div>
+</body></html>

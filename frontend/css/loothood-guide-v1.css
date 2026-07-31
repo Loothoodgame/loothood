@@ -1,0 +1,175 @@
+/* Guide screen.
+   ------------------------------------------------------------------
+   It used to be a modal dialog on top of the game: it dimmed the screen,
+   arrived with its own old-style buttons and a round close cross, and its
+   content amounted to seventeen one-sentence lines.
+
+   The first attempt at turning it into a screen produced an even sheet of text:
+   readable, but with nothing to look at. The guide is opened when something has
+   not been understood, and the eye should find the relevant piece immediately
+   rather than walk the lines in order. Hence three things that were not here
+   before: a mark for each section, a highlighted main rule, and different
+   density for headings of different levels.
+
+   There are deliberately no frames or backing plates: the shared shell provides
+   those, and a box around text says nothing. Whitespace and a hairline rule do
+   the separating. */
+
+/* The screen was a black sheet with text on it. Every other screen has a scene
+   behind its content, and that is exactly where the guide stood out. We take the
+   bounty tab background — a notice board under trees suits the guide better than
+   the others in meaning — and dim it almost to nothing: readability of the text
+   matters more than the picture here, and the background exists only so that the
+   screen is not a void. */
+.hb-app .hb-guide-screen {
+  position: relative;
+  display: block;
+  /* the same padding as the bounty screen: without the top inset the heading
+     butted into the top bar and got clipped along the lowercase descenders */
+  padding: 26px 30px 40px;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* The background is applied directly to the screen rather than as a separate
+   layer behind it: the app has its own opaque backing plate, and a layer with a
+   negative z-index went behind it, leaving the screen black. */
+.hb-app .hb-guide-screen {
+  background:
+    linear-gradient(180deg, rgba(8, 13, 9, .88), rgba(8, 13, 9, .96)),
+    url("../images/bg-bounties-v1.png") center / cover no-repeat;
+  background-attachment: local, local;
+  image-rendering: pixelated;
+}
+
+.hb-app .hb-guide-lede {
+  margin: 6px 0 18px;
+  max-width: 62ch;
+  color: var(--muted, #8ea89b);
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+
+.hb-app .hb-guide-body {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px 46px;
+  align-items: start;
+}
+
+@media (max-width: 1180px) {
+  .hb-app .hb-guide-body { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ---- section header ---- */
+
+.hb-app .hb-guide-section > header {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--line2, #1a241f);
+}
+
+/* Section mark — the same sprite used in the navigation.
+   There used to be a mask here: the drawing was reduced to a lime silhouette so
+   that six differently coloured icons would not compete with each other. The
+   argument turned out to be weaker than the loss: silhouettes cannot be told
+   apart, and a column of six identical lime blobs helps orientation less than
+   six distinct objects. The variety of colour here is not noise but precisely
+   what makes a section recognizable. */
+.hb-app .hb-guide-mark {
+  width: 34px;
+  height: 34px;
+  background: var(--mark) center / contain no-repeat;
+}
+
+.hb-app .hb-guide-section h2 {
+  margin: 0 0 4px;
+  font-family: var(--disp, "Alagard", serif);
+  font-size: 24px;
+  line-height: 1.12;
+  color: var(--ivory, #eaf5ee);
+  letter-spacing: .3px;
+}
+
+.hb-app .hb-guide-section > header p {
+  margin: 0;
+  color: var(--muted, #8ea89b);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+/* ---- articles ---- */
+
+.hb-app .hb-guide-entries {
+  display: grid;
+  gap: 18px;
+}
+
+.hb-app .hb-guide-entry {
+  padding-left: 14px;
+  border-left: 2px solid var(--line2, #1a241f);
+}
+
+.hb-app .hb-guide-entry h3 {
+  margin: 0 0 4px;
+  font-family: var(--body, "Pixel Operator", monospace);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ivory, #eaf5ee);
+  letter-spacing: .2px;
+}
+
+/* A guide line is an explanation, not a caption under a button, so its width is
+   limited by character count: a long line on a wide monitor reads worse than a
+   short one, however much room there is. */
+.hb-app .hb-guide-entry p {
+  margin: 0;
+  max-width: 56ch;
+  color: var(--muted, #8ea89b);
+  font-size: 13.5px;
+  line-height: 1.62;
+}
+
+/* The main rule of the section. There is exactly one in each section, and it is
+   the thing most often misunderstood.
+
+   It used to be coloured lime throughout — heading, rule and text alike. Across
+   six sections at once that produced six coloured blotches and started to look
+   like highlighter marks in somebody else's textbook. Making the rule on the
+   left more prominent is enough: the eye finds it just as fast, and the screen
+   stays calm. */
+.hb-app .hb-guide-entry.is-key {
+  border-left-color: color-mix(in srgb, var(--lime, #b7f24a) 55%, var(--line2, #1a241f));
+  border-left-width: 3px;
+  padding-left: 13px;
+}
+
+/* ---- tutorial hint workarounds ---- */
+
+.hb-app .hb-guide-section--tours {
+  grid-column: 1 / -1;
+  margin-top: 12px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line2, #1a241f);
+}
+
+.hb-app .hb-guide-section--tours > header {
+  grid-template-columns: minmax(0, 1fr);
+  border-bottom: 0;
+  padding-bottom: 0;
+  margin-bottom: 16px;
+}
+
+.hb-app .hb-guide-tours {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hb-app .hb-guide-tours .hb-ledger-button {
+  min-height: 42px;
+}

@@ -1,0 +1,175 @@
+@font-face {
+  font-family: "Alagard";
+  src: url("../fonts/Alagard.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "Pixel Operator";
+  src: url("../fonts/PixelOperator.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "Pixel Operator";
+  src: url("../fonts/PixelOperator-Bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 700;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "Pixel Operator 8";
+  src: url("../fonts/PixelOperator8-Bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 700;
+  font-display: block;
+}
+
+:root {
+  /* Canonical presentation palette for the rebuilt Loothood UI families. */
+  --hb-ui-ink: #010e07;
+  --hb-ui-ink-soft: #021008;
+  --hb-ui-panel: #03120b;
+  --hb-ui-panel-green: #06150c;
+  --hb-ui-forest: #132b13;
+  --hb-ui-forest-active: #173c1a;
+  --hb-ui-gold: #7fae2a;
+  --hb-ui-gold-bright: #b7f24a;
+  --hb-ui-ivory: #eaf5ee;
+  --hb-ui-green: #2be28a;
+  --hb-ui-parchment: #cfe3d6;
+  --hb-ui-parchment-ink: #241d10;
+  --hb-ui-parchment-accent: #31551d;
+  --hb-ui-parchment-muted: #385b22;
+  --hb-ui-parchment-focus: #6a4c19;
+  --hb-ui-blue-grey: #9aa1a7;
+  --hb-ui-danger: #7a281e;
+  --hb-ui-progress-danger: #8c3529;
+  --hb-ui-failure: #a74439;
+
+  /* Main Menu surface elevation: page < panel < card. */
+  --surface-page: var(--hb-ui-ink);
+  --surface-panel: color-mix(in srgb, var(--surface-page) 78%, var(--hb-ui-forest));
+  --surface-card: color-mix(in srgb, var(--surface-page) 58%, var(--hb-ui-forest-active));
+
+  /* Main Menu border hierarchy. Warning/destructive borders remain semantic exceptions. */
+  --border-interactive: var(--hb-ui-gold-bright);
+  --border-frame: color-mix(in srgb, var(--hb-ui-parchment-focus) 52%, var(--surface-panel));
+  --border-separator: color-mix(in srgb, var(--hb-ui-parchment-focus) 30%, var(--surface-page));
+
+  --hb-ui-rarity-uncommon: #2be28a;
+  --hb-ui-rarity-rare: #46d8e0;
+  --hb-ui-rarity-epic: #d65dff;
+  --hb-ui-rarity-legendary: #b7f24a;
+
+  --hb-ui-font-display: Baskerville, Georgia, "Times New Roman", serif;
+  --hb-ui-font-display-bitmap: "Alagard", fantasy;
+  --hb-ui-font-body-bitmap: "Pixel Operator", monospace;
+  --hb-ui-font-body-bold-bitmap: "Pixel Operator", monospace;
+  --hb-ui-font-compact-bitmap: "Pixel Operator 8", monospace;
+  --hb-ui-font-symbol: Baskerville, Georgia, "Times New Roman", serif;
+
+  /* Shared desktop sheet geometry. */
+  --hb-ui-sheet-left: 220px;
+  --hb-ui-sheet-top: 149px;
+  --hb-ui-sheet-width: 947px;
+  --hb-ui-sheet-height: 644px;
+
+  /* Shared frame and structural action anatomy. Family selectors retain their authored colours. */
+  --hb-ui-frame-border: 2px;
+  --hb-ui-action-border-standard: 2px;
+  --hb-ui-action-border-compact: 1px;
+  --hb-ui-action-inner-standard: 5px;
+  --hb-ui-action-inner-compact: 4px;
+  --hb-ui-touch-target: 44px;
+  --hb-ui-resource-zero-icon-opacity: .38;
+  --hb-ui-resource-zero-value-opacity: .62;
+  --hb-ui-resource-zero-saturation: .45;
+
+  /* Modern surfaces reset legacy raster effects and opt back in through these tokens. */
+  --hb-ui-modern-text-shadow: none;
+  --hb-ui-modern-letter-spacing: 0px;
+  --hb-ui-modern-filter: none;
+  --hb-ui-filter-plot-art: drop-shadow(0 8px 7px rgba(0,0,0,.72));
+  --hb-ui-filter-selected-building-art: drop-shadow(0 9px 8px rgba(0,0,0,.7));
+  --hb-ui-filter-building-inspector-art: drop-shadow(0 10px 8px rgba(0,0,0,.72));
+
+  /* Main Menu spacing remains fixed while display type steps at 1440px. */
+  --hb-ui-space-1: 4px;
+  --hb-ui-space-2: 8px;
+  --hb-ui-space-3: 12px;
+  --hb-ui-space-4: 16px;
+  --hb-ui-space-6: 24px;
+  --hb-ui-space-8: 32px;
+
+  /* Global layers own surfaces; local layers stay inside isolated components. */
+  --hb-ui-layer-base: 0;
+  --hb-ui-layer-app-frame: 50;
+  --hb-ui-layer-utility: 51;
+  --hb-ui-layer-menu: 80;
+  --hb-ui-layer-sticky: 100;
+  --hb-ui-layer-primary: 200;
+  --hb-ui-layer-confirmation: 300;
+  --hb-ui-layer-critical-notice: 400;
+  --hb-ui-layer-local-content: 1;
+  --hb-ui-layer-local-actor: 2;
+  --hb-ui-layer-local-chrome: 20;
+
+  /* Compatibility names consumed by the existing overlay coordinator. */
+  --layer-base: var(--hb-ui-layer-base);
+  --layer-sticky: var(--hb-ui-layer-sticky);
+  --layer-primary: var(--hb-ui-layer-primary);
+  --layer-confirmation: var(--hb-ui-layer-confirmation);
+  --layer-critical-notice: var(--hb-ui-layer-critical-notice);
+}
+
+/*
+ * Main Menu, Village and ordinary dialogs are a hard boundary from legacy
+ * element selectors. The animated Gacha reveal owns a separate presentation
+ * layer and is intentionally not an ordinary-dialog surface.
+ */
+:where(
+  .desktop-main-menu,
+  .desktop-overlay-root,
+  .hb-menu-system-overlay:not(.gacha-reveal)
+),
+:where(
+  .desktop-main-menu,
+  .desktop-overlay-root,
+  .hb-menu-system-overlay:not(.gacha-reveal)
+) * {
+  text-shadow: var(--hb-ui-modern-text-shadow) !important;
+  letter-spacing: var(--hb-ui-modern-letter-spacing) !important;
+  filter: var(--hb-ui-modern-filter) !important;
+}
+
+/* New surfaces can adopt this anatomy without inventing another button frame. */
+.hb-ui-action {
+  position: relative;
+  min-width: 0;
+  border-width: var(--hb-ui-action-border-standard);
+  border-radius: 0;
+  font-family: var(--hb-ui-font-display);
+}
+
+.hb-ui-action::after {
+  content: "";
+  position: absolute;
+  inset: var(--hb-ui-action-inner-standard);
+  pointer-events: none;
+}
+
+.hb-ui-action__content {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  width: 100%;
+}
+
+.hb-ui-action__label { grid-column: 2; }
+.hb-ui-action__icon { grid-column: 3; justify-self: end; }

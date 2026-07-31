@@ -1,0 +1,224 @@
+/* Documentation screen.
+   ------------------------------------------------------------------
+   The layout of ordinary technical documentation: a narrow column of pages on
+   the left, the text on the right. Not because "everyone does it that way",
+   but because a list of pages alongside shows the document is finite — seven
+   entries read as "this can be read to the end", whereas an unindexed stream
+   does not.
+
+   Visually it is calmer than the rest of the game: no gold borders, no
+   textures. This is where a person decides whether to pay, and an interface
+   that keeps selling at that moment produces exactly the opposite of trust.
+   Readability and empty space build trust better than ornament.
+
+   The font choice follows from the same reasoning: the headings use the same
+   display face as everywhere else, while the body is monospace, as in code
+   documentation. It is a promise about tone: what follows will be verifiable
+   things, not promises. */
+
+.hb-app .hb-docs-screen {
+  position: relative;
+  display: grid;
+  grid-template-columns: 216px minmax(0, 1fr);
+  gap: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: #080d09;
+}
+
+/* ---- page column ---- */
+
+.hb-app .hb-docs-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 26px 14px 24px;
+  border-right: 1px solid var(--line2, #1a241f);
+  overflow-y: auto;
+}
+
+.hb-app .hb-docs-nav__title {
+  margin: 0 0 12px;
+  padding-left: 10px;
+  color: rgba(142, 168, 155, .55);
+  font-size: 10.5px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+}
+
+.hb-app .hb-docs-nav button {
+  padding: 8px 10px;
+  border-radius: 0 9px 9px 0;
+  border: 0;
+  border-left: 2px solid transparent;
+  background: transparent;
+  color: var(--muted, #8ea89b);
+  font: inherit;
+  font-size: 12.5px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.hb-app .hb-docs-nav button:hover {
+  color: var(--ivory, #eaf5ee);
+  background: rgba(255, 255, 255, .03);
+}
+
+/* The current page is marked with a rule on the left rather than a fill: a fill
+   on a narrow column turns into a button, and this is not a choice of action but
+   a position in the text. */
+.hb-app .hb-docs-nav button.is-current {
+  color: var(--ivory, #eaf5ee);
+  border-left-color: #6ea8ff;
+  background: rgba(110, 168, 255, .07);
+}
+
+/* ---- text ---- */
+
+.hb-app .hb-docs-body {
+  padding: 30px 40px 48px;
+  overflow-y: auto;
+  /* The text takes the full width of the window. A 74-character column reads
+     better, but it left half the screen empty on the right, and the section
+     looked unfinished next to the others, which fill the window entirely. The
+     limit was removed deliberately: in this interface wholeness matters more
+     than an ideal line length. */
+  max-width: none;
+}
+
+.hb-app .hb-docs-lede {
+  margin: 4px 0 26px;
+  color: var(--muted, #8ea89b);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.hb-app .hb-docs-body h3 {
+  margin: 30px 0 10px;
+  font-family: var(--disp, "Alagard", serif);
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: .3px;
+  color: var(--ivory, #eaf5ee);
+}
+
+.hb-app .hb-docs-body > p {
+  margin: 0 0 14px;
+  color: #b6c8bd;
+  font-size: 13.5px;
+  line-height: 1.72;
+}
+
+.hb-app .hb-docs-list {
+  margin: 0 0 16px;
+  padding-left: 18px;
+  color: #b6c8bd;
+  font-size: 13.5px;
+  line-height: 1.7;
+}
+.hb-app .hb-docs-list li { margin-bottom: 6px; }
+
+/* Callout. It differs by a rule and a background but not by text colour: a
+   coloured paragraph among ordinary ones reads as a warning, and this is a
+   clarification. */
+.hb-app .hb-docs-note {
+  margin: 0 0 16px;
+  padding: 11px 14px;
+  border-left: 2px solid #6ea8ff;
+  background: rgba(110, 168, 255, .06);
+  color: #b6c8bd;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.hb-app .hb-docs-code {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border: 1px solid var(--line2, #1a241f);
+  background: rgba(0, 0, 0, .35);
+  overflow-x: auto;
+}
+.hb-app .hb-docs-code code {
+  color: #9fd3a8;
+  font-size: 12.5px;
+  line-height: 1.6;
+  white-space: pre;
+}
+
+/* The table sits in a wrapper: in a narrow window it scrolls horizontally by
+   itself instead of breaking the whole text column. */
+.hb-app .hb-docs-tablewrap { margin: 0 0 18px; overflow-x: auto; }
+.hb-app .hb-docs-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+.hb-app .hb-docs-table th,
+.hb-app .hb-docs-table td {
+  padding: 9px 12px;
+  border: 1px solid var(--line2, #1a241f);
+  text-align: left;
+  vertical-align: top;
+}
+.hb-app .hb-docs-table th {
+  background: rgba(255, 255, 255, .03);
+  color: var(--ivory, #eaf5ee);
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+.hb-app .hb-docs-table td { color: #b6c8bd; line-height: 1.6; }
+
+/* ---- next ---- */
+
+.hb-app .hb-docs-foot {
+  margin-top: 34px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line2, #1a241f);
+}
+
+.hb-app .hb-docs-next {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 12px 16px;
+  border: 1px solid var(--line2, #1a241f);
+  /* The same radius as the buttons elsewhere in the interface: a rectangular
+     button among rounded ones looks forgotten rather than austere. */
+  border-radius: 11px;
+  background: transparent;
+  color: var(--ivory, #eaf5ee);
+  font: inherit;
+  font-size: 13px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.hb-app .hb-docs-next:hover { border-color: #6ea8ff; }
+.hb-app .hb-docs-next span:first-child {
+  color: var(--muted, #8ea89b);
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.hb-app .hb-docs-next strong { font-weight: 600; }
+
+@media (max-width: 900px) {
+  .hb-app .hb-docs-screen { grid-template-columns: minmax(0, 1fr); overflow-y: auto; }
+  /* On a narrow screen the index becomes a strip at the top: a 216-pixel column
+     would eat half of the width the text is read for. */
+  .hb-app .hb-docs-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 14px 16px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line2, #1a241f);
+  }
+  .hb-app .hb-docs-nav__title { display: none; }
+  .hb-app .hb-docs-nav button {
+    border-left: 0;
+    border-bottom: 2px solid transparent;
+    padding: 6px 8px;
+  }
+  .hb-app .hb-docs-nav button.is-current { border-bottom-color: #6ea8ff; }
+  .hb-app .hb-docs-body { padding: 22px 18px 36px; }
+}

@@ -1,0 +1,291 @@
+/* LOOTHOOD — Market v1 · "Trading"
+   ------------------------------------------------------------------
+   A positionally important screen — the $LOOT promise rests on it — but
+   it labels itself "transactions are not active yet". So the goal here
+   is modest: not to polish it, but to stop it standing apart from the
+   shared language, so that by the time the on-chain part arrives it does
+   not look foreign.
+
+   What was fixed:
+     — the native system <select> for sorting: a white rectangle in the
+       middle of dark pixel art, the most conspicuous foreign detail;
+     — the Browse / Sell / My Listings tabs — three flat boxes with no
+       indication of which was selected;
+     — filters and stats using the same chip as in Loadout;
+     — gold headings, panels without radii;
+     — the empty state as a dead end.
+
+   Scoped to .hb-app. */
+
+/* ============ HEADING AND STATUS ============ */
+
+.hb-app .hb-market-view h1,
+.hb-app .hb-market-view h2,
+.hb-app .hb-market-view h3,
+.hb-app .hb-market-panel h2,
+.hb-app .hb-market-panel h3 {
+  color: var(--ivory) !important;
+  font-family: var(--disp);
+}
+.hb-app .hb-market-view .hb-diamond-rule { display: none !important; }
+
+/* The "market is not live yet" plate is a state, not an error.
+   A calm amber tone, like the bounty reset timer on Hunt. */
+.hb-app .hb-market-preview-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 11px 16px !important;
+  border: 1px solid color-mix(in srgb, var(--ember) 28%, var(--line)) !important;
+  border-radius: 11px !important;
+  background: color-mix(in srgb, var(--ember) 8%, transparent) !important;
+  color: var(--muted) !important;
+  font-size: 13px;
+}
+.hb-app .hb-market-preview-status strong { color: var(--ember) !important; }
+
+/* ============ TABS ============ */
+
+.hb-app .hb-market-tabs {
+  display: inline-flex !important;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  width: auto !important;
+}
+.hb-app .hb-market-tabs button {
+  min-height: 0 !important;
+  padding: 9px 18px !important;
+  border: none !important;
+  border-radius: 9px !important;
+  background: transparent !important;
+  color: var(--muted) !important;
+  font-family: var(--disp);
+  font-size: 16px;
+  letter-spacing: .3px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 140ms var(--lh-ease-out),
+              background 140ms var(--lh-ease-out);
+}
+.hb-app .hb-market-tabs button[aria-selected="true"],
+.hb-app .hb-market-tabs button.is-active {
+  color: #08120a !important;
+  background: linear-gradient(180deg, #c8f85e, var(--lime) 45%, var(--lime-deep)) !important;
+  box-shadow: 0 8px 18px -12px color-mix(in srgb, var(--lime) 70%, transparent);
+}
+@media (hover: hover) and (pointer: fine) {
+  .hb-app .hb-market-tabs button:not([aria-selected="true"]):hover {
+    color: var(--ivory) !important;
+    background: var(--surface2) !important;
+  }
+}
+
+/* ============ SORTING ============
+   The native select is drawn by the operating system and looked like a white
+   patch on dark pixel art. We remove the native rendering and draw our own
+   arrow instead. */
+
+.hb-app select[data-marketplace-control="sort"],
+.hb-app .hb-market-panel select,
+.hb-app .hb-market-view select {
+  appearance: none;
+  -webkit-appearance: none;
+  min-height: 40px;
+  padding: 9px 34px 9px 14px !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 10px !important;
+  background-color: var(--surface2) !important;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+    linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+  background-position: right 16px center, right 11px center;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  color: var(--ivory) !important;
+  font-family: var(--body);
+  font-size: 13.5px;
+  cursor: pointer;
+  transition: border-color 140ms var(--lh-ease-out);
+}
+.hb-app select[data-marketplace-control="sort"]:focus-visible {
+  border-color: color-mix(in srgb, var(--lime) 55%, var(--line)) !important;
+}
+/* The dropdown list is drawn by the OS — we at least set readable option colours. */
+.hb-app .hb-market-view option {
+  background: var(--surface2);
+  color: var(--ivory);
+}
+@media (hover: hover) and (pointer: fine) {
+  .hb-app .hb-market-view select:hover {
+    border-color: color-mix(in srgb, var(--lime) 40%, var(--line)) !important;
+  }
+}
+
+/* ============ PANELS AND FILTERS ============ */
+
+.hb-app .hb-market-panel {
+  border: 1px solid var(--line) !important;
+  border-radius: var(--r) !important;
+  background: var(--surface) !important;
+  padding: 16px 18px !important;
+}
+
+/* The same chips as in Loadout: the screens should speak alike. */
+.hb-app .hb-market-filter-chips {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.hb-app .hb-market-filter-chips button {
+  --c: var(--muted);
+  min-height: 0 !important;
+  width: auto !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 12px !important;
+  border-radius: 999px !important;
+  border: 1px solid var(--line) !important;
+  background: var(--surface2) !important;
+  color: var(--muted) !important;
+  font-family: var(--body);
+  font-size: 12.5px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color 140ms var(--lh-ease-out),
+              color 140ms var(--lh-ease-out),
+              background 140ms var(--lh-ease-out);
+}
+/* Rarity dot — as in Loadout. */
+.hb-app .hb-market-filter-chips button[data-marketplace-action*="rarity"]::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c);
+  box-shadow: 0 0 8px -1px var(--c);
+  flex: none;
+}
+.hb-app [data-marketplace-action$=":common"],
+.hb-app [data-marketplace-action$="-common"]    { --c: #9fb3a6; }
+.hb-app [data-marketplace-action$=":uncommon"],
+.hb-app [data-marketplace-action$="-uncommon"]  { --c: var(--un); }
+.hb-app [data-marketplace-action$=":rare"],
+.hb-app [data-marketplace-action$="-rare"]      { --c: var(--rare); }
+.hb-app [data-marketplace-action$=":epic"],
+.hb-app [data-marketplace-action$="-epic"]      { --c: var(--epic); }
+.hb-app [data-marketplace-action$=":legendary"],
+.hb-app [data-marketplace-action$="-legendary"] { --c: var(--leg); }
+
+.hb-app .hb-market-filter-chips button[aria-pressed="true"],
+.hb-app .hb-market-filter-chips button.is-active {
+  color: var(--ivory) !important;
+  border-color: color-mix(in srgb, var(--c) 55%, var(--line)) !important;
+  background: color-mix(in srgb, var(--c) 14%, var(--surface2)) !important;
+}
+@media (hover: hover) and (pointer: fine) {
+  .hb-app .hb-market-filter-chips button:hover {
+    color: var(--ivory) !important;
+    border-color: color-mix(in srgb, var(--c) 45%, var(--line)) !important;
+  }
+}
+
+/* Stat rows with a plus and a minus. */
+.hb-app .hb-market-stat-filter {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 0 !important;
+  border-top: 1px solid var(--line2) !important;
+  color: var(--muted) !important;
+  font-family: var(--body);
+  font-size: 12.5px;
+}
+.hb-app .hb-market-stat-filter button {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  padding: 0 !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 9px !important;
+  background: var(--surface2) !important;
+  color: var(--muted) !important;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+}
+@media (hover: hover) and (pointer: fine) {
+  .hb-app .hb-market-stat-filter button:hover {
+    color: var(--ivory) !important;
+    border-color: color-mix(in srgb, var(--lime) 40%, var(--line)) !important;
+  }
+}
+
+.hb-app .hb-market-result-count {
+  color: var(--dim) !important;
+  font-size: 12.5px;
+}
+
+/* ============ EMPTY STATE ============ */
+
+.hb-app .hb-market-empty {
+  display: grid !important;
+  justify-items: center;
+  align-content: center;
+  gap: 6px;
+  min-height: 300px;
+  padding: 36px 24px !important;
+  border: 1px dashed var(--line2) !important;
+  border-radius: 13px;
+  background: rgba(12,18,15,.45) !important;
+  text-align: center;
+}
+.hb-app .hb-market-empty::before {
+  content: "";
+  width: 84px;
+  height: 84px;
+  margin-bottom: 8px;
+  background: var(--lh-icon-bowstring) center / contain no-repeat;
+  opacity: .26;
+  filter: grayscale(.6);
+}
+.hb-app .hb-market-empty h3 {
+  margin: 0;
+  font-family: var(--disp);
+  font-size: 20px;
+  color: var(--ivory) !important;
+}
+.hb-app .hb-market-empty p {
+  margin: 0;
+  max-width: 44ch;
+  color: var(--dim) !important;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.hb-app .hb-market-empty button {
+  margin-top: 12px;
+  min-height: 42px;
+  padding: 10px 20px !important;
+  border: 1px solid color-mix(in srgb, var(--lime) 34%, var(--line)) !important;
+  border-radius: 11px !important;
+  background: color-mix(in srgb, var(--lime) 8%, var(--surface2)) !important;
+  color: var(--ivory) !important;
+  font-family: var(--disp);
+  font-size: 16px;
+  cursor: pointer;
+}
+@media (hover: hover) and (pointer: fine) {
+  .hb-app .hb-market-empty button:hover {
+    border-color: color-mix(in srgb, var(--lime) 55%, var(--line)) !important;
+    background: color-mix(in srgb, var(--lime) 14%, var(--surface2)) !important;
+  }
+}
+
+.hb-app .hb-market-listing-scroll { min-width: 0; }

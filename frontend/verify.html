@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Same API origin as the game: an empty value means "same domain", and on
+       Vercel /api/* is rewritten to Railway. -->
+  <meta name="loothood-api-origin" content="">
+  <title>LOOTHOOD — Verify it yourself</title>
+  <link rel="icon" href="images/loothood-mark-primary.png">
+  <style>
+    /* Deliberately a separate, light page: it has to open for someone who has
+       never played and does not intend to. All it needs from the game are the
+       recomputation modules, not the interface. */
+    :root {
+      --bg: #0d1408; --panel: #131d0e; --line: #2a3a1e;
+      --text: #eaf5ee; --muted: #8ba396; --lime: #b7f24a;
+      --ok: #7fdc5a; --bad: #e35f5f;
+      --uncommon: #4be08a; --rare: #3bb9c4; --epic: #b36dea; --legendary: #ffd24a;
+    }
+    @font-face { font-family: "Alagard"; src: url("fonts/Alagard.ttf") format("truetype"); font-display: swap; }
+    @font-face { font-family: "PixelOperator"; src: url("fonts/PixelOperator.ttf") format("truetype"); font-display: swap; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text); line-height: 1.55;
+      font-family: "PixelOperator", ui-monospace, Menlo, Consolas, monospace;
+      font-size: 16px;
+    }
+    .wrap { max-width: 860px; margin: 0 auto; padding: 40px 20px 80px; }
+    h1 { font-family: "Alagard", Georgia, serif; font-size: 40px; margin: 0 0 6px; letter-spacing: .02em; }
+    h2 { font-family: "Alagard", Georgia, serif; font-size: 26px; margin: 0 0 4px; }
+    h3 { font-family: "Alagard", Georgia, serif; font-size: 20px; margin: 26px 0 8px; }
+    .lede { color: var(--muted); margin: 0 0 26px; max-width: 60ch; }
+    .lede b { color: var(--text); font-weight: normal; border-bottom: 1px solid var(--lime); }
+    form { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+    input {
+      flex: 1 1 380px; background: #0a1006; color: var(--text); padding: 12px 14px;
+      border: 1px solid var(--line); font: inherit; border-radius: 2px;
+    }
+    input:focus { outline: none; border-color: var(--lime); }
+    button {
+      background: var(--lime); color: #0a1006; border: 0; padding: 12px 22px;
+      font: inherit; font-weight: bold; cursor: pointer; border-radius: 2px;
+    }
+    button:hover { filter: brightness(1.1); }
+    .hint { color: var(--muted); font-size: 14px; margin: 0 0 30px; }
+    #output { border-top: 1px solid var(--line); padding-top: 24px; min-height: 60px; }
+    .summary { color: var(--muted); margin: 0 0 18px; }
+    .waiting, .failure { color: var(--muted); }
+    .failure { color: var(--bad); }
+    ul.checks { list-style: none; margin: 0; padding: 0; }
+    ul.checks li {
+      display: flex; gap: 12px; align-items: baseline;
+      padding: 11px 0; border-bottom: 1px solid var(--line);
+    }
+    ul.checks .mark { width: 20px; flex: none; font-size: 18px; }
+    ul.checks .matched .mark { color: var(--ok); }
+    ul.checks .mismatched .mark { color: var(--bad); }
+    ul.checks .neutral .mark { color: var(--muted); }
+    ul.checks em { display: block; font-style: normal; color: var(--muted); font-size: 14px; word-break: break-all; }
+    table.items { width: 100%; border-collapse: collapse; font-size: 15px; }
+    table.items th { text-align: left; color: var(--muted); font-weight: normal; padding: 6px 10px 6px 0; border-bottom: 1px solid var(--line); }
+    table.items td { padding: 7px 10px 7px 0; border-bottom: 1px solid var(--line); word-break: break-all; }
+    .r-uncommon { color: var(--uncommon); } .r-rare { color: var(--rare); }
+    .r-epic { color: var(--epic); } .r-legendary { color: var(--legendary); }
+    .note { border-left: 2px solid var(--lime); padding: 10px 0 10px 14px; margin: 22px 0; color: var(--muted); }
+    .note b { color: var(--text); }
+    details { margin-top: 22px; }
+    summary { color: var(--muted); cursor: pointer; }
+    pre { background: #0a1006; border: 1px solid var(--line); padding: 12px; overflow-x: auto; font-size: 13px; }
+    footer { margin-top: 60px; color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); padding-top: 18px; }
+    footer a { color: var(--lime); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Verify it yourself</h1>
+    <p class="lede">
+      This page does not ask the server whether things were fair. It fetches the
+      evidence and <b>recomputes the result right here, in your browser</b>, with
+      the same code the game runs. If the announced number disagrees with the
+      recomputed one, you will see it.
+    </p>
+
+    <form id="form">
+      <input id="ref" placeholder="Run id (attempt_…) or pull id" autocomplete="off" spellcheck="false">
+      <button type="submit">Verify</button>
+    </form>
+    <p class="hint">
+      A run id starts with <code>attempt_</code>; a pull id is the plain
+      identifier from your pull history. Results are shareable:
+      <code>verify.html?id=…</code>
+    </p>
+
+    <div id="output"></div>
+
+    <footer>
+      What is actually checked. <strong>Pull:</strong> the fingerprint of the
+      secret is published before the roll and the secret itself afterwards; this
+      page matches one against the other and re-derives the items from the
+      secret. <strong>Run:</strong> the server stores your input tick by tick;
+      this page reassembles that recording, replays the entire run and computes
+      its own score. The season layout is checked against the fingerprint
+      published before the season opened.
+    </footer>
+  </div>
+
+  <!-- Load order is literal: each module looks up the previous ones on window. -->
+  <script src="js/boss-seeds.js"></script>
+  <script src="js/boss-balance.js"></script>
+  <script src="js/forest-balance.js"></script>
+  <script src="js/equipment-legendary-v5.js"></script>
+  <script src="js/equipment-release.js"></script>
+  <script src="js/equipment.js"></script>
+  <script src="js/gacha-system.js"></script>
+  <script src="js/run-relics.js"></script>
+  <script src="js/continuous-reinforcement.js"></script>
+  <script src="js/blood-hunt.js"></script>
+  <script src="js/competitive-build-rules.js"></script>
+  <script src="js/competitive-hunters-knot-rules.js"></script>
+  <script src="js/competitive-iron-oath-rules.js"></script>
+  <script src="js/competitive-blood-hunt-rules.js"></script>
+  <script src="js/competitive-deep-root-rules.js"></script>
+  <script src="js/competitive-phase-three-rules.js"></script>
+  <script src="js/competitive-run-core.js"></script>
+  <script src="js/verify-shared.js"></script>
+  <script src="js/verify-page.js"></script>
+</body>
+</html>

@@ -1,0 +1,322 @@
+@media (hover: hover) and (pointer: fine) and (min-width: 900px) {
+  .hb-equipment-screen { min-width: 0; min-height: 0; display: grid; grid-template-rows: auto auto minmax(0,1fr); gap: var(--hb-ui-space-2); padding: var(--hb-ui-space-3); overflow: hidden; background: var(--surface-page); }
+  .hb-equipment-screen[data-screen="outfitter"] { grid-template-rows: auto auto minmax(0,1fr); }
+  .hb-equipment-screen > .hb-screen-heading { height: auto; min-height: 0; }
+  .hb-equipment-layout { min-width: 0; min-height: 0; display: grid; grid-template-columns: minmax(0,1.65fr) minmax(280px,.85fr); gap: var(--hb-ui-space-2); }
+  /* minmax(0,1fr) on the row is mandatory, otherwise scrolling the panel below
+     achieves nothing. The grid's implicit row is auto, i.e. sized to its
+     content: the panel simply grew to whatever height it needed and ran off the
+     bottom of the screen. Only something that has been given a limit can scroll. */
+  .hb-equipment-layout--pulls { grid-row: 2 / -1; grid-template-columns: minmax(0,1.25fr) minmax(300px,.75fr); grid-template-rows: minmax(0,1fr); }
+  .hb-equipment-layout--reroll,
+  .hb-equipment-layout--forge { grid-row: 2 / -1; grid-template-columns: repeat(2,minmax(0,1fr)); }
+  /* The pulls panel scrolls because of the pity bars at the bottom. In a
+     768-tall window the panel stretches to 919 pixels against the 756 it is
+     allotted, and the extra hundred and sixty-three are simply clipped by the
+     screen: the "Epic or Better" and "Legendary" bars go below the edge with no
+     way to see them. The reforge panel has had this scrolling from the start. */
+  .hb-equipment-layout--pulls > .hb-equipment-panel,
+  .hb-equipment-layout--reroll > .hb-equipment-panel { overflow: auto; scrollbar-width: thin; scrollbar-color: var(--border-interactive) var(--surface-card); }
+  /* align-self: start on the panel meant "height from content", and nothing
+     scrolls in that state: only something that has been given a limit can
+     scroll. With stretch the panel takes the height of its row. */
+  .hb-equipment-layout--pulls > .hb-equipment-panel { align-self: stretch; }
+  .hb-equipment-layout--scrap { grid-template-columns: minmax(0,1.7fr) minmax(280px,.7fr); }
+  .hb-equipment-panel { min-width: 0; min-height: 0; padding: var(--hb-ui-space-3); border: 1px solid var(--border-frame); color: var(--hb-ui-ivory); background: var(--surface-panel); box-shadow: inset 1px 1px 0 var(--hb-menu-bevel-light), inset -1px -1px 0 var(--hb-menu-bevel-dark); }
+  .hb-equipment-panel h2 { margin: 0; color: var(--hb-ui-gold-bright); font-family: var(--hb-menu-font-display); font-size: var(--hb-menu-type-panel-heading); text-transform: uppercase; }
+  .hb-equipment-panel p { line-height: 1.35; }
+  /* max-content instead of auto, for the same reason as with the spotlight
+     cards: an auto row ended up shorter than its content, and the spotlight
+     block overlapped the pity bars below it. The panel scrolls, so there is room. */
+  .hb-equipment-pull { align-self: start; display: grid; grid-template-rows: repeat(5,max-content); gap: var(--hb-ui-space-2); overflow: visible; }
+  .hb-equipment-pull > footer,
+  .hb-reroll-candidate > footer,
+  .hb-equipment-panel > footer { display: flex; flex-wrap: wrap; gap: var(--hb-ui-space-2); margin-top: auto; }
+  .hb-equipment-tabs { display: flex; gap: var(--hb-ui-space-1); margin-bottom: var(--hb-ui-space-2); }
+  .hb-equipment-tabs button,
+  .hb-equipment-tools button,
+  .hb-equipment-filters button,
+  .hb-equipment-item footer button,
+  .hb-reroll-rolls button { min-height: var(--hb-ui-touch-target); border: 1px solid var(--border-interactive); color: var(--hb-ui-ivory); background: var(--surface-card); }
+  .hb-equipment-tabs button[aria-selected="true"] { color: var(--hb-ui-gold-bright); background: var(--hb-ui-forest-active); }
+  .hb-equipment-odds,
+  .hb-equipment-ledger dl,
+  .hb-equipment-summary { margin: 0; display: grid; gap: 1px; }
+  .hb-equipment-odds div,
+  .hb-equipment-ledger dl div,
+  .hb-equipment-summary div { min-height: var(--hb-ui-touch-target); display: flex; align-items: center; justify-content: space-between; gap: var(--hb-ui-space-2); padding: var(--hb-ui-space-1) var(--hb-ui-space-2); border-bottom: 1px solid var(--border-separator); background: var(--surface-card); }
+  .hb-equipment-pity { display: grid; grid-template-columns: repeat(2,1fr); gap: var(--hb-ui-space-2); }
+  .hb-equipment-pity span { padding: var(--hb-ui-space-2); border: 1px solid var(--border-frame); background: var(--surface-card); }
+  .hb-gacha-banner,
+  .hb-gacha-standard { min-height: 0; display: grid; align-content: start; gap: var(--hb-ui-space-2); padding: var(--hb-ui-space-3); border: 1px solid var(--border-frame); background: var(--surface-card); overflow: visible; }
+  .hb-gacha-banner > header,
+  .hb-gacha-standard > header { display: flex; align-items: start; justify-content: space-between; gap: var(--hb-ui-space-3); }
+  .hb-gacha-banner :is(h2,p),
+  .hb-gacha-standard :is(h2,p),
+  .hb-gacha-spotlight :is(h3,p) { margin: 0; }
+  .hb-gacha-banner > header p,
+  .hb-gacha-standard > header p,
+  .hb-gacha-spotlight > span { color: var(--hb-ui-green); text-transform: uppercase; }
+  .hb-gacha-banner__effect { padding-top: var(--hb-ui-space-2); border-top: 1px solid var(--border-separator); }
+  .hb-gacha-banner__effect > strong,
+  .hb-gacha-spotlight > strong { color: var(--hb-ui-gold-bright); }
+  .hb-gacha-banner__timer { display: flex; align-items: center; gap: var(--hb-ui-space-1); white-space: nowrap; }
+  .hb-gacha-banner__timer.is-danger,
+  .hb-gacha-last-day { color: var(--hb-ui-danger); }
+  .hb-gacha-last-day { padding: 2px var(--hb-ui-space-1); border: 1px solid currentColor; }
+  .hb-gacha-banner__rolls { font-weight: 700; }
+  .hb-gacha-banner__rate { width: fit-content; max-width: 100%; display: flex; flex-wrap: wrap; gap: var(--hb-ui-space-1); padding: var(--hb-ui-space-1) var(--hb-ui-space-2); border: 1px solid var(--border-frame); background: var(--surface-panel); font-size: var(--hb-menu-type-caption); line-height: var(--hb-menu-line-caption); }
+  .hb-gacha-banner__rate > strong { color: var(--hb-ui-gold-bright); text-transform: uppercase; }
+  .hb-gacha-banner__departure { color: var(--hb-ui-green); }
+  .hb-gacha-standard > header { align-items: end; }
+  .hb-gacha-pool-chip,
+  .hb-gacha-rates-link { min-height: var(--hb-ui-touch-target); border: 1px solid var(--border-interactive); color: var(--hb-ui-gold-bright); background: var(--surface-panel); white-space: nowrap; }
+  /* auto-fit rather than three hard columns. Three columns held at any width,
+     and on a 1366 laptop each came out around a hundred and forty pixels: minus
+     the icon, the item was left with fifty, names broke in the middle of a word
+     ("ARROWPA / TH SOLES"), and descriptions ran one word per line. The 240
+     threshold was picked from measurement: with it, 1366 gets two columns and a
+     wide screen still gets three. */
+  /* grid-auto-rows: max-content — otherwise the card rows ended up shorter than
+     their own content. In a 768-tall window a card came out at 97 pixels against
+     the 121-139 it needed, and since it has overflow:hidden the last line of the
+     description was cut exactly through the middle of the letters. */
+  .hb-gacha-spotlights { min-height: max-content; display: grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); grid-auto-rows: max-content; align-items: stretch; gap: var(--hb-ui-space-2); }
+  /* The last row is flexible: the icon spans 1 / -1, and without it the last
+     grid line ran along the end of the text rather than the bottom of the card. */
+  .hb-gacha-spotlight { min-width: 0; display: grid; grid-template-rows: auto minmax(calc(2 * var(--hb-menu-line-display-md)),auto) auto auto 1fr; align-content: stretch; gap: var(--hb-ui-space-1); padding: var(--hb-ui-space-2); border: 1px solid var(--border-frame); background: var(--surface-panel); }
+  .desktop-main-menu .hb-equipment-screen .hb-gacha-spotlight h3 { min-width: 0; color: var(--hb-ui-rarity-legendary); font-family: var(--hb-menu-font-display); font-size: var(--hb-menu-type-display-md); line-height: var(--hb-menu-line-display-md); overflow-wrap: break-word; }
+  .hb-gacha-pity-stack { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: var(--hb-ui-space-2); }
+  .hb-gacha-pity { --hb-pity-heat: var(--hb-ui-green); min-width: 0; display: grid; align-content: start; gap: var(--hb-ui-space-1); padding: var(--hb-ui-space-2); border: 1px solid var(--border-frame); background: var(--surface-card); }
+  .hb-gacha-pity[data-pity-heat="warm"] { --hb-pity-heat: var(--hb-ui-gold); }
+  .hb-gacha-pity[data-pity-heat="hot"] { --hb-pity-heat: var(--hb-ui-gold-bright); }
+  .hb-gacha-pity__header { display: flex; align-items: baseline; justify-content: space-between; gap: var(--hb-ui-space-2); }
+  .hb-gacha-pity__header > span { color: var(--hb-ui-green); text-transform: uppercase; }
+  .hb-gacha-pity__counter { color: var(--hb-ui-ivory); font-size: var(--hb-menu-type-body); white-space: nowrap; }
+  .hb-gacha-pity__route { min-width: 0; display: grid; grid-template-columns: minmax(0,1fr); gap: 1px; }
+  .hb-gacha-pity__track { --hb-pity-arrow-size: 12px; position: relative; height: 24px; margin-inline: calc(var(--hb-pity-arrow-size) / 2); }
+  .hb-gacha-pity__cord,
+  .hb-gacha-pity__trail { position: absolute; left: 0; top: 11px; height: 2px; }
+  .hb-gacha-pity__cord { right: 0; background: var(--border-separator); }
+  .hb-gacha-pity__trail { width: var(--hb-pity-progress); background: var(--hb-pity-heat); transition: width 250ms steps(5,end); }
+  .hb-gacha-pity__notches { position: absolute; inset: 0; }
+  .hb-gacha-pity__notch { position: absolute; left: var(--hb-pity-notch); top: 8px; width: 1px; height: 8px; background: var(--border-separator); }
+  .hb-gacha-pity__arrow { position: absolute; left: var(--hb-pity-progress); top: 5px; width: 0; height: 0; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-left: var(--hb-pity-arrow-size) solid var(--hb-pity-heat); transform: translateX(-50%); transition: left 250ms steps(5,end); }
+  .hb-gacha-pity__endpoint { position: absolute; right: -5px; top: 7px; width: 10px; height: 10px; border: 1px solid var(--border-interactive); background: var(--surface-card); transform: rotate(45deg); }
+  .hb-gacha-pity.is-complete .hb-gacha-pity__endpoint { background: var(--hb-ui-gold-bright); }
+  .hb-gacha-pity__point-label { justify-self: end; color: var(--hb-ui-green); font-size: var(--hb-menu-type-caption); line-height: var(--hb-menu-line-caption); text-transform: uppercase; }
+  .hb-gacha-pity.is-complete .hb-gacha-pity__point-label { color: var(--hb-ui-gold-bright); }
+  .hb-gacha-pity[data-pity-heat="hot"]:not(.is-complete) .hb-gacha-pity__arrow { animation: hb-gacha-pity-shimmer 900ms steps(2,end) infinite; }
+  .hb-gacha-guarantee { margin: 0; color: var(--hb-ui-green); }
+  .hb-gacha-guarantee.is-emphasized { color: var(--hb-ui-gold-bright); font-weight: 700; }
+  .hb-gacha-status { min-height: var(--hb-menu-line-body); margin: 0; color: var(--hb-ui-green); }
+  .hb-gacha-draw-row { display: grid; grid-template-columns: auto minmax(0,1fr); align-items: center; gap: var(--hb-ui-space-2); }
+  .hb-gacha-draw-row > p { margin: 0; white-space: nowrap; }
+  .hb-gacha-draw-actions { display: flex; justify-content: flex-end; align-items: stretch; gap: var(--hb-ui-space-1); }
+  .hb-gacha-draw-actions button { min-height: var(--hb-ui-touch-target); }
+  .hb-gacha-draw-ten { min-width: 180px; display: grid; place-items: center; }
+  .hb-gacha-draw-ten small { display: block; color: inherit; }
+  .hb-equipment-ledger { display: flex; flex-direction: column; gap: var(--hb-ui-space-2); overflow: hidden; }
+  .hb-equipment-ledger ul { min-height: 0; margin: 0; padding: 0; display: grid; gap: var(--hb-ui-space-1); overflow: auto; list-style: none; }
+  .hb-equipment-ledger li { display: grid; gap: var(--hb-ui-space-1); padding: var(--hb-ui-space-2); border-bottom: 1px solid var(--border-separator); background: var(--surface-card); }
+  .hb-equipped-strip { min-height: 0; display: grid; grid-template-columns: minmax(0,1.65fr) repeat(4,minmax(0,1fr)); gap: var(--hb-ui-space-1); }
+  .hb-equipped-strip article { min-width: 0; min-height: 28px; display: flex; align-items: center; gap: 4px; padding: 2px var(--hb-ui-space-1); border: 1px solid var(--border-frame); background: var(--surface-card); white-space: nowrap; overflow: hidden; }
+  .hb-equipped-strip article > strong { flex: 0 0 auto; color: var(--hb-ui-green); text-transform: uppercase; }
+  .hb-equipped-strip article > span:last-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  .hb-equipped-strip article[data-selection-match="true"] { border-color: var(--border-interactive); box-shadow: inset 0 0 0 1px var(--border-interactive); }
+  .hb-equipment-tools { display: flex; align-items: center; gap: var(--hb-ui-space-2); }
+  .hb-equipment-tools > span { margin-left: auto; display: grid; justify-items: end; }
+  .hb-equipment-tools small { color: var(--hb-ui-green); }
+  .hb-equipment-inventory { display: grid; grid-template-rows: auto auto minmax(0,1fr); gap: var(--hb-ui-space-2); overflow: hidden; }
+  .hb-equipment-layout--scrap .hb-equipment-inventory { grid-template-rows: minmax(0,1fr); }
+  .hb-equipment-inventory > header { display: flex; align-items: end; justify-content: space-between; gap: var(--hb-ui-space-2); }
+  .hb-equipment-scroll { min-height: 0; display: grid; align-content: start; gap: var(--hb-ui-space-2); overflow: auto; padding-right: var(--hb-ui-space-1); }
+  .hb-equipment-filter-panel { min-width: 0; display: grid; gap: var(--hb-ui-space-2); padding: var(--hb-ui-space-2); border: 1px solid var(--border-frame); background: var(--surface-card); }
+  .hb-equipment-filter-panel > header { display: flex; align-items: center; gap: var(--hb-ui-space-2); }
+  .hb-equipment-filter-panel > header > span { color: var(--hb-ui-green); }
+  .hb-equipment-filter-panel > header > button { margin-left: auto; }
+  .hb-equipment-filter-groups { min-width: 0; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: var(--hb-ui-space-2); }
+  .hb-equipment-filter-groups fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
+  .hb-equipment-filter-groups legend { margin-bottom: var(--hb-ui-space-1); color: var(--hb-ui-green); }
+  .hb-equipment-filter-stats { grid-column: 1 / -1; }
+  .hb-equipment-filter-chips,
+  .hb-equipment-stat-grid { display: flex; flex-wrap: wrap; gap: var(--hb-ui-space-1); }
+  .hb-equipment-filter-panel button { min-height: var(--hb-ui-touch-target); padding: var(--hb-ui-space-1) var(--hb-ui-space-2); border: 1px solid var(--border-frame); color: var(--hb-ui-ivory); background: var(--surface-panel); }
+  .hb-equipment-filter-panel button[aria-pressed="true"] { border-color: var(--border-interactive); color: var(--hb-ui-gold-bright); background: var(--hb-ui-forest-active); }
+  .hb-equipment-filter-panel button:focus-visible { outline: 2px solid var(--border-interactive); outline-offset: 2px; }
+  .hb-equipment-filter-panel button:disabled { opacity: .5; }
+  .hb-equipment-filters label,
+  .hb-equipment-form label { display: grid; gap: 2px; color: var(--hb-ui-green); }
+  .hb-equipment-filters select,
+  .hb-equipment-form select { min-height: var(--hb-ui-touch-target); border: 1px solid var(--border-interactive); color: var(--hb-ui-ivory); background: var(--surface-card); }
+  .hb-equipment-item { min-width: 0; display: grid; gap: var(--hb-ui-space-2); padding: var(--hb-ui-space-2); border: 1px solid var(--border-frame); background: var(--surface-card); }
+  .hb-equipment-item > header { display: flex; justify-content: space-between; gap: var(--hb-ui-space-2); }
+  .hb-equipment-item h3 { margin: 2px 0 0; color: var(--hb-ui-gold-bright); font-family: var(--hb-ui-font-display); }
+  .hb-equipment-item > header span,
+  .hb-equipment-item > header > strong { color: var(--hb-ui-green); text-transform: uppercase; }
+  .hb-equipment-effect { padding: var(--hb-ui-space-2); border-left: 1px solid var(--border-frame); background: var(--surface-panel); }
+  .hb-equipment-effect p { margin: var(--hb-ui-space-1) 0 0; }
+  .hb-equipment-affixes { margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: var(--hb-ui-space-1) var(--hb-ui-space-2); list-style: none; }
+  .hb-equipment-affixes li { display: flex; gap: var(--hb-ui-space-1); border-bottom: 1px solid var(--border-separator); }
+  .hb-equipment-item footer { display: flex; flex-wrap: wrap; gap: var(--hb-ui-space-1); }
+  .hb-equipment-check { min-height: var(--hb-ui-touch-target); display: flex; align-items: center; gap: var(--hb-ui-space-1); }
+  .hb-equipment-check input { width: 22px; height: 22px; accent-color: var(--hb-ui-gold); }
+  .hb-equipment-actions { display: grid; gap: var(--hb-ui-space-2); margin-top: var(--hb-ui-space-3); }
+  .hb-equipment-form { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: var(--hb-ui-space-2); margin: var(--hb-ui-space-3) 0; }
+  .hb-reroll-rolls { display: grid; gap: var(--hb-ui-space-2); margin: var(--hb-ui-space-3) 0; }
+  .hb-reroll-rolls button { display: flex; justify-content: space-between; align-items: center; padding: var(--hb-ui-space-2); }
+  .hb-reroll-rolls button[aria-pressed="true"] { color: var(--hb-ui-gold-bright); background: var(--hb-ui-forest-active); }
+  .hb-reroll-services { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: var(--hb-ui-space-1); margin: var(--hb-ui-space-2) 0; }
+  .hb-reroll-services button { min-width: 0; display: grid; justify-items: start; gap: 2px; padding: var(--hb-ui-space-1) var(--hb-ui-space-2); }
+  .hb-reroll-services button span { color: var(--hb-ui-green); }
+  .hb-stat-mapping-row { min-width: 0; display: grid; align-items: center; gap: var(--hb-ui-space-1); padding: var(--hb-ui-space-2); background: var(--surface-card); }
+  .hb-reroll-change { grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); margin: var(--hb-ui-space-4) 0; }
+  .hb-stat-mapping-row__before,
+  .hb-stat-mapping-row__after { min-width: 0; overflow-wrap: anywhere; }
+  .hb-stat-mapping-row__after { color: var(--hb-ui-ivory); }
+  .hb-reroll-change-list { display: grid; gap: var(--hb-ui-space-2); margin: var(--hb-ui-space-3) 0; }
+  .hb-reroll-change-list .hb-reroll-change { margin: 0; }
+  .hb-reroll-payment-state { color: var(--hb-ui-green); }
+  .hb-ledger-button.is-paid { color: var(--hb-ui-gold-bright); box-shadow: inset 1px 1px 0 var(--hb-menu-bevel-light), inset -1px -1px 0 var(--hb-menu-bevel-dark); }
+  .hb-ledger-button.is-danger-hint { border-color: color-mix(in srgb, var(--hb-ui-danger) 72%, var(--border-frame)); }
+  .hb-ledger-button.is-danger-hint:hover,
+  .hb-ledger-button.is-danger-hint:focus-visible { border-color: var(--hb-ui-danger); }
+  .hb-scrap-toolbar { display: grid; grid-template-columns: minmax(0,1fr); gap: var(--hb-ui-space-2); }
+  .hb-scrap-bulk { display: flex; flex-wrap: wrap; align-items: end; gap: var(--hb-ui-space-2); }
+  .hb-scrap-bulk label { display: grid; gap: 2px; color: var(--hb-ui-green); }
+  .hb-scrap-bulk select,
+  .hb-scrap-bulk button { min-height: var(--hb-ui-touch-target); }
+  .hb-scrap-bulk p { margin: 0 0 0 auto; white-space: nowrap; }
+  .hb-scrap-summary { display: flex; flex-direction: column; }
+  .hb-equipment-empty { padding: var(--hb-ui-space-3); color: var(--hb-ui-green); }
+  .hb-equipment-empty button { min-height: var(--hb-ui-touch-target); border: 1px solid var(--border-interactive); color: var(--hb-ui-ivory); background: var(--surface-card); }
+
+  .hb-outfitter-layout { min-width: 0; min-height: 0; display: grid; grid-template-columns: minmax(150px,20fr) minmax(360px,55fr) minmax(210px,25fr); gap: var(--hb-ui-space-2); overflow: hidden; }
+  .hb-outfitter-layout > * { min-width: 0; min-height: 0; }
+  .hb-outfitter-layout .hb-equipment-inventory { grid-template-rows: auto minmax(0,1fr); padding: var(--hb-ui-space-2); }
+  .hb-equipment-filter-panel--rail { align-content: start; overflow: auto; scrollbar-color: var(--border-interactive) var(--surface-card); scrollbar-width: thin; }
+  .hb-equipment-filter-panel--rail .hb-equipment-filter-groups { grid-template-columns: minmax(0,1fr); }
+  .hb-equipment-filter-panel--rail .hb-equipment-filter-stats { grid-column: auto; }
+  .hb-equipment-filter-panel--rail :is(.hb-equipment-filter-chips,.hb-equipment-stat-grid) { display: grid; grid-template-columns: minmax(0,1fr); }
+  .hb-equipment-filter-panel--rail button { min-width: 0; }
+  .hb-outfitter-inventory-header { min-width: 0; display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: start; gap: var(--hb-ui-space-2); }
+  .hb-outfitter-inventory-header > div:first-child { min-width: 0; }
+  .hb-outfitter-inventory-header__tools { min-width: 0; display: grid; justify-items: end; gap: var(--hb-ui-space-1); }
+  .hb-outfitter-inventory-header__tools nav { display: flex; gap: var(--hb-ui-space-1); }
+  .hb-outfitter-inventory-header__tools button { min-height: var(--hb-ui-touch-target); padding: var(--hb-ui-space-1) var(--hb-ui-space-2); border: 1px solid var(--border-frame); color: var(--hb-ui-ivory); background: var(--surface-card); white-space: nowrap; }
+  .hb-outfitter-inventory-header__tools button:focus-visible { outline: 2px solid var(--border-interactive); outline-offset: 2px; }
+  .hb-outfitter-inventory-status { margin: 0; color: var(--hb-ui-green); white-space: nowrap; }
+  .hb-outfitter-grid { min-height: 0; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); grid-auto-rows: minmax(min-content,auto); align-content: start; gap: var(--hb-ui-space-1); overflow: auto; padding-right: 4px; scrollbar-color: var(--border-interactive) var(--surface-card); scrollbar-width: thin; }
+  .hb-outfitter-card { --outfitter-rarity: var(--hb-ui-ivory); position: relative; min-width: 0; display: grid; grid-template-rows: auto minmax(calc(2 * var(--hb-menu-line-display-md)),auto) auto auto; align-content: start; gap: 4px; padding: var(--hb-ui-space-1) var(--hb-ui-space-2); border: 1px solid var(--border-frame); border-top-color: var(--outfitter-rarity); color: var(--hb-ui-ivory); background: var(--surface-card); text-align: left; }
+  .hb-outfitter-card[data-rarity="uncommon"] { --outfitter-rarity: var(--hb-ui-rarity-uncommon); }
+  .hb-outfitter-card[data-rarity="rare"] { --outfitter-rarity: var(--hb-ui-rarity-rare); }
+  .hb-outfitter-card[data-rarity="epic"] { --outfitter-rarity: var(--hb-ui-rarity-epic); }
+  .hb-outfitter-card[data-rarity="legendary"] { --outfitter-rarity: var(--hb-ui-rarity-legendary); }
+  .hb-outfitter-card:is(:hover,.is-selected,[aria-pressed="true"]) { border-color: var(--outfitter-rarity); }
+  .hb-outfitter-card:focus-visible { outline: 2px solid var(--border-interactive); outline-offset: 2px; }
+  .hb-outfitter-card__caption { color: var(--outfitter-rarity); font-family: var(--hb-menu-font-meta); font-size: var(--hb-menu-type-meta); line-height: var(--hb-menu-line-body); text-transform: uppercase; }
+  .hb-outfitter-card__verdict,
+  .hb-outfitter-card__equipped { position: absolute; z-index: 1; top: var(--hb-ui-space-1); right: var(--hb-ui-space-1); min-width: var(--hb-menu-type-meta); padding: 1px 3px; border: 1px solid currentColor; background: var(--surface-panel); font-family: var(--hb-menu-font-meta); font-size: var(--hb-menu-type-meta); line-height: 1; text-align: center; }
+  .hb-outfitter-card__verdict[data-verdict="upgrade"] { color: var(--hb-ui-green); }
+  .hb-outfitter-card__verdict[data-verdict="downgrade"] { color: var(--hb-ui-danger); }
+  .hb-outfitter-card__verdict[data-verdict="mixed"] { color: var(--hb-ui-gold-bright); }
+  .hb-outfitter-card__equipped { color: var(--hb-ui-green); text-transform: uppercase; }
+  .hb-outfitter-card:has(> :is(.hb-outfitter-card__verdict,.hb-outfitter-card__equipped)) .hb-outfitter-card__caption { padding-right: 9ch; }
+  .hb-outfitter-card__name { min-width: 0; min-height: calc(2 * var(--hb-menu-line-display-md)); color: var(--hb-ui-gold-bright); font-family: var(--hb-menu-font-display,var(--hb-ui-font-display)); font-size: var(--hb-menu-type-display-md); line-height: var(--hb-menu-line-display-md); overflow-wrap: break-word; }
+  .hb-outfitter-card .hb-equipment-affixes { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .hb-outfitter-layout .hb-equipment-affixes li { min-width: 0; display: grid; grid-template-columns: minmax(0,1fr); align-content: start; gap: 2px; }
+  .hb-outfitter-layout .hb-equipment-affixes span { min-width: 0; font-family: var(--hb-menu-font-meta); font-size: var(--hb-menu-type-meta); line-height: var(--hb-menu-line-body); overflow-wrap: break-word; }
+  .hb-outfitter-card__provenance { margin-top: 4px; color: var(--hb-ui-green); font-family: var(--hb-menu-font-meta); font-size: var(--hb-menu-type-meta); line-height: var(--hb-menu-line-body); }
+  .hb-outfitter-layout .hb-equipment-detail { display: grid; grid-template-columns: minmax(0,1fr); align-content: start; gap: var(--hb-ui-space-2); overflow: auto; scrollbar-color: var(--border-interactive) var(--surface-card); scrollbar-width: thin; }
+  .hb-outfitter-layout .hb-equipment-detail > .hb-equipment-item { padding: var(--hb-ui-space-1); }
+  .hb-equipment-comparison-caption { margin: 0; color: var(--hb-ui-green); }
+  .hb-equipment-comparison__items { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: var(--hb-ui-space-1); }
+  .hb-equipment-comparison__items > div { min-width: 0; display: grid; align-content: start; gap: 2px; padding: var(--hb-ui-space-1); border: 1px solid var(--border-separator); background: var(--surface-card); }
+  .hb-equipment-comparison__items span { color: var(--hb-ui-green); font-family: var(--hb-menu-font-meta); font-size: var(--hb-menu-type-meta); text-transform: uppercase; }
+  .hb-equipment-comparison__items strong { min-width: 0; overflow-wrap: break-word; }
+  .hb-equipment-comparison-list { width: auto; min-width: 0; max-width: 100%; display: grid; justify-self: stretch; gap: 1px; overflow: clip; contain: inline-size; }
+  .hb-equipment-comparison-row { width: 100%; min-width: 0; max-width: 100%; box-sizing: border-box; grid-template-columns: minmax(0,1fr) auto auto auto auto; font-family: var(--hb-menu-font-meta); font-size: var(--hb-menu-type-meta); line-height: var(--hb-menu-line-body); }
+  .hb-stat-mapping-row__label { min-width: 0; color: var(--hb-ui-green); overflow-wrap: break-word; }
+  .hb-stat-delta { min-width: 4ch; justify-self: end; text-align: right; white-space: nowrap; }
+  .hb-stat-delta[data-delta-state="gain"],
+  .hb-stat-delta[data-delta-state="new"] { color: var(--hb-ui-green); }
+  .hb-stat-delta[data-delta-state="loss"],
+  .hb-stat-delta[data-delta-state="lost"] { color: var(--hb-ui-danger); }
+  .hb-stat-delta[data-delta-state="same"] { color: var(--hb-ui-gold-bright); }
+}
+
+@keyframes hb-gacha-pity-shimmer {
+  50% { opacity: .72; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hb-gacha-pity__trail,
+  .hb-gacha-pity__arrow { transition: none; animation: none !important; }
+}
+
+.hb-market-dialog__panel.hb-gacha-pool-dialog__panel { width: min(1200px,100%); max-height: min(820px,100%); grid-template-rows: auto auto minmax(0,1fr) auto; }
+.hb-gacha-pool-dialog__disclosure { margin: 0; padding: var(--hb-ui-space-2) var(--hb-ui-space-3); color: var(--hb-ui-green); border-bottom: 1px solid var(--border-separator); }
+.hb-gacha-pool-dialog__list { min-height: 0; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); align-content: start; gap: var(--hb-ui-space-2); padding: var(--hb-ui-space-3); overflow: auto; scrollbar-color: var(--border-interactive) var(--surface-card); scrollbar-width: thin; }
+.hb-gacha-pool-item { min-width: 0; display: grid; align-content: start; gap: var(--hb-ui-space-1); padding: var(--hb-ui-space-2); border: 1px solid var(--border-frame); background: var(--surface-card); }
+.hb-gacha-pool-item :is(h3,p) { margin: 0; }
+.hb-gacha-pool-item > span { color: var(--hb-ui-green); text-transform: uppercase; }
+.hb-gacha-pool-item h3 { color: var(--hb-ui-rarity-legendary); }
+.hb-gacha-pool-item > strong { color: var(--hb-ui-gold-bright); }
+.hb-gacha-pool-item > p { display: -webkit-box; min-height: calc(2 * 1.35em); overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.hb-gacha-pool-item.is-expanded > p { display: block; min-height: 0; overflow: visible; -webkit-line-clamp: unset; }
+.hb-gacha-pool-item__toggle { width: fit-content; min-height: var(--hb-ui-touch-target); padding-inline: var(--hb-ui-space-2); border: 1px solid var(--border-interactive); color: var(--hb-ui-gold-bright); background: var(--surface-panel); }
+
+@media (min-width: 3400px) {
+  .hb-gacha-pity__track { --hb-pity-arrow-size: 16px; height: 32px; }
+  .hb-gacha-pity__cord,
+  .hb-gacha-pity__trail { top: 15px; }
+  .hb-gacha-pity__notch { top: 12px; }
+  .hb-gacha-pity__arrow { top: 7px; border-top-width: 9px; border-bottom-width: 9px; }
+  .hb-gacha-pity__endpoint { top: 11px; }
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 1920px) {
+  .hb-gacha-pool-dialog__list { grid-template-columns: repeat(3,minmax(0,1fr)); }
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 1920px) {
+  .hb-outfitter-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 900px) and (max-width: 1366px) {
+  .hb-outfitter-layout { grid-template-columns: minmax(135px,18fr) minmax(390px,60fr) minmax(170px,22fr); gap: var(--hb-ui-space-1); }
+  .hb-outfitter-inventory-header { grid-template-columns: minmax(0,1fr); }
+  .hb-outfitter-inventory-header__tools { justify-items: start; }
+  .hb-outfitter-inventory-header__tools nav { width: auto; display: grid; grid-template-columns: repeat(2,max-content); }
+  .hb-outfitter-inventory-header__tools button { min-width: 0; padding-inline: 4px; }
+  .hb-equipment-comparison-row { grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); }
+  .hb-equipment-comparison-row .hb-stat-mapping-row__label { grid-column: 1 / -1; }
+  .hb-equipment-comparison-row .hb-stat-mapping-row__before { grid-column: 1; text-align: right; }
+  .hb-equipment-comparison-row .hb-stat-mapping-row__after { grid-column: 3; }
+  .hb-equipment-comparison-row .hb-stat-delta { grid-column: 1 / -1; }
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 900px) and (max-width: 1150px) {
+  .hb-equipment-layout { grid-template-columns: minmax(0,1.4fr) minmax(240px,.8fr); }
+  .hb-equipment-affixes { grid-template-columns: 1fr; }
+  .hb-equipment-inventory { grid-template-rows: auto auto auto; align-content: start; overflow: auto; }
+  .hb-equipment-scroll { overflow: visible; }
+  .hb-equipment-filter-panel { gap: var(--hb-ui-space-1); padding: var(--hb-ui-space-1); }
+  .hb-outfitter-layout .hb-equipment-affixes { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .hb-scrap-bulk p { width: 100%; margin-left: 0; }
+  .hb-gacha-draw-row { grid-template-columns: minmax(0,1fr); }
+  .hb-gacha-draw-actions { justify-content: flex-start; }
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 900px) and (max-width: 1100px) {
+  .hb-outfitter-inventory-header__tools { width: 100%; }
+  .hb-outfitter-inventory-header__tools nav { width: 100%; grid-template-columns: minmax(0,1fr); }
+  .hb-outfitter-inventory-header__tools button { width: 100%; }
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 1151px) and (max-height: 740px) {
+  .hb-equipment-filter-panel:not(.hb-equipment-filter-panel--rail) { grid-template-columns: 104px minmax(0,1fr); align-items: start; gap: var(--hb-ui-space-1); padding: var(--hb-ui-space-1); }
+  .hb-equipment-filter-panel:not(.hb-equipment-filter-panel--rail) > header { min-width: 0; flex-direction: column; align-items: flex-start; }
+  .hb-equipment-filter-panel:not(.hb-equipment-filter-panel--rail) > header > button { width: 100%; margin-left: 0; }
+  .hb-equipment-filter-panel:not(.hb-equipment-filter-panel--rail) .hb-equipment-filter-groups { grid-column: 2; }
+}

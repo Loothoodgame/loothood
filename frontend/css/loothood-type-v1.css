@@ -1,0 +1,231 @@
+/* LOOTHOOD — typography v1
+   ------------------------------------------------------------------
+   The game has two fonts: Alagard — sharp-cornered, used for "HUNT",
+   "WEEKLY BOUNTIES", "BOUNTY BOARD"; PixelOperator — even, used for
+   everything else. Alagard sets the character, but it was used only in
+   headings, so the screens read as a heading plus a faceless field of
+   text.
+
+   The rule we lay it out by:
+     Alagard    — what the player READS: headings, item names, task
+                  lines, button and tab labels, slot and stat names.
+     PixelOperator — what the player SCANS: numbers, percentages,
+                  counters, effect descriptions, small all-caps labels
+                  and anything below 12 pixels. At those sizes Alagard
+                  loses legibility, and digits in it read noticeably
+                  worse.
+
+   Loaded last so that it overrides the per-screen files. */
+
+/* ============ READ — ALAGARD ============ */
+
+.hb-app :is(h1, h2, h3, h4),
+.utility-modal__panel :is(h1, h2, h3, h4),
+.hb-account-gate :is(h1, h2, h3) {
+  font-family: 'Alagard', serif;
+}
+
+/* Task lines on Hunt and on the bounty board — the main text of those screens. */
+.hb-app .hb-bounty-list dt,
+.utility-modal__panel .bounty__title {
+  font-family: 'Alagard', serif !important;
+  font-size: 16.5px;
+  letter-spacing: .25px;
+  line-height: 1.25;
+}
+
+/* Button and tab labels. */
+.hb-app :is(button, [role="button"]),
+.hb-app .hb-nav-item,
+.utility-modal__panel button,
+.hb-account-gate .hb-account-button {
+  font-family: 'Alagard', serif;
+}
+
+/* Slot, stat and item names. */
+.hb-app .hb-equipped-strip article strong,
+.hb-app .hb-outfitter-card strong,
+.hb-app .hb-gacha-spotlight > h3,
+.hb-app .hb-settlement-status dt,
+.hb-app .hb-passive-resource span,
+.hb-app .hb-operation-row strong,
+.hb-app .hb-plot__empty strong {
+  font-family: 'Alagard', serif;
+}
+
+/* Accumulated bonus rows in the camp: the name on the left is read text. */
+.hb-app .hb-settlement-bonuses dt {
+  font-family: 'Alagard', serif;
+  font-size: 15px;
+  letter-spacing: .2px;
+  text-transform: none;
+}
+
+/* ============ SCANNED — PIXELOPERATOR ============
+   The reverse exceptions. They come afterwards because they matter more: a digit
+   in Alagard is awkward to read, and digits are exactly what the player checks
+   constantly. */
+
+.hb-app .hb-resource span,
+.hb-app .hb-value,
+.hb-app .hb-bounty-list dd,
+.hb-app .hb-settlement-bonuses dd,
+.hb-app .hb-passive-resource strong,
+.hb-app .hb-plots-heading dd,
+.hb-app .hb-equipment-filter-chips button,
+.hb-app .hb-equipment-stat-grid button,
+.hb-app .hb-market-filter-chips button,
+.hb-app .hb-market-stat-filter,
+.hb-app .hb-market-stat-filter button,
+.hb-app .hb-resource::after,
+.utility-modal__panel .bounty__head,
+.utility-modal__panel .bounty__rewards > *,
+.utility-modal__panel .bounty__repeatable,
+.utility-modal__panel .bounty__weekly-limit,
+.utility-modal__panel .weekly-ticket-progress__head strong,
+.utility-modal__panel .weekly-ticket-progress p {
+  font-family: 'PixelOperator', 'PixelOperator8', monospace !important;
+}
+
+/* Descriptions and paragraphs — also scanned, not read "for flavour". */
+.hb-app .hb-hunt-card__copy p,
+.hb-app .hb-gacha-spotlight > p,
+.hb-app .hb-equipment-empty,
+.hb-app .hb-market-empty p,
+.hb-app .hb-plots-heading__note,
+.hb-app .hb-passive-note,
+.hb-account-gate .hb-account-copy,
+.hb-account-gate .hb-account-note {
+  font-family: 'PixelOperator', 'PixelOperator8', monospace;
+}
+
+/* Small all-caps labels: Alagard turns to mush at 10-11 pixels. */
+.hb-app :is(.hb-nav-group, .hb-version-label, .hb-featured__eyebrow),
+.hb-app .hb-equipment-filter-groups legend,
+.hb-app .hb-plots-heading dt,
+.hb-app .hb-gacha-spotlight > span,
+.utility-modal__panel .stats-modal__head > div > p {
+  font-family: 'PixelOperator', 'PixelOperator8', monospace !important;
+}
+
+/* Input fields use the even font only: login and password must read
+   unambiguously, letter by letter. */
+.hb-account-gate input,
+.hb-app input,
+.hb-app select {
+  font-family: 'PixelOperator', 'PixelOperator8', monospace !important;
+}
+
+
+/* ================================================================
+   PIXEL MENU BUTTONS — this block lives here, in the last file of the
+   cascade, deliberately: the per-screen files (pulls, market, ...) are
+   loaded after patch and were overriding the buttons with their own
+   specificity.
+   ================================================================ */
+/* ---- Pixel buttons (9-slice) in the main menu ------------------
+   The same sprites as in combat: a neutral border for secondary actions,
+   filled lime for the screen's single path (Start Hunt, Pull).
+   The menu has no transform-scale, so the sprites are drawn 1:1 — perfectly
+   crisp. */
+.hb-app .hb-hunt-card > button,
+.hb-app .hb-hunt-primary,
+.hb-app .hb-hunt-armoury,
+.hb-app .hb-featured__footer > button,
+.hb-app .hb-ledger-button,
+.hb-app .hb-operation-row button{
+  --btn9:url("../images/btn9-neutral-v1.png?r11");
+  --btn9p:url("../images/btn9-neutral-pressed-v1.png?r11");
+  --btn9h:url("../images/btn9-neutral-hover-v1.png?r11");
+  border:12px solid transparent !important;
+  border-image:var(--btn9) 12 fill stretch !important;
+  border-radius:0 !important;background:none !important;
+  image-rendering:pixelated;box-shadow:none !important;
+  text-shadow:0 2px 0 rgba(5,8,6,.6) !important;
+  color:var(--ivory,#eaf5ee) !important;
+  min-height:48px !important;padding:2px 10px !important;
+  transition:color .12s,filter .12s !important;
+  /* the pulse animated box-shadow, and box-shadow is disabled here with
+     !important: frames were computed every 16 ms for nothing and jolted repaint */
+  animation:none !important;
+}
+.hb-app .hb-hunt-card > button:hover,
+.hb-app .hb-hunt-primary:hover,
+.hb-app .hb-hunt-armoury:hover,
+.hb-app .hb-featured__footer > button:hover,
+.hb-app .hb-ledger-button:hover,
+.hb-app .hb-operation-row button:hover{
+  background:none !important;border-color:transparent !important;
+  border-image-source:var(--btn9h) !important;filter:none !important;transform:none !important;
+}
+.hb-app .hb-hunt-card > button:active,
+.hb-app .hb-hunt-primary:active,
+.hb-app .hb-hunt-armoury:active,
+.hb-app .hb-featured__footer > button:active,
+.hb-app .hb-ledger-button:active,
+.hb-app .hb-operation-row button:active{
+  border-image-source:var(--btn9p) !important;
+  transform:translateY(2px) !important;filter:none;
+}
+.hb-app .hb-hunt-card > button:focus,
+.hb-app .hb-hunt-primary:focus,
+.hb-app .hb-hunt-armoury:focus,
+.hb-app .hb-hunt-card > button:focus-visible,
+.hb-app .hb-hunt-primary:focus-visible,
+.hb-app .hb-hunt-armoury:focus-visible,
+.hb-app .hb-featured__footer > button:focus,
+.hb-app .hb-featured__footer > button:focus-visible,
+.hb-app .hb-ledger-button:focus,
+.hb-app .hb-operation-row button:focus,
+.hb-app .hb-ledger-button:focus-visible,
+.hb-app .hb-operation-row button:focus-visible{
+  outline:none !important;box-shadow:none !important;border-image-source:var(--btn9h) !important;filter:none !important;
+}
+.hb-app .hb-hunt-card > button::before,
+.hb-app .hb-hunt-primary::before,
+.hb-app .hb-hunt-armoury::before,
+.hb-app .hb-hunt-card > button::after,
+.hb-app .hb-hunt-primary::after,
+.hb-app .hb-hunt-armoury::after,
+.hb-app .hb-featured__footer > button::before,
+.hb-app .hb-featured__footer > button::after,
+.hb-app .hb-ledger-button::before,
+.hb-app .hb-operation-row button::before,
+.hb-app .hb-ledger-button::after,
+.hb-app .hb-operation-row button::after{display:none !important;content:none !important;}
+/* the screen's single lime path */
+.hb-app .hb-hunt-primary,
+.hb-app .hb-ledger-button.is-primary,
+.hb-app .hb-featured__footer > button{
+  --btn9:url("../images/btn9-limesolid-v1.png?r11");
+  --btn9p:url("../images/btn9-limesolid-pressed-v1.png?r11");
+  --btn9h:url("../images/btn9-limesolid-hover-v1.png?r11");
+  color:#0a120c !important;font-weight:700 !important;
+}
+.hb-app .hb-hunt-primary,
+.hb-app .hb-ledger-button.is-primary,
+.hb-app .hb-featured__footer > button{text-shadow:0 1px 0 rgba(255,255,255,.30) !important;}
+.hb-app .hb-hunt-primary span,
+.hb-app .hb-ledger-button.is-primary span,
+.hb-app .hb-ledger-button.is-primary small,
+.hb-app .hb-featured__footer > button span{color:#0a120c !important;}
+/* the arrow icon in Start Hunt is no longer needed: the button is the primary one anyway */
+.hb-app .hb-hunt-primary .hb-play{display:none !important;}
+
+
+/* is-primary has to be forced separately: the village file paints it with a
+   gradient and border:none at a specificity of (0,3,0) — the block's base rule
+   at (0,2,0) loses. Here the specificity is the same, but the file is later. */
+.hb-app .hb-ledger-button.is-primary{
+  border:12px solid transparent !important;
+  border-image:var(--btn9) 12 fill stretch !important;
+  border-radius:0 !important;background:none !important;
+  box-shadow:none !important;image-rendering:pixelated;
+}
+.hb-app .hb-ledger-button.is-primary:hover{
+  background:none !important;transform:none !important;filter:none !important;
+  border-image-source:var(--btn9h) !important;box-shadow:none !important;
+}
+.hb-app .hb-ledger-button.is-primary:active{
+  border-image-source:var(--btn9p) !important;transform:translateY(2px) !important;
+}

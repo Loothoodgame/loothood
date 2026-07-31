@@ -1,0 +1,286 @@
+:root {
+  --hb-outcome-panel-x: var(--hb-ui-sheet-left);
+  --hb-outcome-panel-y: var(--hb-ui-sheet-top);
+  --hb-outcome-panel-width: var(--hb-ui-sheet-width);
+  --hb-outcome-panel-height: var(--hb-ui-sheet-height);
+  --hb-outcome-gold: var(--hb-ui-gold);
+  --hb-outcome-gold-bright: var(--hb-ui-gold-bright);
+  --hb-outcome-ivory: var(--hb-ui-ivory);
+  --hb-outcome-failure: var(--hb-ui-failure);
+}
+
+.run-summary-modal {
+  position: fixed;
+  inset: 0;
+  z-index: var(--layer-primary);
+  overflow: hidden;
+  background: rgba(1, 14, 7, .57);
+}
+
+.run-summary-modal[hidden] { display: none; }
+
+.run-summary-modal__panel--mobile { display: none; }
+
+.run-outcome-stage {
+  position: absolute;
+  /* zoom instead of transform: scale — the same technique used by the pause
+     screen, the run sheet and the reward choice. transform rasterizes the layer
+     and then stretches the image, which makes stripes appear on pixel-art
+     9-slice borders: on the Back to Village button at a scale of 0.956 a
+     12-pixel border was recomputed to 11.48 and got clipped. With zoom the
+     layout is computed directly at the final size and the border is drawn whole.
+     The element's own left/top are multiplied by the scale as well, so the scene
+     offset is divided by it. */
+  left: calc(var(--hb-stage-left, 0px) / var(--hb-stage-scale, 1));
+  top: calc(var(--hb-stage-top, 0px) / var(--hb-stage-scale, 1));
+  width: 1672px;
+  height: 941px;
+  zoom: var(--hb-stage-scale, 1);
+}
+
+.hb-outcome {
+  position: absolute;
+  left: var(--hb-outcome-panel-x);
+  top: var(--hb-outcome-panel-y);
+  width: var(--hb-outcome-panel-width);
+  height: var(--hb-outcome-panel-height);
+  overflow: hidden;
+  background: linear-gradient(#021008, #010e07), repeating-linear-gradient(45deg, #010e07 0 7px, #010f08 7px 8px);
+  color: var(--hb-outcome-ivory);
+  box-shadow: 0 9px 22px rgba(0, 0, 0, .58);
+  font-family: Baskerville, Georgia, serif;
+}
+
+.hb-outcome::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  background: url('../images/outcome-frame-v1.png') 0 0 / 947px 644px no-repeat;
+  pointer-events: none;
+}
+
+.hb-outcome__header {
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  top: 24px;
+  height: 168px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+}
+
+.hb-outcome__title {
+  margin: 0;
+  color: var(--hb-outcome-gold-bright);
+  font-size: 42px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  line-height: 1.08;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.hb-outcome[data-run-outcome="defeat"] .hb-outcome__title,
+.hb-outcome[data-run-outcome="abandon"] .hb-outcome__title {
+  color: var(--hb-outcome-failure);
+}
+
+.hb-outcome__progress {
+  margin: 11px 0 0;
+  color: var(--hb-outcome-gold-bright);
+  font-size: 34px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.hb-outcome__kicker {
+  margin: 11px 0 0;
+  color: var(--hb-outcome-gold-bright);
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.hb-outcome__columns {
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  top: 205px;
+  height: 350px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.hb-outcome-column {
+  position: relative;
+  min-width: 0;
+  height: 350px;
+  padding: 13px 18px 14px;
+  border: var(--hb-ui-frame-border) solid var(--hb-outcome-gold);
+  background: rgba(1, 14, 7, .98);
+  box-shadow: inset 0 0 0 5px rgba(0, 0, 0, .42), inset 0 0 0 6px rgba(216, 152, 32, .58);
+  text-align: center;
+}
+
+.hb-outcome-column::before,
+.hb-outcome-column::after {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  pointer-events: none;
+}
+
+.hb-outcome-column::before {
+  left: 8px;
+  top: 8px;
+  border-left: 2px solid var(--hb-outcome-gold);
+  border-top: 2px solid var(--hb-outcome-gold);
+}
+
+.hb-outcome-column::after {
+  right: 8px;
+  bottom: 8px;
+  border-right: 2px solid var(--hb-outcome-gold);
+  border-bottom: 2px solid var(--hb-outcome-gold);
+}
+
+.hb-outcome-column__title {
+  margin: 0 0 14px;
+  color: var(--hb-outcome-ivory);
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: .5px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.hb-outcome-list {
+  margin: 0;
+  display: grid;
+  align-content: start;
+  gap: 13px;
+}
+
+.hb-outcome-list--dense { gap: 7px; }
+.hb-outcome-list__item { margin: 0; min-width: 0; }
+
+.hb-outcome-list dt {
+  margin: 0;
+  color: var(--hb-outcome-ivory);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: .4px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.hb-outcome-list dd {
+  margin: 4px 0 0;
+  color: var(--hb-outcome-ivory);
+  font-size: 21px;
+  font-weight: 500;
+  letter-spacing: .5px;
+  line-height: 1.03;
+}
+
+.hb-outcome-list--record dd {
+  font-size: 18px;
+  line-height: 1.08;
+  text-transform: uppercase;
+}
+
+.hb-outcome-list--record .hb-outcome-list__item--collection { margin-top: 2px; }
+
+.hb-outcome-list--record .hb-outcome-list__item--collection dd {
+  margin-left: -7px;
+  margin-right: -7px;
+  font-size: 17px;
+  line-height: 1.18;
+}
+
+.hb-outcome__back {
+  position: absolute;
+  z-index: 3;
+  left: 28px;
+  right: 28px;
+  top: 570px;
+  height: 53px;
+  border: 2px solid var(--hb-outcome-gold);
+  background: #132b13;
+  color: var(--hb-outcome-ivory);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.hb-outcome__back::after {
+  content: '';
+  position: absolute;
+  inset: var(--hb-ui-action-inner-standard);
+  border: 1px solid rgba(216, 152, 32, .48);
+  pointer-events: none;
+}
+
+.hb-outcome__back:hover,
+.hb-outcome__back:focus-visible {
+  filter: brightness(1.18);
+  outline: 2px solid var(--hb-outcome-ivory);
+  outline-offset: 2px;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .run-summary-modal {
+    align-items: center;
+    background: rgba(5, 8, 10, .76);
+    display: flex;
+    justify-content: center;
+    padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+  }
+
+  .run-outcome-stage { display: none; }
+
+  .run-summary-modal__panel--mobile {
+    background: linear-gradient(180deg, #202a31, #10161a);
+    border: 1px solid rgba(245, 215, 126, .25);
+    border-radius: 8px;
+    box-shadow: 0 20px 80px rgba(0, 0, 0, .58);
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    max-width: 700px;
+    overflow: hidden;
+    padding: 18px;
+    width: min(100%, 700px);
+  }
+
+  .run-summary-modal__content {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .run-summary-modal__footer { flex: 0 0 auto; padding-top: 10px; }
+  .run-summary-modal__footer button { min-height: 44px; width: 100%; }
+  .run-summary-modal__eyebrow { color: var(--gold); font-size: 12px; font-weight: 900; margin-bottom: 4px; text-transform: uppercase; }
+  .run-summary-modal h2 { color: var(--text); font-size: 28px; margin-bottom: 14px; text-transform: none; }
+  .summary-grid { display: grid; gap: 8px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .summary-grid__item { background: rgba(255, 255, 255, .055); border: 1px solid rgba(255, 255, 255, .08); border-radius: 6px; min-height: 58px; padding: 9px; }
+  .summary-grid__item small { color: var(--muted); display: block; font-size: 10px; font-weight: 850; text-transform: uppercase; }
+  .summary-grid__item strong { display: block; font-size: 16px; margin-top: 5px; overflow-wrap: anywhere; }
+  .run-summary-modal__note { color: #cad8d0; font-size: 13px; font-weight: 650; line-height: 1.4; margin: 14px 0; }
+}
